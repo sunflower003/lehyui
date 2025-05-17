@@ -1,0 +1,35 @@
+lehyUI
+
+Database:
+categories - id, name, created_at, updated_at
+comments - id, content, post_id, user_id, created_at, updated_at
+posts - id, thumbnail, title, sub_title, body, user_id, category_id, created_at, updated_at
+users - id, avatar, username, password, role, sex, created_at, updated_at
+
+Chức năng:
+Đăng Ký, Đăng Nhập
+Profile's User: User: -Quản Lý(thay đổi thông tin cá nhân firstname, lastname, avatar, mật khẩu)
+	 	Admin: -Hiển thị danh sách User từ mới nhất đến cũ nhất
+		       -Tìm kiếm theo tên, lọc theo giới tính
+	       	       -Xóa, sửa thông tin user
+		       -Chỉnh sửa role của user
+Bài viết:
+	User: -Hiển thị trên trang chủ(các bài mới nhất, theo hạng mục)
+	      -Comments bài viết
+	Admin: -Hiển thị danh sách bài viết từ mới nhất đến cũ nhất(có thêm bộ lọc theo hạng mục)
+	       -Thêm, Xóa, Sửa Bài viết
+               -Tìm kiếm bài viết theo title
+Category: Admin: -Hiển thị danh sách hạng mục từ mới nhất đến cũ nhất
+	       	 -Thêm, Xóa, Sửa hạng mục
+                 -Tìm kiếm hạng mục theo tên
+Comment: User: -Thêm, xóa, sửa bình luận của mình
+	 Admin -Hiển thị danh sách bình luận từ mới nhất đến cũ nhất
+	       -Thêm, Xóa, Sửa bình luận
+               -Lọc bình luận theo bài viết
+
+
+Chức năng phụ nếu xong hết các chức năng trên:
+1.Tim bài viết, danh sách những bài viết đã tim
+2.Donate
+3.Đăng ký mail để nhận tin tức mới nhất, Gửi mail khi có tin mới
+
