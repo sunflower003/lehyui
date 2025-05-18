@@ -32,3 +32,34 @@ donateToggle.addEventListener('click', () => {
 closeDonate.addEventListener('click', () => {
   donateForm.classList.remove('active');
 });
+
+
+
+//Profile tabs
+const menuItems = document.querySelectorAll(".profile_menu-item");
+  const tabs = {
+    "General": "profile_general",
+    "Edit Profile": "profile_edit",
+    "Password": "profile_password",
+    // bạn có thể thêm các tab khác nếu cần
+  };
+
+  menuItems.forEach(item => {
+    item.addEventListener("click", () => {
+      // Gỡ class active khỏi tất cả
+      menuItems.forEach(i => i.classList.remove("active"));
+      item.classList.add("active");
+
+      // Ẩn tất cả tab
+      Object.values(tabs).forEach(id => {
+        document.getElementById(id).style.display = "none";
+      });
+
+      // Hiện tab tương ứng
+      const tabName = item.innerText.trim();
+      const tabId = tabs[tabName];
+      if (tabId) {
+        document.getElementById(tabId).style.display = "block";
+      }
+    });
+  });
