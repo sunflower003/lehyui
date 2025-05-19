@@ -8,13 +8,15 @@
     <div class="menu">
         <ul class="nav_links">
             <li><a href="/" class="link">Home</a></li>
-            <li><a href="#" class="link">Crypto</a></li>
-            <li><a href="#" class="link">Stocks</a></li>
-            <li><a href="#" class="link">Mobile</a></li>
-            <li><a href="#" class="link">PC</a></li>
-            <li><a href="#" class="link">Health</a></li>
-            <li><a href="#" class="link">All Categories</a></li>
+
+            @foreach ($headerCategories as $category)
+            <li><a href="{{ route('category.posts', $category->id) }}" class="link">{{ $category->name }}</a></li>
+            @endforeach
+
+
+            <li><a href="{{ url('/categories') }}" class="link">All Categories</a></li>
         </ul>
+
 
         <a href="{{ route('login') }}" class="btn">
             <div class="btn_text">Get Started</div>
