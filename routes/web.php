@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminControllers\AdminPostControllers;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -18,9 +19,19 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/category/{id}', [PostController::class, 'byCategory'])->name('category.posts');
 
-Route::get('/profile/settings', function () {
-    return view('pages.profile_settings'); // hoặc bất kỳ view/controller nào bạn muốn
-})->name('profile.settings');
+// Trang settings
+Route::get('/profile/settings', [UserController::class, 'settings'])->name('profile.settings');
+
+// Cập nhật username & avatar
+Route::post('/profile/update-info', [UserController::class, 'updateInfo'])->name('profile.update.info');
+
+// Cập nhật mật khẩu
+Route::post('/profile/update-password', [UserController::class, 'updatePassword'])->name('profile.update.password');
+
+// Xoá tài khoản
+Route::delete('/profile/delete', [UserController::class, 'deleteAccount'])->name('profile.delete.account');
+
+
 
 
 Route::prefix('admin/posts')->group(function () {
