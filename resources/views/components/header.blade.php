@@ -23,18 +23,24 @@
 
 
         <div class="avatar_header_container">
-            <img src="{{ $user->avatar_path }}" alt="avatar" class="avatar">
+            <img src="{{ $user->avatar_path }}" class="profile_avatar" />
             <div class="dropdown">
                 <div class="dropdown_header">
-                    <img src="{{ $user->avatar_path }}" alt="avatar" class="avatar">
+                    <img src="{{ $user->avatar_path }}" class="profile_avatar" />
                     <p class="username">{{ $user->username }}</p>
                 </div>
-                <a href="/profile" class="dropdown_link">Settings</a>
-                <hr />
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="dropdown_link" style="background: none; border: none; padding: 0; cursor: pointer;">Sign out</button>
-                </form>
+                    @if(Auth::check())
+                        <a href="{{ route('profile.settings') }}" class="dropdown_link">Settings</a>
+                        <hr />
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown_link" style="background: none; border: none; padding: 0; cursor: pointer;">Sign out</button>
+                        </form>
+                    @else
+                        <hr />
+                        <a href="{{ route('login') }}" class="dropdown_link">Sign in</a>
+                        @endif
+                    </div>
             </div>
         </div>
     </div>
