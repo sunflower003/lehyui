@@ -8,19 +8,19 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
+        $authUser = Auth::user();
 
-        // Nếu chưa đăng nhập
-        if (!$user) {
+        if (!$authUser) {
             $user = (object) [
                 'username' => 'Guest',
-                'avatar' => asset('img/avatar_default.jpg') // ảnh mặc định
+                'avatar_path' => asset('img/avatar_default.jpg')
             ];
         } else {
-            // Nếu đã đăng nhập
-            $user->avatar = $user->avatar
-                ? asset($user->avatar)  // ảnh đã upload
-                : asset('img/avatar_default.jpg'); // ảnh mặc định
+            $user = $authUser;
+
+            $user->avatar_path = ($user->avatar === 'avatar_default.jpg' || $user->avatar === null)
+                ? asset('img/avatar_default.jpg')
+                : asset('storage/avatars/' . $user->avatar);
         }
 
         return view('home', compact('user'));
