@@ -30,7 +30,7 @@
       <p class="profile_description">Your public profile information</p>
 
       <div class="profile_avatar-block">
-        <img src="{{ $user->avatar_path }}" class="avatar">
+        <img src="{{ $user->avatar_path }}" class="profile_avatar">
         <div class="profile_avatar-buttons">
           <span class="profile_button_3" style="cursor: default;">{{ ucfirst($user->sex) }}</span>
         </div>
@@ -54,7 +54,7 @@
       <form class="profile_form" method="POST" action="{{ route('profile.update.info') }}" enctype="multipart/form-data">
         @csrf
         <div class="profile_avatar-block">
-          <img src="{{ $user->avatar_path }}" class="avatar">
+          <img src="{{ $user->avatar_path }}" class="profile_avatar">
           <div class="profile_avatar-buttons">
             <input type="file" name="avatar" class="profile_button profile_button_2" accept="image/*">
           </div>
