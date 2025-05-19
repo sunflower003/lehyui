@@ -12,8 +12,14 @@
 
 <main>
 
-@include('pages.homemain')
+    @if (!isset($showCategoryPage))
+        @include('pages.homemain')
+    @else
+        @include('pages.categorypost')
+    @endif
 
-@include('components.footer')
+ 
+
+    @include('components.footer')
 </main>
 @endsection

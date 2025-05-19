@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\AdminControllers\AdminPostControllers;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -16,13 +16,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', [UserController::class, 'settings'])->name('profile.settings');
-    Route::post('/profile/update/general', [UserController::class, 'updateGeneral'])->name('profile.update.general');
-    Route::post('/profile/update/info', [UserController::class, 'updateInfo'])->name('profile.update.info');
-    Route::post('/profile/update/password', [UserController::class, 'updatePassword'])->name('profile.update.password');
-    Route::delete('/profile/delete', [UserController::class, 'deleteAccount'])->name('profile.delete.account');
-});
+Route::get('/category/{id}', [PostController::class, 'byCategory'])->name('category.posts');
 
 Route::prefix('admin/posts')->group(function () {
     Route::get('/', [AdminPostControllers::class, 'index'])->name('admin.posts.index');

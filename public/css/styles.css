@@ -327,6 +327,10 @@ hr {
 
 
 
+.no_posts {
+    font-size: 20px;
+    text-align: center;
+}
 
 
 
@@ -1552,3 +1556,4 @@ video {
     cursor: pointer;
     text-align: center;
 }
+
