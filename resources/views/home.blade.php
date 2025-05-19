@@ -12,11 +12,9 @@
 
 <main>
 
-    @if (!isset($showCategoryPage))
-        @include('pages.homemain')
-    @else
-        @include('pages.categorypost')
-    @endif
+ 
+    @include('pages.homemain')
+   
 
  
 

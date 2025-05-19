@@ -13,20 +13,21 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected function getProcessedUser()
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        if (!$user) {
-            return (object) [
-                'username' => 'Guest',
-                'avatar' => asset('img/avatar_default.jpg')
-            ];
-        }
-
-        $user->avatar = $user->avatar
-            ? asset($user->avatar)
-            : asset('img/avatar_default.jpg');
-
-        return $user;
+    if (!$user) {
+        return (object) [
+            'username' => 'Guest',
+            'avatar_path' => asset('img/avatar_default.jpg')
+        ];
     }
+
+    $user->avatar_path = ($user->avatar === 'avatar_default.jpg' || $user->avatar === null)
+        ? asset('img/avatar_default.jpg')
+        : asset('storage/avatars/' . $user->avatar);
+
+    return $user;
+}
+
 }
