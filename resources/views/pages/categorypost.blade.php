@@ -23,8 +23,8 @@
                         <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="image">
                         <div class="card_details">
                             <p class="author_time">
-                                {{ $post->user->username ?? 'Unknown' }} 
-                                <i class="ri-checkbox-blank-circle-fill"></i> 
+                                {{ $post->user->username ?? 'Unknown' }}
+                                <i class="ri-checkbox-blank-circle-fill"></i>
                                 {{ $post->created_at->format('d M Y') }}
                             </p>
                             <h2 class="title_card">

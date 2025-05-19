@@ -5,20 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
-
 class PostController extends Controller
 {
     public function byCategory($id)
-{
-    $category = Category::findOrFail($id);
-    $posts = Post::where('category_id', $id)->latest()->with('user')->get();
+    {
+        $category = Category::findOrFail($id);
+        $posts = Post::where('category_id', $id)->latest()->get();
 
-    return view('pages.categorypost', [
-        'category' => $category,
-        'posts' => $posts,
-        'user' => $this->getProcessedUser(),
-        'headerCategories' => Category::orderBy('created_at')->limit(5)->get()
-    ]);
-}
-
+        return view('home', [
+            'category' => $category,
+            'posts' => $posts,
+            'showCategoryPage' => true,
+            'user' => $this->getProcessedUser(),
+            'headerCategories' => Category::orderBy('created_at')->limit(6)->get()
+        ]);
+    }
+    public function show($id)
+    {
+        $post = Post::with(['user', 'category'])->findOrFail($id);
+        $user = auth()->user();
+        $morePosts = Post::where('id', '!=', $id)->latest()->take(5)->get();
+        return view('post', compact('post', 'user', 'morePosts'));
+    }
 }

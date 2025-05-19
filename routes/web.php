@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminControllers\AdminPostControllers;
-use App\Http\Controllers\AdminControllers\DashboardControllers;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -34,23 +34,16 @@ Route::delete('/profile/delete', [UserController::class, 'deleteAccount'])->name
 
 
 
-Route::prefix('admin')
-    ->name('admin.')
-    ->middleware(['auth', 'check_permissions'])
-    ->group(function () {
 
-    // Dashboard
-    Route::get('/', [DashboardControllers::class, 'index'])->name('dashboard');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Bài viết
-    Route::prefix('posts')->name('posts.')->group(function () {
-        Route::get('/', [AdminPostControllers::class, 'index'])->name('index');
-        Route::get('/create', [AdminPostControllers::class, 'create'])->name('create');
-        Route::post('/store', [AdminPostControllers::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [AdminPostControllers::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [AdminPostControllers::class, 'update'])->name('update');
-        Route::delete('/delete/{id}', [AdminPostControllers::class, 'destroy'])->name('destroy');
-    });
+Route::get('/post/{id}', [PostController::class, 'show'])->name('post.show');
 
-    // Các nhóm route khác như categories, users,... bạn khai báo tương tự
+Route::prefix('admin/posts')->group(function () {
+    Route::get('/', [AdminPostControllers::class, 'index'])->name('admin.posts.index');
+    Route::get('/create', [AdminPostControllers::class, 'create'])->name('admin.posts.create');
+    Route::post('/store', [AdminPostControllers::class, 'store'])->name('admin.posts.store');
+    Route::get('/edit/{id}', [AdminPostControllers::class, 'edit'])->name('admin.posts.edit');
+    Route::post('/update/{id}', [AdminPostControllers::class, 'update'])->name('admin.posts.update');
+    Route::delete('/delete/{id}', [AdminPostControllers::class, 'destroy'])->name('admin.posts.destroy');
 });

@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function showLoginForm() {
-        return view('auth.login');
+        $user = auth()->user();
+        return view('auth.login', compact('user'));
     }
 
     public function login(Request $request)
@@ -29,7 +30,8 @@ class AuthController extends Controller
 
 
     public function showRegisterForm() {
-        return view('auth.register');
+        $user = auth()->user();
+        return view('auth.register', compact('user'));
     }
 
     public function register(Request $request)
@@ -46,7 +48,6 @@ class AuthController extends Controller
             'sex' => $request->sex,
             'role' => 'user', // mặc định user
             'avatar' => 'img/avatar_default.jpg', // đường dẫn avatar mặc định
-
         ]);
 
         return redirect('/login')->with('success', 'Đăng ký thành công');
@@ -61,5 +62,4 @@ class AuthController extends Controller
 
         return redirect()->route('home'); // ← về trang chủ
     }
-
 }

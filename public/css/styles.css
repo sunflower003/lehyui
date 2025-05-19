@@ -273,7 +273,7 @@ body {
   width: 300px;
   flex-direction: column;
   z-index: 1000;
- 
+
 
   opacity: 0;
   pointer-events: none;
@@ -297,7 +297,7 @@ body {
     align-items: center;
     gap: 1rem;
     margin-bottom: 30px;
-}   
+}
 
 
 .username {
@@ -326,13 +326,10 @@ hr {
 }
 
 
-
 .no_posts {
     font-size: 20px;
     text-align: center;
 }
-
-
 
 /* Header Title */
 
@@ -343,7 +340,7 @@ header {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    align-items: center;    
+    align-items: center;
 }
 
 header h1 {
@@ -411,12 +408,6 @@ header form button:hover {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 3rem;
-}
-
-.grid_card > img {
-    max-width: 380px;
-    max-height: 215px;
-    object-fit: cover;
 }
 
 .ontop {
@@ -628,6 +619,64 @@ svg {
     padding: 1rem 2rem;
     background-color: #000000;
     border-radius: 10px;
+}
+
+
+/* Custom Pagination Styles */
+.custom-pagination-wrapper {
+    margin: 40px 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.custom-pagination {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    gap: 2rem;
+    padding: 0;
+}
+.custom-page-item {
+    font-size: 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+    border-radius: 10px;
+}
+.custom-page-item.active .custom-page-link {
+    color: #fff;
+    background: #000;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+}
+.custom-page-item.disabled .custom-page-link {
+    color: #b0b8c9;
+    cursor: not-allowed;
+    background: #e7e7e9;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+}
+.custom-page-link {
+    color: #000;
+    padding: 1rem 2rem;
+    border: 1px solid #b0b8c9;
+    border-radius: 10px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    transition: background 0.2s, color 0.2s;
+}
+.custom-page-item:not(.active):not(.disabled):hover .custom-page-link {
+    background: #f3f3f3;
+    color: #4158D0;
+    border-color: #4158D0;
+}
+.custom-page-link .arrow {
+    font-size: 1.3rem;
+    margin: 0 2px;
+    display: inline-block;
 }
 
 
@@ -1038,7 +1087,7 @@ video {
     border: 2px solid #000;
     display: inline-block;
     border-radius: 2rem;
-    
+
 }
 
 .pin_tag {
@@ -1120,6 +1169,8 @@ video {
 
 .left_col {
     flex-basis: 55%;
+    font-size: 1.6rem;
+    line-height: 1.7;
 }
 
 .right_col {
@@ -1381,7 +1432,7 @@ video {
 .profile_tab-content {
   margin-top: 20px;
   margin-left: 50px;
-  
+
 }
 
 .profile_avatar-block {
@@ -1446,10 +1497,6 @@ video {
     background-color: var(--grey2);
     color: var(--black);
 }
-
-
-
-
 
 
 /* Comment section*/
@@ -1562,4 +1609,3 @@ video {
     cursor: pointer;
     text-align: center;
 }
-

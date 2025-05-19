@@ -1,142 +1,85 @@
-    <div class="container header_container">
-        <header>
-            <h1>Inside Design: Stories and interviews</h1>
-            <p>Subscribe to learn about new product features, the latest in technology, and updates.</p>
-            <form action="">
-                <input type="email" placeholder="Enter your email" required>
-                <button>Subscribe</button>
-            </form>
-        </header>
+<div class="container header_container">
+    <header>
+        <h1>Inside Design: Stories and interviews</h1>
+        <p>Subscribe to learn about new product features, the latest in technology, and updates.</p>
+        <form action="">
+            <input type="email" placeholder="Enter your email" required>
+            <button>Subscribe</button>
+        </form>
+    </header>
+</div>
+<div class="container recent_container">
+    <h2 class="title_head">Recent blog posts</h2>
+    <div class="grid_head">
+        @foreach($recentPosts as $post)
+            <a href="{{ route('post.show', $post->id) }}" class="card_head" style="text-decoration:none;color:inherit;">
+                <img src="{{ $post->thumbnail ? asset($post->thumbnail) : asset('img/img2.jpg') }}" alt="picture">
+                <div class="card_details">
+                    <p class="author_time">
+                        {{ $post->user->username ?? 'Unknown' }} <i class="ri-checkbox-blank-circle-fill"></i> {{ $post->created_at->format('d M Y') }}
+                    </p>
+                    <h2 class="title_card">{{ $post->title }}<i class="ri-arrow-right-up-line"></i></h2>
+                    <p class="subtitle">{{ $post->sub_title ?? Str::limit(strip_tags($post->body), 80) }}</p>
+                    <div class="tags">
+                        <span class="tag">{{ $post->category->name ?? 'Uncategorized' }}</span>
+                    </div>
+                </div>
+            </a>
+        @endforeach
     </div>
-    <div class="container recent_container">
-        <h2 class="title_head">Recent blog posts</h2>
-        <div class="grid_head">
-            @foreach($recentPosts as $index => $post)
-                <a href="{{ url('/posts/' . $post->id) }}" class="card_head {{ $index === 0 ? 'ontop' : '' }}">
-                    <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}">
-                    <div class="card_details">
-                        <p class="author_time">
-                            {{ $post->user->username ?? 'Unknown' }}
-                            <i class="ri-checkbox-blank-circle-fill"></i>
-                            {{ $post->created_at->format('d M Y') }}
-                        </p>
-                        <h2 class="title_card">
-                            {{ $post->title }}
-                            <i class="ri-arrow-right-up-line"></i>
-                        </h2>
-                        <p class="subtitle">{{ $post->sub_title }}</p>
-                        <div class="tags">
-                            <span class="tag">{{ $post->category->name ?? 'Uncategorized' }}</span>
-                        </div>
-                    </div>
-                </a>
-            @endforeach
-        </div>
-    </div>
-
-    @include('components.banner')
-    <div class="container all_container">
-        <h2 class="title_head">All blog posts</h2>
-        <div class="grid_posts">
-            <a href="/post.html" class="grid_card">
-                <img src="img/img5.jpg" alt="image">
+</div>
+<div class="container all_container">
+    <h2 class="title_head">All blog posts</h2>
+    <div class="grid_posts">
+        @foreach($posts as $post)
+            <a href="{{ route('post.show', $post->id) }}" class="grid_card">
+                <img src="{{ $post->thumbnail ? asset($post->thumbnail) : asset('img/img2.jpg') }}" alt="image">
                 <div class="card_details">
                     <p class="author_time">
-                        Alec Whitten <i class="ri-checkbox-blank-circle-fill"></i> 17 Jan 2024 
+                        {{ $post->user->username ?? 'Unknown' }} <i class="ri-checkbox-blank-circle-fill"></i> {{ $post->created_at->format('d M Y') }}
                     </p>
-                    <h2 class="title_card">A Continually Unfolding History - Hillview by Made by Hand<i class="ri-arrow-right-up-line"></i></h2>
-                    <p class="subtitle">A single building occupies the hillside at Hillview, a historic 240-hectare former sheep farm on Tasmania's Bruny Island. The much-lauded work of Made by...</p>
+                    <h2 class="title_card">{{ $post->title }}<i class="ri-arrow-right-up-line"></i></h2>
+                    <p class="subtitle">{{ $post->sub_title ?? Str::limit(strip_tags($post->body), 80) }}</p>
                     <div class="tags">
-                        <span class="tag">Design</span>
-                        <span class="tag">Architecture</span>
+                        <span class="tag">{{ $post->category->name ?? 'Uncategorized' }}</span>
                     </div>
                 </div>
             </a>
-            <a href="/post.html" class="grid_card">
-                <img src="{{ asset('img/img1.jpg') }}" alt="image">
-                <div class="card_details">
-                    <p class="author_time">
-                        Demi WIIkinson <i class="ri-checkbox-blank-circle-fill"></i> 16 Jan 2024 
-                    </p>
-                    <h2 class="title_card">Cognitive Dissonance Theory: Crash Course for UX Designer<i class="ri-arrow-right-up-line"></i></h2>
-                    <p class="subtitle">We all like to think of ourselves in certain ways. We consider ourselves to be truthful, hard-working, heath-conscious, and in control. But our actions don't always...</p>
-                    <div class="tags">
-                        <span class="tag">Product</span>
-                        <span class="tag">Research</span>
-                        <span class="tag">Frameworks</span>
-                    </div>
-                </div>
-            </a>
-            <a href="/post.html" class="grid_card">
-                <img src="{{ asset('img/img12.jpg') }}" alt="image">
-                <div class="card_details">
-                    <p class="author_time">
-                        Candice Wu <i class="ri-checkbox-blank-circle-fill"></i> 15 Jan 2024 
-                    </p>
-                    <h2 class="title_card">How Remote Work Drastically Improved My Design Skills<i class="ri-arrow-right-up-line"></i></h2>
-                    <p class="subtitle">Remote working might not only be feasible but beneficial. Stanford University found that remote employees were 13% more productive, with absolutely...</p>
-                    <div class="tags">
-                        <span class="tag">Design</span>
-                        <span class="tag">Research</span>
-                    </div>
-                </div>
-            </a>
-            <a href="/post.html" class="grid_card">
-                <img src="{{ asset('img/img6.jpg') }}" alt="image">
-                <div class="card_details">
-                    <p class="author_time">
-                        Natali Craig <i class="ri-checkbox-blank-circle-fill"></i> 14 Jan 2024 
-                    </p>
-                    <h2 class="title_card">Exclusive Interview with Designer, Jasmin Chew<i class="ri-arrow-right-up-line"></i></h2>
-                    <p class="subtitle">Jasmin Chew is a 23-year-old photographer and photo editor from Hanoi, Viet Nam. She has worked with Spotify, Nike, Chews, Makr, and Square. Mia de Silva...</p>
-                    <div class="tags">
-                        <span class="tag">Design</span>
-                        <span class="tag">Research</span>
-                        <span class="tag">Interviews</span>
-                    </div>
-                </div>
-            </a>
-            <a href="/post.html" class="grid_card">
-                <img src="{{ asset('img/img15.jpg') }}" alt="image">
-                <div class="card_details">
-                    <p class="author_time">
-                        Nguyễn Lê Huy <i class="ri-checkbox-blank-circle-fill"></i> 28 June 2023 
-                    </p>
-                    <h2 class="title_card">Brad Pitt 'Fight Club': Here Are His Workout And Diet Tips<i class="ri-arrow-right-up-line"></i></h2>
-                    <p class="subtitle">When Fight Club first hit the big screen twenty four years ago in 1999, people weren't just blown away by the big-screen adaptation...</p>
-                    <div class="tags">
-                        <span class="tag">Health</span>
-                        <span class="tag">Research</span>
-                    </div>
-                </div>
-            </a>
-            <a href="/post.html" class="grid_card">
-                <img src="{{ asset('img/img13.jpg') }}" alt="image">
-                <div class="card_details">
-                    <p class="author_time">
-                        Orlando Diggs <i class="ri-checkbox-blank-circle-fill"></i> 12 Jan 2024 
-                    </p>
-                    <h2 class="title_card">The Design Dilemma: Is Best UX Practice the Enemy of Creativity<i class="ri-arrow-right-up-line"></i></h2>
-                    <p class="subtitle">Frankie Sullivan explores the 'Design Dilemma' - what happens when best practice UX design clashes with creativity?</p>
-                    <div class="tags">
-                        <span class="tag">Design</span>
-                        <span class="tag">Theory</span>
-                        <span class="tag">Research</span>
-                    </div>
-                </div>
-            </a>
-        </div>
+        @endforeach
     </div>
     <div class="container pagination">
-        <span class="previous"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"></path></svg> Previous</span>
+        <span class="previous" @if($posts->onFirstPage()) style="opacity:0.5;pointer-events:none;" @endif>
+            <a href="{{ $posts->previousPageUrl() ?? '#' }}" style="display:flex;align-items:center;color:inherit;text-decoration:none;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"></path></svg> Previous
+            </a>
+        </span>
         <ul>
-            <li class="current">1</li>
-            <li>2</li>
-            <li>3</li>
-            <li class="dot">...</li>
-            <li>8</li>
-            <li>9</li>
-            <li>10</li>
+            @php
+                $start = max($posts->currentPage() - 2, 1);
+                $end = min($posts->lastPage(), $posts->currentPage() + 2);
+                if($start > 1) {
+                    echo '<li>1</li>';
+                    if($start > 2) echo '<li class="dot">...</li>';
+                }
+            @endphp
+            @for($i = $start; $i <= $end; $i++)
+                @if($i == $posts->currentPage())
+                    <li class="current">{{ $i }}</li>
+                @else
+                    <li><a href="{{ $posts->url($i) }}">{{ $i }}</a></li>
+                @endif
+            @endfor
+            @php
+                if($end < $posts->lastPage()) {
+                    if($end < $posts->lastPage() - 1) echo '<li class="dot">...</li>';
+                    echo '<li><a href="'.$posts->url($posts->lastPage()).'">'.$posts->lastPage().'</a></li>';
+                }
+            @endphp
         </ul>
-        <span class="after">Next<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg></i></span>
+        <span class="after" @if(!$posts->hasMorePages()) style="opacity:0.5;pointer-events:none;" @endif>
+            <a href="{{ $posts->nextPageUrl() ?? '#' }}" style="display:flex;align-items:center;color:inherit;text-decoration:none;">
+                Next<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path></svg>
+            </a>
+        </span>
     </div>
+</div>

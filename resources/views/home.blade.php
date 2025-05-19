@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'LehyUI')
+@section('title', 'LehyUI Blog')
 
 @section('content')
 
@@ -12,11 +12,11 @@
 
 <main>
 
- 
-    @include('pages.homemain')
-   
 
- 
+    @include('pages.homemain')
+
+
+
 
     @include('components.footer')
 </main>
