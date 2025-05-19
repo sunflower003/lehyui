@@ -55,7 +55,7 @@ class AdminPostControllers extends Controller
         $validated = $request->validate([
             'title' => 'required|max:255',
             'sub_title' => 'nullable|max:255',
-            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'body' => 'required',
             'category_id' => 'required|exists:categories,id',
         ]);
