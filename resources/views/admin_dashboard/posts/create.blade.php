@@ -1,6 +1,5 @@
 @extends('admin_dashboard.layouts.app')
 
-
 @section('page-title', 'Thêm bài viết mới')
 
 @section('wrapper')
@@ -9,14 +8,6 @@
         <div>
             <h1 class="text-2xl font-bold">📝 Thêm bài viết mới</h1>
             <p class="text-gray-500 mt-1">Tạo nội dung mới cho trang web của bạn</p>
-
-    <form method="POST" action="{{ route('admin.posts.store') }}" enctype="multipart/form-data">
-        @csrf
-
-        <div class="mb-3">
-            <label for="title" class="form-label">Tiêu đề</label>
-            <input type="text" id="title" name="title" class="form-control" required>
-
         </div>
         <div class="mt-4 md:mt-0">
             <a href="{{ route('admin.posts.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-md transition-colors">

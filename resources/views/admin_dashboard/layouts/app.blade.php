@@ -169,6 +169,11 @@
                     </div>
                 @endif
 
+                @if(Session::has('error'))
+                    <div class="alert alert-danger bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+                        {{ Session::get('error') }}
+                    </div>
+                @endif
 
                 @yield("wrapper")
             </main>
