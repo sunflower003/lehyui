@@ -1,12 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Avatar Dropdown
-   const avatarContainer = document.querySelector('.avatar_header_container');
+  const avatarContainer = document.querySelector('.avatar_header_container');
   const dropdown = document.querySelector('.dropdown');
 
   let hideTimeout = null;
 
   if (avatarContainer && dropdown) {
-    // Khi chuột vào: hiện dropdown và hủy đếm ngược ẩn
     avatarContainer.addEventListener('mouseenter', () => {
       clearTimeout(hideTimeout); // Hủy ẩn nếu đang đếm ngược
       dropdown.style.display = 'flex';
@@ -15,17 +14,15 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 10);
     });
 
-    // Khi chuột rời khỏi: đếm ngược 1 giây mới ẩn
     avatarContainer.addEventListener('mouseleave', () => {
       hideTimeout = setTimeout(() => {
         dropdown.classList.remove('show');
-        // Đợi hiệu ứng (nếu có) rồi ẩn hẳn
         setTimeout(() => {
           if (!dropdown.classList.contains('show')) {
             dropdown.style.display = 'none';
           }
-        }, 300); // thời gian fade-out (nếu có)
-      }, 1000); // thời gian chờ trước khi ẩn
+        }, 300);
+      }, 500); // ⏳ Trễ 1 giây mới ẩn
     });
   }
 
