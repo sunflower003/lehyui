@@ -23,10 +23,10 @@
             <div class="btn_shadow"></div>
         </a>
         <div class="avatar_header_container">
-            <img src="{{ $user->avatar_path }}" class="profile_avatar" />
+            <img src="{{ $user->avatar }}" class="profile_avatar" />
             <div class="dropdown">
                 <div class="dropdown_header">
-                    <img src="{{ $user->avatar_path }}" class="profile_avatar" />
+                    <img src="{{ $user->avatar }}" class="profile_avatar" />
                     <p class="username">{{ $user->username }}</p>
                 </div>
                     @if(Auth::check())

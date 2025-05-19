@@ -18,6 +18,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/category/{id}', [PostController::class, 'byCategory'])->name('category.posts');
 
+Route::get('/profile/settings', function () {
+    return view('pages.profile_settings'); // hoặc bất kỳ view/controller nào bạn muốn
+})->name('profile.settings');
+
+
 Route::prefix('admin/posts')->group(function () {
     Route::get('/', [AdminPostControllers::class, 'index'])->name('admin.posts.index');
     Route::get('/create', [AdminPostControllers::class, 'create'])->name('admin.posts.create');
