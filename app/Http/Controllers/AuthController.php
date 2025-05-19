@@ -44,7 +44,8 @@ class AuthController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'sex' => $request->sex,
-        'role' => 'user' // mặc định user
+            'role' => 'user', // mặc định user
+            'avatar' => 'img/avatar_default.jpg' // đường dẫn avatar mặc định
         ]);
 
         return redirect('/login')->with('success', 'Đăng ký thành công');

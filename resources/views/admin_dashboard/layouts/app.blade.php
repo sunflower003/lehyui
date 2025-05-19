@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TDQ - Trang quản trị</title>
+    <title>Admin - LehyUI</title>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
         </main>
 
         <footer>
-            <p class="mb-0">Tất cả các quyền © TDQ.</p>
+            <p class="mb-0">Tất cả các quyền © Nam Duong.</p>
         </footer>
     </div>
 

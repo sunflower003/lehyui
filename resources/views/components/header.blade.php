@@ -23,10 +23,10 @@
 
 
         <div class="avatar_header_container">
-            <img src="{{ $user->avatar_path }}" alt="avatar" class="avatar">
+            <img src="{{ $user->avatar }}" alt="avatar" class="avatar">
             <div class="dropdown">
                 <div class="dropdown_header">
-                    <img src="{{ $user->avatar_path }}" alt="avatar" class="avatar">
+                    <img src="{{ $user->avatar }}" alt="avatar" class="avatar">
                     <p class="username">{{ $user->username }}</p>
                 </div>
                 <a href="/profile" class="dropdown_link">Settings</a>
