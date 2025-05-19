@@ -8,7 +8,7 @@
 @include('components.header')
 
 <main>
-  <section class="container profile_wrapper">
+  <section class="container profile_wrapper" data-active-tab="{{ session('active_tab', 'profile_general') }}">
     <div class="profile_sidebar">
       <ul class="profile_menu">
         <li class="profile_menu-item active">General</li>
