@@ -20,7 +20,7 @@
         @include("admin_dashboard.layouts.nav")
 
         <main>
-            @yield("content")
+            @yield("wrapper")
         </main>
 
         <footer>

@@ -1,6 +1,6 @@
 @extends('admin_dashboard.layouts.app')
 
-@section('content')
+@section('wrapper')
 <div class="container mt-4" style="max-width: 800px;">
     <h2 class="mb-4">📝 Thêm bài viết mới</h2>
 
