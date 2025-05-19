@@ -2,9 +2,138 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
-    //
+    /**
+     * Hiển thị trang profile settings.
+     */
+    public function settings()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        // Đường dẫn ảnh đại diện
+        $user->avatar_path = ($user->avatar === 'avatar_default.jpg' || $user->avatar === null)
+            ? asset('img/avatar_default.jpg')
+            : asset('storage/avatars/' . $user->avatar);
+
+        return view('pages.profile_settings', compact('user'));
+    }
+
+    /**
+     * Cập nhật username (nếu đang dùng tab General).
+     */
+    public function updateGeneral(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+        ]);
+
+        $user->username = $request->username;
+        $user->save();
+
+        return back()
+            ->with('success', 'Cập nhật username thành công.')
+            ->with('active_tab', 'profile_general');
+    }
+
+    /**
+     * Cập nhật ảnh đại diện và tên (Edit Profile tab).
+     */
+    public function updateInfo(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $request->validate([
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+        ]);
+
+        $user->username = $request->username;
+
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $avatarName = uniqid() . '.' . $avatar->getClientOriginalExtension();
+            $avatar->storeAs('public/avatars', $avatarName);
+
+            if ($user->avatar && $user->avatar !== 'avatar_default.jpg') {
+                Storage::delete('public/avatars/' . $user->avatar);
+            }
+
+            $user->avatar = $avatarName;
+        }
+
+        $user->save();
+
+        return redirect()->route('profile.settings')
+            ->with('success', 'Cập nhật ảnh đại diện thành công!')
+            ->with('active_tab', 'profile_edit');
+    }
+
+    /**
+     * Cập nhật mật khẩu ở tab Password.
+     */
+    public function updatePassword(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ], [
+            'new_password.confirmed' => 'Xác nhận mật khẩu không khớp.',
+            'new_password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.'
+        ]);
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            return back()
+                ->with('error', 'Mật khẩu cũ không đúng.')
+                ->with('active_tab', 'profile_password');
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return back()
+            ->with('success', 'Đổi mật khẩu thành công.')
+            ->with('active_tab', 'profile_password');
+    }
+
+
+    /**
+     * Xoá tài khoản người dùng.
+     */
+    public function deleteAccount(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $request->validate([
+            'password' => 'required',
+        ]);
+
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->with('error', 'Mật khẩu không đúng.');
+        }
+
+        if ($user->avatar && $user->avatar !== 'avatar_default.jpg') {
+            Storage::delete('public/avatars/' . $user->avatar);
+        }
+
+        Auth::logout();
+        $user->delete();
+
+        return redirect()->route('home')->with('success', 'Tài khoản của bạn đã bị xoá.');
+    }
 }

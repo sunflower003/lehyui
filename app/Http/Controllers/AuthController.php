@@ -45,15 +45,21 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'sex' => $request->sex,
             'role' => 'user', // mặc định user
-            'avatar' => 'img/avatar_default.jpg' // đường dẫn avatar mặc định
+            'avatar' => 'img/avatar_default.jpg', // đường dẫn avatar mặc định
+
         ]);
 
         return redirect('/login')->with('success', 'Đăng ký thành công');
     }
 
 
-    public function logout() {
+    public function logout(Request $request)
+    {
         Auth::logout();
-        return redirect()->route('login');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('home'); // ← về trang chủ
     }
+
 }
