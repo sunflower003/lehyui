@@ -413,6 +413,12 @@ header form button:hover {
     gap: 3rem;
 }
 
+.grid_card > img {
+    max-width: 380px;
+    max-height: 215px;
+    object-fit: cover;
+}
+
 .ontop {
     grid-column: 1/2;
     grid-row: 1/4;

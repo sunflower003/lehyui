@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Profile Settings')
+@section('title', 'All ' . $category->name . ' posts - LehyUI')
 
 @section('content')
 

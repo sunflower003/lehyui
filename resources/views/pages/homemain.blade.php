@@ -11,65 +11,29 @@
     <div class="container recent_container">
         <h2 class="title_head">Recent blog posts</h2>
         <div class="grid_head">
-            <div class="card_head ontop">
-                <img src="{{ asset('img/img2.jpg') }}" alt="picture">
-                <div class="card_details">
-                    <p class="author_time">
-                        Olivia Rhye <i class="ri-checkbox-blank-circle-fill"></i> 20 Jan 2024 
-                    </p>
-                    <h2 class="title_card">Conversations with London Makr & Co.<i class="ri-arrow-right-up-line"></i></h2>
-                    <p class="subtitle">We sat down with London's fast-growing brand and product design studio, Makr & Co. to find out how they've used Lehy UI to 2x their revenue.</p>
-                    <div class="tags">
-                        <span class="tag">Design</span>
-                        <span class="tag">Research</span>
-                        <span class="tag">Interviews</span>
+            @foreach($recentPosts as $index => $post)
+                <a href="{{ url('/posts/' . $post->id) }}" class="card_head {{ $index === 0 ? 'ontop' : '' }}">
+                    <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}">
+                    <div class="card_details">
+                        <p class="author_time">
+                            {{ $post->user->username ?? 'Unknown' }}
+                            <i class="ri-checkbox-blank-circle-fill"></i>
+                            {{ $post->created_at->format('d M Y') }}
+                        </p>
+                        <h2 class="title_card">
+                            {{ $post->title }}
+                            <i class="ri-arrow-right-up-line"></i>
+                        </h2>
+                        <p class="subtitle">{{ $post->sub_title }}</p>
+                        <div class="tags">
+                            <span class="tag">{{ $post->category->name ?? 'Uncategorized' }}</span>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="card_head">
-                <img src="{{ asset('img/img8.jpg') }}" alt="picture">
-                <div class="card_details">
-                    <p class="author_time">
-                        Phoenix Baker <i class="ri-checkbox-blank-circle-fill"></i> 19 Jan 2024 
-                    </p>
-                    <h2 class="title_card">A Relentless Pursuit of Perfection in Product Design</h2>
-                    <p class="subtitle">"I began to notice that there was a sharp contrast between well-made...</p>
-                    <div class="tags">
-                        <span class="tag">Design</span>
-                        <span class="tag">Research</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card_head">
-                <img src="{{ asset('img/img7.jpg') }}" alt="picture">
-                <div class="card_details">
-                    <p class="author_time">
-                        Lana Steiner <i class="ri-checkbox-blank-circle-fill"></i> 18 Jan 2024 
-                    </p>
-                    <h2 class="title_card">How to Run a Successful Business With Your Partner</h2>
-                    <p class="subtitle">Starting a business with your spouse or significant other is an exciting but...</p>
-                    <div class="tags">
-                        <span class="tag">Business</span>
-                        <span class="tag">Research</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card_head">
-                <img src="{{ asset('img/img3.jpg') }}" alt="picture">
-                <div class="card_details">
-                    <p class="author_time">
-                        Lana Steiner <i class="ri-checkbox-blank-circle-fill"></i> 18 Jan 2024 
-                    </p>
-                    <h2 class="title_card">Why Food Matters - Diease Prevention & Treatment</h2>
-                    <p class="subtitle">Eating more plants and less meat has been tied to a longer life and a...</p>
-                    <div class="tags">
-                        <span class="tag">Health</span>
-                        <span class="tag">Research</span>
-                    </div>
-                </div>
-            </div>
+                </a>
+            @endforeach
         </div>
     </div>
+
     @include('components.banner')
     <div class="container all_container">
         <h2 class="title_head">All blog posts</h2>
