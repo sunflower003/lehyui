@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (avatarContainer && dropdown) {
     avatarContainer.addEventListener('mouseenter', () => {
-      clearTimeout(hideTimeout); // Hủy ẩn nếu đang đếm ngược
+      clearTimeout(hideTimeout);
       dropdown.style.display = 'flex';
       setTimeout(() => {
         dropdown.classList.add('show');
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
             dropdown.style.display = 'none';
           }
         }, 300);
-      }, 500); // ⏳ Trễ 1 giây mới ẩn
+      }, 500);
     });
   }
 
@@ -32,13 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeDonate = document.getElementById('closeDonate');
 
   if (donateToggle && donateForm && closeDonate) {
-    donateToggle.addEventListener('click', () => {
-      donateForm.classList.add('active');
-    });
-
-    closeDonate.addEventListener('click', () => {
-      donateForm.classList.remove('active');
-    });
+    donateToggle.addEventListener('click', () => donateForm.classList.add('active'));
+    closeDonate.addEventListener('click', () => donateForm.classList.remove('active'));
   }
 
   // Profile Tabs
@@ -46,26 +41,46 @@ document.addEventListener("DOMContentLoaded", function () {
   const tabs = {
     "General": "profile_general",
     "Edit Profile": "profile_edit",
-    "Password": "profile_password",
+    "Password": "profile_password"
     // thêm tab khác nếu cần
   };
 
-  if (menuItems.length > 0) {
-    menuItems.forEach(item => {
-      item.addEventListener("click", () => {
-        menuItems.forEach(i => i.classList.remove("active"));
-        item.classList.add("active");
+  const profileWrapper = document.querySelector(".profile_wrapper");
+  const activeTabFromSession = profileWrapper?.dataset?.activeTab || 'profile_general';
 
-        Object.values(tabs).forEach(id => {
-          const tab = document.getElementById(id);
-          if (tab) tab.style.display = "none";
-        });
+  // Hiển thị đúng tab sau reload
+  document.querySelectorAll('.profile_tab-content').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.profile_menu-item').forEach(el => el.classList.remove('active'));
 
-        const tabName = item.innerText.trim();
-        const tabId = tabs[tabName];
-        const tab = document.getElementById(tabId);
-        if (tab) tab.style.display = "block";
-      });
-    });
+  const targetTab = document.getElementById(activeTabFromSession);
+  if (targetTab) targetTab.style.display = 'block';
+
+  const indexMap = {
+    'profile_general': 0,
+    'profile_edit': 1,
+    'profile_password': 2
+  };
+  const tabIndex = indexMap[activeTabFromSession];
+  if (typeof tabIndex !== 'undefined') {
+    const menuItem = document.querySelectorAll('.profile_menu-item')[tabIndex];
+    if (menuItem) menuItem.classList.add('active');
   }
+
+  // Chuyển tab khi click
+  menuItems.forEach(item => {
+    item.addEventListener("click", () => {
+      menuItems.forEach(i => i.classList.remove("active"));
+      item.classList.add("active");
+
+      Object.values(tabs).forEach(id => {
+        const tab = document.getElementById(id);
+        if (tab) tab.style.display = "none";
+      });
+
+      const tabName = item.innerText.trim();
+      const tabId = tabs[tabName];
+      const tab = document.getElementById(tabId);
+      if (tab) tab.style.display = "block";
+    });
+  });
 });
