@@ -70,6 +70,7 @@
             </div>
         </div>
     </div>
+    @include('components.banner')
     <div class="container all_container">
         <h2 class="title_head">All blog posts</h2>
         <div class="grid_posts">
