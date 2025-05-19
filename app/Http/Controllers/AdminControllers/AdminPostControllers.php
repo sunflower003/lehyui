@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminControllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Category;
 
 class AdminPostControllers extends Controller
 {
@@ -15,9 +16,10 @@ class AdminPostControllers extends Controller
     }
 
     public function create()
-    {
-        return view('admin_dashboard.posts.create');
-    }
+{
+    $categories = Category::all();
+    return view('admin_dashboard.posts.create', compact('categories'));
+}
 
     public function store(Request $request)
     {
@@ -26,10 +28,10 @@ class AdminPostControllers extends Controller
             'sub_title' => 'nullable|max:255',
             'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'body' => 'required',
-            'user_id' => 'required|exists:users,id',
             'category_id' => 'required|exists:categories,id',
         ]);
 
+        $validated['user_id'] = auth()->id(); // không lấy từ form
         if ($request->hasFile('thumbnail')) {
             $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }
@@ -41,7 +43,9 @@ class AdminPostControllers extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        return view('admin_dashboard.posts.edit', compact('post'));
+        $categories = Category::all(); // ← Bắt buộc phải có dòng này
+
+        return view('admin_dashboard.posts.edit', compact('post', 'categories'));
     }
 
     public function update(Request $request, $id)
@@ -53,10 +57,9 @@ class AdminPostControllers extends Controller
             'sub_title' => 'nullable|max:255',
             'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'body' => 'required',
-            'user_id' => 'required|exists:users,id',
             'category_id' => 'required|exists:categories,id',
         ]);
-
+        $validated['user_id'] = auth()->id();
         if ($request->hasFile('thumbnail')) {
             $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }

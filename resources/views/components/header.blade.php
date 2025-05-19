@@ -8,23 +8,25 @@
     <div class="menu">
         <ul class="nav_links">
             <li><a href="/" class="link">Home</a></li>
-            <li><a href="#" class="link">Crypto</a></li>
-            <li><a href="#" class="link">Stocks</a></li>
-            <li><a href="#" class="link">Mobile</a></li>
-            <li><a href="#" class="link">PC</a></li>
-            <li><a href="#" class="link">Health</a></li>
-            <li><a href="#" class="link">All Categories</a></li>
+
+            @foreach ($headerCategories as $category)
+            <li><a href="{{ route('category.posts', $category->id) }}" class="link">{{ $category->name }}</a></li>
+            @endforeach
+
+
+            <li><a href="{{ url('/categories') }}" class="link">All Categories</a></li>
         </ul>
+
 
         <a href="{{ route('login') }}" class="btn">
             <div class="btn_text">Get Started</div>
             <div class="btn_shadow"></div>
         </a>
         <div class="avatar_header_container">
-            <img src="{{ $user->avatar_path }}" class="profile_avatar" />
+            <img src="{{ $user->avatar }}" class="profile_avatar" />
             <div class="dropdown">
                 <div class="dropdown_header">
-                    <img src="{{ $user->avatar_path }}" class="profile_avatar" />
+                    <img src="{{ $user->avatar }}" class="profile_avatar" />
                     <p class="username">{{ $user->username }}</p>
                 </div>
                     @if(Auth::check())

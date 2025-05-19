@@ -32,12 +32,22 @@
         </div>
 
         <div class="mb-3">
+            <label for="category_id" class="form-label">Chuyên mục</label>
+            <select id="category_id" name="category_id" class="form-select" required>
+                <option value="">-- Chọn chuyên mục --</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
             <label for="body" class="form-label">Nội dung bài viết</label>
             <textarea id="body" name="body" class="form-control"></textarea>
         </div>
 
-        <input type="hidden" name="user_id" value="1">
-        <input type="hidden" name="category_id" value="1">
 
         <button type="submit" class="btn btn-primary">✅ Đăng bài viết</button>
     </form>
