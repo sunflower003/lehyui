@@ -8,7 +8,6 @@
     <div class="menu">
         <ul class="nav_links">
             <li><a href="/" class="link">Home</a></li>
-
             @foreach ($headerCategories as $category)
             <li><a href="{{ route('category.posts', $category->id) }}" class="link">{{ $category->name }}</a></li>
             @endforeach
