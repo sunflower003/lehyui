@@ -14,13 +14,13 @@ class HomeController extends Controller
         if (!$user) {
             $user = (object) [
                 'username' => 'Guest',
-                'avatar_path' => asset('img/5ee082781b8c41406a2a50a0f32d6aa6.jpg') // ảnh mặc định
+                'avatar' => asset('img/avatar_default.jpg') // ảnh mặc định
             ];
         } else {
             // Nếu đã đăng nhập
-            $user->avatar_path = $user->avatar
-                ? asset('storage/' . $user->avatar)  // ảnh đã upload
-                : asset('img/5ee082781b8c41406a2a50a0f32d6aa6.jpg'); // ảnh mặc định
+            $user->avatar = $user->avatar
+                ? asset($user->avatar)  // ảnh đã upload
+                : asset('img/avatar_default.jpg'); // ảnh mặc định
         }
 
         return view('home', compact('user'));
