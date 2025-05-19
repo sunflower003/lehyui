@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -88,13 +89,20 @@ class UserController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'old_password' => 'required',
             'new_password' => 'required|min:6|confirmed',
         ], [
             'new_password.confirmed' => 'Xác nhận mật khẩu không khớp.',
             'new_password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.'
         ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('active_tab', 'profile_password');
+        }
 
         if (!Hash::check($request->old_password, $user->password)) {
             return back()
