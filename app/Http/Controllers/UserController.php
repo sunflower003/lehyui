@@ -14,18 +14,18 @@ class UserController extends Controller
     /**
      * Hiển thị trang profile settings.
      */
-    public function settings()
-    {
-        /** @var User $user */
-        $user = Auth::user();
+   public function settings()
+{
+    $user = Auth::user();
+    $user->avatar_path = ($user->avatar === 'avatar_default.jpg' || $user->avatar === null)
+        ? asset('img/avatar_default.jpg')
+        : asset('storage/avatars/' . $user->avatar);
 
-        // Đường dẫn ảnh đại diện
-        $user->avatar_path = ($user->avatar === 'avatar_default.jpg' || $user->avatar === null)
-            ? asset('img/avatar_default.jpg')
-            : asset('storage/avatars/' . $user->avatar);
+    $headerCategories = \App\Models\Category::orderBy('created_at')->limit(5)->get();
 
-        return view('pages.profile_settings', compact('user'));
-    }
+    return view('pages.profile_settings', compact('user', 'headerCategories'));
+}
+
 
     /**
      * Cập nhật username (nếu đang dùng tab General).
