@@ -8,7 +8,6 @@
     <div class="menu">
         <ul class="nav_links">
             <li><a href="/" class="link">Home</a></li>
-
             @foreach ($headerCategories as $category)
             <li><a href="{{ route('category.posts', $category->id) }}" class="link">{{ $category->name }}</a></li>
             @endforeach
@@ -23,10 +22,10 @@
             <div class="btn_shadow"></div>
         </a>
         <div class="avatar_header_container">
-            <img src="{{ $user->avatar }}" class="profile_avatar" />
+            <img src="{{ $user->avatar_path }}" class="avatar">
             <div class="dropdown">
                 <div class="dropdown_header">
-                    <img src="{{ $user->avatar }}" class="profile_avatar" />
+                    <img src="{{ $user->avatar_path }}" class="avatar">
                     <p class="username">{{ $user->username }}</p>
                 </div>
                     @if(Auth::check())
