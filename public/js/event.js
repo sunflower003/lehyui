@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (avatarContainer && dropdown) {
     avatarContainer.addEventListener('mouseenter', () => {
-      clearTimeout(hideTimeout);
+      clearTimeout(hideTimeout); // Hủy ẩn nếu đang đếm ngược
       dropdown.style.display = 'flex';
       setTimeout(() => {
         dropdown.classList.add('show');
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
             dropdown.style.display = 'none';
           }
         }, 300);
-      }, 500);
+      }, 500); // ⏳ Trễ 1 giây mới ẩn
     });
   }
 
@@ -32,8 +32,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeDonate = document.getElementById('closeDonate');
 
   if (donateToggle && donateForm && closeDonate) {
-    donateToggle.addEventListener('click', () => donateForm.classList.add('active'));
-    closeDonate.addEventListener('click', () => donateForm.classList.remove('active'));
+    donateToggle.addEventListener('click', () => {
+      donateForm.classList.add('active');
+    });
+
+    closeDonate.addEventListener('click', () => {
+      donateForm.classList.remove('active');
+    });
   }
 
   // Profile Tabs
@@ -41,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const tabs = {
     "General": "profile_general",
     "Edit Profile": "profile_edit",
-    "Password": "profile_password"
+    "Password": "profile_password",
     // thêm tab khác nếu cần
   };
 
@@ -75,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
       Object.values(tabs).forEach(id => {
         const tab = document.getElementById(id);
         if (tab) tab.style.display = "none";
+
       });
 
       const tabName = item.innerText.trim();
