@@ -71,6 +71,14 @@ Route::prefix('admin')
         Route::put('/{user}', [UserController::class, 'adminUpdate'])->name('update');
         Route::delete('/{user}', [UserController::class, 'adminDestroy'])->name('destroy');
     });
-
+    
+ Route::prefix('categories')->name('categories.')->middleware(['is_admin'])->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        Route::get('/create', [CategoryController::class, 'create'])->name('create');
+        Route::post('/store', [CategoryController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+    });
     // Các nhóm route khác như categories, users,... bạn khai báo tương tự
 });
