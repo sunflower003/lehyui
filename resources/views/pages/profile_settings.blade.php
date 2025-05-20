@@ -30,11 +30,29 @@
       <p class="profile_description">Your public profile information</p>
 
       <div class="profile_avatar-block">
-        <img src="{{ $user->avatar_path }}" class="profile_avatar">
-        <div class="profile_avatar-buttons">
-          <span class="profile_button_3" style="cursor: default;">{{ ucfirst($user->sex) }}</span>
-        </div>
+        <img src="{{ $user->avatar_path }}" class="profile_avatar profile_avatar_large" alt="{{$user->username}}'s avatar">
       </div>
+
+      <form class="profile_form">
+                  <div class="profile_form-group">
+                    <label class="profile_label">Username</label>
+                    <input type="text" class="profile_input" value="{{$user->username}}" readonly />
+                    <label class="profile_label">Sex</label>
+                    <p class="profile_note">{{$user->sex}}</p>
+                  </div>
+
+
+                  <div class="profile_form-group">
+                    <label class="profile_label">Google Sign-In</label>
+                    <button type="button" class="profile_button profile_google profile_button_3">Google</button>
+                    <p class="profile_note">Use Google to access your LehyUI account.</p>
+                  </div>
+
+                  <div class="profile_form-group">
+                    <label class="profile_label">Disable ads</label>
+                    <p class="profile_note">With a Pro account you can disable ads across the site.</p>
+                  </div>
+                </form>
 
       <form class="profile_form" method="POST" action="{{ route('profile.delete.account') }}">
         @csrf
@@ -54,11 +72,28 @@
       <form class="profile_form" method="POST" action="{{ route('profile.update.info') }}" enctype="multipart/form-data">
         @csrf
         <div class="profile_avatar-block">
-          <img src="{{ $user->avatar_path }}" class="profile_avatar">
+          <img src="{{ $user->avatar_path }}" class="profile_avatar profile_avatar_large" alt="{{$user->username}}'s avatar">
           <div class="profile_avatar-buttons">
-            <input type="file" name="avatar" class="profile_button profile_button_2" accept="image/*">
+            <label for="avatar-upload" class="upload-btn">Upload new picture</label>
+            <span id="file-name" style="font-style: italic;"></span>
+            <input type="file" id="avatar-upload" name="avatar" accept="image/*" style="display: none;">
           </div>
         </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('avatar-upload');
+            const fileName = document.getElementById('file-name');
+
+            input.addEventListener('change', function () {
+              if (input.files.length > 0) {
+                fileName.textContent = input.files[0].name;
+              } else {
+                fileName.textContent = '';
+              }
+            });
+          });
+        </script>
+
 
         <div class="profile_form-group">
           <label class="profile_label">Username</label>
@@ -109,6 +144,7 @@
         </form>
     </div>
     </section>
-  @include('components.footer')
+  
 </main>
+@include('components.footer')
 @endsection

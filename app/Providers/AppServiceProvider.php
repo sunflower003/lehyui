@@ -13,6 +13,8 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
+
+    //take 5 oldest categories for header
     public function boot()
     {
         View::composer('*', function ($view) {

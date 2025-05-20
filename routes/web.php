@@ -32,6 +32,10 @@ Route::post('/profile/update-password', [UserController::class, 'updatePassword'
 // Xoá tài khoản
 Route::delete('/profile/delete', [UserController::class, 'deleteAccount'])->name('profile.delete.account');
 
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+
+
+
 
 
 Route::prefix('admin')

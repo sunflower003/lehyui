@@ -18,6 +18,7 @@
 
  
 
-    @include('components.footer')
+    
 </main>
+@include('components.footer')
 @endsection
