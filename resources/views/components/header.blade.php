@@ -31,6 +31,10 @@
                         <img src="{{ $user->avatar_path }}" class="profile_avatar" />
                         <p class="username">{{ $user->username }}</p>
                     </div>
+                    @if(Auth::check() && Auth::user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="dropdown_link">Admin Dashboard</a>
+                    @endif
+                    <hr />
                     <a href="{{ route('profile.settings') }}" class="dropdown_link">Settings</a>
                     <hr />
                     <form method="POST" action="{{ route('logout') }}">
