@@ -1770,3 +1770,12 @@ donate-form h2 {
   background: rgba(51, 51, 51, 0.97);
   color: #fff;
 }
+
+.number_page_pagination {
+    transition: .3s;
+    color: var(--black);
+}
+
+.number_page_pagination:hover {
+    color: var(--grey);
+}
