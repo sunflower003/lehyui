@@ -44,7 +44,7 @@
                        <img src="{{ $authorAvatar }}" alt="" class="profile_avatar">
                        <div class="name">
                             <p>{{$post->user->username}}</p>
-                            <span>28 June 2023</span>
+                            <span>{{ $post->created_at->format('d F Y') }}</span>
                        </div>
                     </div>
                     <div class="info">
@@ -107,26 +107,25 @@
                                         <p class="username">{{ $comment->user->username }}</p>
                                         <span class="time">{{ $comment->created_at->diffForHumans() }}</span>
                                     </div>
+
+
+                                    <div class="comment_actions">
+                                        @if(Auth::id() === $comment->user_id)
+                                            <span class="comment_menu_toggle" data-id="menu-{{ $comment->id }}">
+                                                <i class="ri-more-2-line"></i>
+                                            </span>
+                                            <div class="comment_menu hidden" id="menu-{{ $comment->id }}">
+                                                <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="delete-comment">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit">Delete</button>
+                                                </form>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                                 <p class="comment_text">{{ $comment->content }}</p>
-                                <div class="comment_actions" style="position: relative;">
-                                    <span><i class="ri-thumb-up-line"></i></span>
-                                    <span><i class="ri-thumb-down-line"></i></span>
-                                    <span><i class="ri-chat-3-line"></i></span>
-
-                                    @if(Auth::id() === $comment->user_id)
-                                        <span class="comment_menu_toggle" data-id="menu-{{ $comment->id }}">
-                                            <i class="ri-more-2-line"></i>
-                                        </span>
-                                        <div class="comment_menu hidden" id="menu-{{ $comment->id }}">
-                                            <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="delete-comment">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit">Delete</button>
-                                            </form>
-                                        </div>
-                                    @endif
-                                </div>
+                                
                             </div>
                         @endforeach
                     </div>

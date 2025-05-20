@@ -1516,13 +1516,14 @@ video {
 }
 
 .comment, .reply {
-    background: #fafafa;
+
     padding: 15px;
     border-radius: 8px;
     margin-top: 15px;
 }
 
 .comment_header {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -1548,13 +1549,6 @@ video {
     font-size: 1.6rem;
 }
 
-.comment_actions {
-    display: flex;
-    gap: 15px;
-    font-size: 14px;
-    margin-top: 10px;
-    color: #666;
-}
 
 .reply {
     margin-left: 50px;
@@ -1846,7 +1840,7 @@ donate-form h2 {
     flex-direction: column;
     gap: 6px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    right: 450px;
+    right: -80px; 
 }
 
 .comment_menu button {
@@ -1869,8 +1863,17 @@ donate-form h2 {
 }
 
 .comment_actions {
-    position: relative;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    gap: 15px;
+    font-size: 18px;
+    margin-top: 10px;
+    color: var(--black);
+    cursor: pointer;
 }
+
 
 
 .hidden {
