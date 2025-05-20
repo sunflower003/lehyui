@@ -69,46 +69,79 @@
 
                 <!-- Comment Section -->
                 <div class="comment_section">
-                    <h2>Comments <span class="comment_count">25</span></h2>
-                    
-                    <div class="comment_input">
-                        <textarea placeholder="Add comment..." rows="3"></textarea>
-                        <div class="comment_toolbar">
-                            <button><b>B</b></button>
-                            <button><i>I</i></button>
-                            <button><u>U</u></button>
-                            <button><i class="ri-image-line"></i></button>
-                            <button><i class="ri-link"></i></button>
-                            <button><i class="ri-emotion-line"></i></button>
-                            <button><i class="ri-at-line"></i></button>
-                            <button class="submit_btn">Submit</button>
-                        </div>
-                    </div>
+                   <h2>Comments <span class="comment_count">{{ $post->comments->count() }}</span></h2>
 
-                    <div class="comments_display">
-                        <!-- Comment 1 -->
-                        <div class="comment">
-                            <div class="comment_header">
-                                <img src="img/avatar.jpg" class="avatar" alt="user">
-                                <div>
-                                    <p class="username">Noah Pierre</p>
-                                    <span class="time">58 minutes ago</span>
+                    @if(Auth::check())
+                        <form method="POST" action="{{ route('comments.store') }}">
+                            @csrf
+                            <input type="hidden" name="post_id" value="{{ $post->id }}">
+                            <div class="comment_input">
+                                <textarea name="content" placeholder="Add comment..." rows="3" required></textarea>
+                                <div class="comment_toolbar">
+                                    <button type="button"><b>B</b></button>
+                                    <button type="button"><i>I</i></button>
+                                    <button type="button"><u>U</u></button>
+                                    <button type="button"><i class="ri-image-line"></i></button>
+                                    <button type="button"><i class="ri-link"></i></button>
+                                    <button type="button"><i class="ri-emotion-line"></i></button>
+                                    <button type="button"><i class="ri-at-line"></i></button>
+                                    <button class="submit_btn" type="submit">Submit</button>
                                 </div>
                             </div>
-                            <p class="comment_text">I’m a bit unclear about how condensation forms in the water cycle. Can someone break it down?</p>
-                            <div class="comment_actions">
-                                <span><i class="ri-thumb-up-line"></i> 25</span>
-                                <span><i class="ri-thumb-down-line"></i></span>
-                                <span><i class="ri-chat-3-line"></i> 3</span>
-                                <span><i class="ri-more-2-line"></i></span>
+                        </form>
+                    @else
+                        <p style="margin-top: 20px; font-size: 18px;">You need <a href="{{ route('login') }}">Sign In</a> to Comment.</p>
+                    @endif
+                
+                    <div class="comments_display">
+                        @foreach($post->comments->sortByDesc('created_at')->values() as $index => $comment)
+                            <div class="comment {{ $index >= 3 ? 'hidden-comment' : '' }}">
+                                <div class="comment_header">
+                                    @php
+                                        $avatar = $comment->user->avatar && $comment->user->avatar !== 'avatar_default.jpg'
+                                            ? asset('storage/avatars/' . $comment->user->avatar)
+                                            : asset('img/avatar_default.jpg');
+                                    @endphp
+                                    <img src="{{ $avatar }}" class="avatar" alt="user">
+                                    <div>
+                                        <p class="username">{{ $comment->user->username }}</p>
+                                        <span class="time">{{ $comment->created_at->diffForHumans() }}</span>
+                                    </div>
+                                </div>
+                                <p class="comment_text">{{ $comment->content }}</p>
+                                <div class="comment_actions" style="position: relative;">
+                                    <span><i class="ri-thumb-up-line"></i></span>
+                                    <span><i class="ri-thumb-down-line"></i></span>
+                                    <span><i class="ri-chat-3-line"></i></span>
+
+                                    @if(Auth::id() === $comment->user_id)
+                                        <span class="comment_menu_toggle" data-id="menu-{{ $comment->id }}">
+                                            <i class="ri-more-2-line"></i>
+                                        </span>
+                                        <div class="comment_menu hidden" id="menu-{{ $comment->id }}">
+                                            <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="delete-comment">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit">Delete</button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
-
-                        </div>
-
-                        
+                        @endforeach
                     </div>
-                    <div class="show_more">Show more<i class="ri-arrow-down-line"></i></div>
+
+                    @if($post->comments->count() > 3)
+                        <div class="show_more" id="showMoreBtn" style="cursor: pointer; margin-top: 20px; font-weight: bold;">
+                            Show more <i class="ri-arrow-down-line"></i>
+                        </div>
+                    @endif
+
+
                 </div>
+
+                <!-- End Comment Section -->
+
 
 
             </div>
@@ -133,3 +166,57 @@
 </main>
 @include('components.footer')
 @endsection
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteForms = document.querySelectorAll('.delete-comment');
+
+        deleteForms.forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); // Ngăn form gửi ngay
+
+                Swal.fire({
+                    title: 'You want to delete this comment?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#aaa',
+                    confirmButtonText: 'Delete',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Gửi form nếu xác nhận
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const comments = document.querySelectorAll('.comments_display .comment');
+        const showMoreBtn = document.getElementById('showMoreBtn');
+        let visibleCount = 3;
+
+        if (showMoreBtn) {
+            showMoreBtn.addEventListener('click', function () {
+                const total = comments.length;
+                const nextVisible = Math.min(visibleCount + 3, total);
+
+                for (let i = visibleCount; i < nextVisible; i++) {
+                    comments[i].classList.remove('hidden-comment');
+                }
+
+                visibleCount = nextVisible;
+
+                if (visibleCount >= total) {
+                    showMoreBtn.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>

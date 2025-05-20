@@ -112,4 +112,35 @@ document.addEventListener("DOMContentLoaded", function () {
             amountInput.value = vnd;
         });
     });
+
+
+
+
+
+   
+    const toggles = document.querySelectorAll('.comment_menu_toggle');
+
+    toggles.forEach(toggle => {
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const menuId = this.getAttribute('data-id');
+            const menu = document.getElementById(menuId);
+
+            // Ẩn tất cả menu khác
+            document.querySelectorAll('.comment_menu').forEach(m => {
+                if (m.id !== menuId) m.classList.add('hidden');
+            });
+
+            // Toggle menu hiện tại
+            if (menu) menu.classList.toggle('hidden');
+        });
+    });
+
+    // Ẩn khi click ngoài
+    document.addEventListener('click', function () {
+        document.querySelectorAll('.comment_menu').forEach(m => m.classList.add('hidden'));
+    });
+
+
+
 });

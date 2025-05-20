@@ -1827,3 +1827,62 @@ donate-form h2 {
 .all_categories_link:hover {
     color: var(--grey);
 }
+
+
+.hidden {
+    display: none;
+}
+
+
+
+.comment_menu {
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 6px 10px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    right: 450px;
+}
+
+.comment_menu button {
+    background: none;
+    border: none;
+    color: var(--black);
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+}
+
+.comment_menu a {
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.comment_actions {
+    position: relative;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+
+.delete-comment-form {
+    position: relative;
+    right: -100px;
+}
+
+.hidden-comment {
+        display: none;
+}

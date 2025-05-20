@@ -9,6 +9,7 @@ use App\Http\Controllers\DonateController;
 use App\Http\Controllers\AdminControllers\AdminPostControllers;
 use App\Http\Controllers\AdminControllers\DashboardControllers;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -44,6 +45,13 @@ Route::get('/categories', [CategoryController::class, 'showAllCategories'])->nam
 
 
 Route::get('/post/{id}', [PostController::class, 'show'])->name('post.show');
+
+Route::middleware('auth')->post('/comments', [CommentController::class, 'store'])->name('comments.store');
+
+
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+
 
 
 Route::prefix('admin')
