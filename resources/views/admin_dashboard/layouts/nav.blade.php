@@ -24,10 +24,11 @@
     <div class="px-3 mt-6 mb-3 text-xs font-semibold text-gray-400 uppercase">Quản lý</div>
     <ul class="list-none p-0 m-0">
         <li>
-            <a href="#" class="nav-link">
-                <i class="fas fa-folder"></i>
-                <span>Danh mục</span>
-            </a>
+            <a href="{{ route('admin.categories.index') }}" class="nav-link">
+    <i class="fas fa-folder"></i>
+    <span>Danh mục</span>
+</a>
+
         </li>
         <li>
             <a href="#" class="nav-link">
