@@ -80,5 +80,8 @@ Route::prefix('admin')
         Route::post('/update/{id}', [CategoryController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('destroy');
     });
+    // Quản lý bình luận
+    Route::get('comments', [\App\Http\Controllers\CommentController::class, 'adminIndex'])->name('comments.index');
+    Route::delete('comments/{comment}', [\App\Http\Controllers\CommentController::class, 'adminDestroy'])->name('comments.destroy');
     // Các nhóm route khác như categories, users,... bạn khai báo tương tự
 });

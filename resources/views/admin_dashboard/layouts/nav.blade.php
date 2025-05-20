@@ -31,7 +31,7 @@
 
         </li>
         <li>
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.comments.index') }}" class="nav-link">
                 <i class="fas fa-comments"></i>
                 <span>Bình luận</span>
             </a>
