@@ -18,9 +18,9 @@ router.post("/create", async (req, res) => {
       orderCode,
       amount,
       description: shortDesc,
-      returnUrl: "http://localhost:8000/donate/return",  // ✅ Link sau thanh toán thành công
-      cancelUrl: "http://localhost:8000",                 // ✅ Link khi người dùng bấm huỷ
-      items: [],                                          // 👈 Có thể để rỗng nếu không có danh sách hàng hoá
+      returnUrl: "http://localhost:8000/donate/return",  
+      cancelUrl: "http://localhost:8000",                 
+      items: [],                                         
     });
 
     res.json({ checkoutUrl: paymentLink.checkoutUrl });
