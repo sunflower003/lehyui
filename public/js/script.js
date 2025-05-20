@@ -1,28 +1,31 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Avatar Dropdown
-  const avatarContainer = document.querySelector('.avatar_header_container');
+   const avatarContainer = document.querySelector('.avatar_header_container');
   const dropdown = document.querySelector('.dropdown');
 
   let hideTimeout = null;
 
   if (avatarContainer && dropdown) {
+    // Khi chuột vào: hiện dropdown và hủy đếm ngược ẩn
     avatarContainer.addEventListener('mouseenter', () => {
-      clearTimeout(hideTimeout);
+      clearTimeout(hideTimeout); // Hủy ẩn nếu đang đếm ngược
       dropdown.style.display = 'flex';
       setTimeout(() => {
         dropdown.classList.add('show');
       }, 10);
     });
 
+    // Khi chuột rời khỏi: đếm ngược 1 giây mới ẩn
     avatarContainer.addEventListener('mouseleave', () => {
       hideTimeout = setTimeout(() => {
         dropdown.classList.remove('show');
+        // Đợi hiệu ứng (nếu có) rồi ẩn hẳn
         setTimeout(() => {
           if (!dropdown.classList.contains('show')) {
             dropdown.style.display = 'none';
           }
-        }, 300);
-      }, 1000);
+        }, 300); // thời gian fade-out (nếu có)
+      }, 1000); // thời gian chờ trước khi ẩn
     });
   }
 
@@ -32,16 +35,22 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeDonate = document.getElementById('closeDonate');
 
   if (donateToggle && donateForm && closeDonate) {
-    donateToggle.addEventListener('click', () => donateForm.classList.add('active'));
-    closeDonate.addEventListener('click', () => donateForm.classList.remove('active'));
+    donateToggle.addEventListener('click', () => {
+      donateForm.classList.add('active');
+    });
+
+    closeDonate.addEventListener('click', () => {
+      donateForm.classList.remove('active');
+    });
   }
 
-  // Profile Tabs logic
+  // Profile Tabs
   const menuItems = document.querySelectorAll(".profile_menu-item");
   const tabs = {
     "General": "profile_general",
     "Edit Profile": "profile_edit",
-    "Password": "profile_password"
+    "Password": "profile_password",
+    // thêm tab khác nếu cần
   };
 
   // Get tab from blade session (injected into HTML as data attribute)
@@ -76,6 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
       Object.values(tabs).forEach(id => {
         const tab = document.getElementById(id);
         if (tab) tab.style.display = "none";
+
       });
 
       const tabName = item.innerText.trim();

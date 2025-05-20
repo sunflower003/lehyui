@@ -273,7 +273,7 @@ body {
   width: 300px;
   flex-direction: column;
   z-index: 1000;
- 
+
 
   opacity: 0;
   pointer-events: none;
@@ -297,7 +297,7 @@ body {
     align-items: center;
     gap: 1rem;
     margin-bottom: 30px;
-}   
+}
 
 
 .username {
@@ -339,7 +339,7 @@ header {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    align-items: center;    
+    align-items: center;
 }
 
 header h1 {
@@ -1030,7 +1030,7 @@ video {
     border: 2px solid #000;
     display: inline-block;
     border-radius: 2rem;
-    
+
 }
 
 .pin_tag {
@@ -1373,7 +1373,7 @@ video {
 .profile_tab-content {
   margin-top: 20px;
   margin-left: 50px;
-  
+
 }
 
 .profile_avatar-block {
