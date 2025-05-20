@@ -36,7 +36,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.users.index') }}" class="nav-link">
                 <i class="fas fa-users"></i>
                 <span>Người dùng</span>
             </a>
@@ -46,6 +46,12 @@
                 <i class="fas fa-cog"></i>
                 <span>Cài đặt</span>
             </a>
+        </li>
+        <li class="mt-6">
+            <a href="{{ route('home') }}" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Trang chủ</span>
+                </a>
         </li>
     </ul>
 </nav>
