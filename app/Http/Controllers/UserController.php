@@ -159,10 +159,7 @@ class UserController extends Controller
             $query->where('sex', $request->sex);
         }
 
-        $users = $query->orderBy('created_at', 'desc')->paginate(10);
-
-        
-
+        $users = $query->orderBy('created_at', 'desc')->paginate(5)->appends($request->query());
         return view('admin_dashboard.users.index', compact('users'));
     }
 
