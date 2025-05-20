@@ -13,7 +13,7 @@
             @endforeach
 
 
-            <li><a href="{{ url('/categories') }}" class="link">All Categories</a></li>
+            <li><a href="{{ route('categories.all') }}" class="link">All Categories</a></li>
         </ul>
 
 

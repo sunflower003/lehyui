@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DonateController;
 use App\Http\Controllers\AdminControllers\AdminPostControllers;
 use App\Http\Controllers\AdminControllers\DashboardControllers;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -38,7 +39,7 @@ Route::delete('/profile/delete', [UserController::class, 'deleteAccount'])->name
 
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
-
+Route::get('/categories', [CategoryController::class, 'showAllCategories'])->name('categories.all');
 
 
 
