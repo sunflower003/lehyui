@@ -10,7 +10,6 @@ use App\Http\Controllers\AdminControllers\AdminPostControllers;
 use App\Http\Controllers\AdminControllers\DashboardControllers;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -89,4 +88,6 @@ Route::prefix('admin')
         Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('destroy');
     });
     // Các nhóm route khác như categories, users,... bạn khai báo tương tự
+    Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
 });
+

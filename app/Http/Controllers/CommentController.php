@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
+
 use Illuminate\Http\Request;
+use App\Models\Comment;
+
 use Illuminate\Support\Facades\Auth;
+
 class CommentController extends Controller
 {
+    //
     public function store(Request $request)
     {
         $request->validate([
@@ -36,4 +40,9 @@ class CommentController extends Controller
         return back()->with('success', 'Deleted comment.');
     }
 
+     public function index()
+    {
+        $comments = Comment::latest()->paginate(10);
+        return view('admin_dashboard.comments.index', compact('comments'));
+    }
 }
