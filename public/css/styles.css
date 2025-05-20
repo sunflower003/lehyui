@@ -1800,34 +1800,13 @@ donate-form h2 {
   transition: .3s;
 }
 
-.all_categories_menu li:hover {
-  color: var(--grey);
-}
 
-.all_categories_menu li.all_categories_has-submenu > span::after {
-  content: ">";
-  float: right;
-  color: #aaa;
-}
 
-.all_categories_menu.all_categories_level-2,
-.all_categories_menu.all_categories_level-3 {
-  position: absolute;
-  top: 0;
-  left: 100%;
-  display: none;
-  z-index: 1000;
-}
-
-.all_categories_menu li.all_categories_has-submenu:hover > .all_categories_menu {
-  display: block;
-}
 
 
 .image_header {
     position: relative;
     overflow: hidden;
-    border-radius: 12px;
 }
 
 .image_header img {
@@ -1835,5 +1814,16 @@ donate-form h2 {
     height: auto;
     display: block;
     object-fit: cover;
-    filter: brightness(0.7); /* Làm tối ảnh nhẹ */
+    filter: brightness(0.6); /* Làm tối ảnh nhẹ */
+}
+
+
+.all_categories_link {
+    color: var(--black);
+    font-weight: 500;
+    transition: .3s;
+}
+
+.all_categories_link:hover {
+    color: var(--grey);
 }

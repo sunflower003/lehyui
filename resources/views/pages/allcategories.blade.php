@@ -12,7 +12,7 @@
         <ul class="all_categories_menu">
             @foreach($categories as $category)
                 <li class="all_categories_item">
-                    <a href="{{ route('category.posts', $category->id) }}" style="color: var(--black); font-weight: 500;">{{ $category->name }}</a>
+                    <a href="{{ route('category.posts', $category->id) }}" class="all_categories_link">{{ $category->name }}</a>
                     <span>- {{ $category->posts_count }} posts</span>
                 </li>
             @endforeach
