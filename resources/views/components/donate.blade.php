@@ -4,19 +4,20 @@
 <!-- Form Donate -->
 <div class="donate-form" id="donateForm">
     <div class="donate-header">
-        <span>Support Us</span>
+        <span>Ủng hộ chúng tôi</span>
         <button id="closeDonate">&times;</button>
     </div>
-    <p>Your support helps us grow and keep building awesome things!</p>
 
-    <div class="qr-container">
-        <img src="{{ asset('img/qr.jpg') }}" alt="Donate QR Code" />
-        <p>Scan this QR code to donate</p>
-    </div>
+    <p style="margin-bottom: 1rem;">
+        Nếu bạn yêu thích chúng tôi, hãy đóng góp để website ngày càng phát triển với nhiều tính năng mới và cập nhật tin tức nóng hổi liên tục!
+    </p>
 
-    <div class="donate-info">
-        <p><strong>Bank:</strong> MB Bank</p>
-        <p><strong>Account:</strong> 67850060092003</p>
-        <p><strong>Holder:</strong> Nguyen Le Huy</p>
-    </div>
+    <form method="POST" action="{{ route('donate.redirect') }}">
+        @csrf
+        <div class="profile_form-group">
+            <label class="profile_label">Số tiền ủng hộ (VNĐ)</label>
+            <input type="number" name="amount" min="1000" placeholder="Nhập số tiền (VND)" required class="donate-input">
+        </div>
+        <button type="submit" class="profile_button profile_save" style="margin-top: 1rem;">Donate</button>
+    </form>
 </div>

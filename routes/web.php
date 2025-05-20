@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DonateController;
 use App\Http\Controllers\AdminControllers\AdminPostControllers;
 use App\Http\Controllers\AdminControllers\DashboardControllers;
 
@@ -17,6 +18,9 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::post('/donate/pay', [DonateController::class, 'redirectToNode'])->name('donate.redirect');
+Route::get('/donate/return', [DonateController::class, 'handleReturn'])->name('donate.callback');
 
 Route::get('/category/{id}', [PostController::class, 'byCategory'])->name('category.posts');
 
