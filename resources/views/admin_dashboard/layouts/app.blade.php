@@ -130,7 +130,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="content-area" id="content-area">
+        <div class="content-area w-full" id="content-area">
             <!-- Header -->
             <div class="header flex items-center justify-between px-4">
                 <div class="flex items-center">
@@ -143,8 +143,8 @@
             </div>
 
             <!-- Main Content -->
-            <main class="p-4 flex justify-center">
-                <div class="w-full max-w-4xl">
+            <main class="p-4 w-full">
+                <div class="">
                     @if(Session::has('success'))
                         <div class="alert alert-success bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
                             {{ Session::get('success') }}
