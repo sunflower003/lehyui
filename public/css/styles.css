@@ -1607,3 +1607,37 @@ video {
     color: var(--black);
     gap: 1rem;
 }
+
+.custom-toast {
+  position: fixed;
+  top: 30px;
+  right: 30px;      /* đổi từ left sang right */
+  left: unset;      /* bỏ left nếu có */
+  min-width: 260px;
+  max-width: 340px;
+  padding: 18px 24px;
+  border-radius: 16px;
+  background: rgba(51, 51, 51, 0.97);
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 500;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.18);
+  opacity: 0;
+  transform: translateX(60px); /* đổi dấu để slide từ phải vào */
+  pointer-events: none;
+  z-index: 2000;
+  transition: opacity 0.4s cubic-bezier(.68,-0.55,.27,1.55), transform 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+}
+.custom-toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.custom-toast.error {
+  background: #ff5252;
+  color: #fff;
+}
+.custom-toast.success {
+  background: rgba(51, 51, 51, 0.97);
+  color: #fff;
+}

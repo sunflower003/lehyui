@@ -15,12 +15,6 @@
     <div class="login_form-container">
       <h2 class="login_title">Sign in to LehyUI</h2>
 
-      @if (session('success'))
-        <div style="color: green; margin-bottom: 10px;">
-          {{ session('success') }}
-        </div>
-      @endif
-
       <form method="POST" action="{{ route('login') }}">
         @csrf
 
@@ -36,12 +30,6 @@
 
         <button class="login_button" type="submit">Sign In</button>
       </form>
-
-      @if ($errors->any())
-        <div style="color: red; margin-top: 10px;">
-          {{ $errors->first() }}
-        </div>
-      @endif
 
       <div class="login_signup">
         Don't have an account?

@@ -20,14 +20,15 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('home'); 
+            // Gửi session cho toast
+            return redirect()->route('home')->with('login_success', 'Đăng nhập thành công!');
         }
 
+        // Gửi error cho toast
         return back()->withErrors([
             'invalid' => 'Thông tin không chính xác',
         ]);
     }
-
 
     public function showRegisterForm() {
         $user = auth()->user();
@@ -50,9 +51,9 @@ class AuthController extends Controller
             'avatar' => 'img/avatar_default.jpg', // đường dẫn avatar mặc định
         ]);
 
-        return redirect('/login')->with('success', 'Đăng ký thành công');
+        // Gửi session cho toast
+        return redirect('/login')->with('success', 'Đăng ký thành công! Hãy đăng nhập nhé.');
     }
-
 
     public function logout(Request $request)
     {

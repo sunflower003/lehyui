@@ -15,12 +15,6 @@
     <div class="register_form-container">
       <h2 class="register_title">Sign up to LehyUI</h2>
 
-      @if ($errors->any())
-        <div style="color: red; margin-bottom: 10px;">
-          {{ $errors->first() }}
-        </div>
-      @endif
-
       <form method="POST" action="{{ route('register') }}">
         @csrf
 
