@@ -144,4 +144,55 @@ class UserController extends Controller
 
         return redirect()->route('home')->with('success', 'Tài khoản của bạn đã bị xoá.');
     }
+
+    public function adminIndex(Request $request)
+    {
+        $query = User::query();
+
+        // Tìm kiếm theo tên
+        if ($request->filled('search')) {
+            $query->where('username', 'like', '%' . $request->search . '%');
+        }
+
+        // Lọc giới tính
+        if ($request->filled('sex') && in_array($request->sex, ['male', 'female'])) {
+            $query->where('sex', $request->sex);
+        }
+
+        $users = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        
+
+        return view('admin_dashboard.users.index', compact('users'));
+    }
+
+    public function adminEdit(User $user)
+    {
+        return view('admin_dashboard.users.edit', compact('user'));
+    }
+
+    public function adminUpdate(Request $request, User $user)
+    {
+        $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'sex' => 'required|in:male,female',
+            'role' => 'required|in:admin,user',
+        ]);
+        $user->username = $request->username;
+        $user->sex = $request->sex;
+        $user->role = $request->role;
+        $user->save();
+
+        return redirect()->route('admin.users.index')->with('success', 'Cập nhật người dùng thành công!');
+    }
+
+    public function adminDestroy(User $user)
+    {
+        if (auth()->id() == $user->id) {
+            return back()->with('error', 'Bạn không thể xóa chính mình!');
+        }
+        $user->delete();
+        return back()->with('success', 'Đã xóa người dùng!');
+    }
+
 }

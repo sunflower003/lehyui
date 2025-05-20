@@ -14,14 +14,12 @@
             --sidebar-width: 250px;
             --header-height: 60px;
         }
-        
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
             margin: 0;
             padding: 0;
         }
-        
         .sidebar {
             width: var(--sidebar-width);
             height: 100vh;
@@ -34,21 +32,20 @@
             z-index: 1000;
             overflow-y: auto;
         }
-        
         .sidebar-collapsed {
             left: calc(-1 * var(--sidebar-width) + 60px);
         }
-        
         .content-area {
             margin-left: var(--sidebar-width);
             transition: all 0.3s;
             min-height: 100vh;
+            background: #f3f4f6;
+            display: flex;
+            flex-direction: column;
         }
-        
         .content-expanded {
             margin-left: 60px;
         }
-        
         .header {
             height: var(--header-height);
             background-color: white;
@@ -57,7 +54,6 @@
             top: 0;
             z-index: 100;
         }
-        
         .nav-link {
             display: flex;
             align-items: center;
@@ -68,23 +64,19 @@
             border-radius: 6px;
             margin: 4px 8px;
         }
-        
         .nav-link:hover {
             background-color: #334155;
             color: white;
         }
-        
         .nav-link.active {
             background-color: var(--primary-color);
             color: white;
         }
-        
         .nav-link i {
             margin-right: 12px;
             width: 20px;
             text-align: center;
         }
-        
         .card-stats {
             background: white;
             border-radius: 8px;
@@ -92,36 +84,29 @@
             padding: 20px;
             transition: all 0.3s;
         }
-        
         .card-stats:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
         }
-        
         .btn-primary:hover {
             background-color: var(--primary-hover);
             border-color: var(--primary-hover);
         }
-        
         .alert {
             border-radius: 8px;
             margin-bottom: 20px;
         }
-        
         @media (max-width: 768px) {
             .sidebar {
                 left: calc(-1 * var(--sidebar-width));
             }
-            
             .sidebar.mobile-open {
                 left: 0;
             }
-            
             .content-area {
                 margin-left: 0;
             }
@@ -148,7 +133,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="content-area" id="content-area">
+        <div class="content-area w-full" id="content-area">
             <!-- Header -->
             <div class="header flex items-center justify-between px-4">
                 <div class="flex items-center">
@@ -157,12 +142,11 @@
                     </button>
                     <h2 class="text-gray-700 font-medium">@yield('page-title', 'Dashboard')</h2>
                 </div>
-                
                 @include("admin_dashboard.layouts.header")
             </div>
 
             <!-- Main Content -->
-            <main class="p-4">
+            <main class="flex-1 px-8 py-6" style="width:100%;">
                 @if(Session::has('success'))
                     <div class="alert alert-success bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
                         {{ Session::get('success') }}
@@ -218,7 +202,6 @@
             });
         });
     </script>
-
     @yield("script")
 </body>
 </html>
