@@ -89,4 +89,27 @@ document.addEventListener("DOMContentLoaded", function () {
       if (tab) tab.style.display = "block";
     });
   });
+
+
+
+  //choose donate amount
+  const buttons = document.querySelectorAll('.amount-options button');
+    const amountInput = document.querySelector('input[name="amount"]');
+    const usdToVndRate = 26500;
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Bỏ class active khỏi tất cả nút
+            buttons.forEach(btn => btn.classList.remove('active'));
+            // Gán class active cho nút được bấm
+            button.classList.add('active');
+
+            // Lấy số tiền USD từ nội dung nút, ví dụ "$5" → 5
+            const usd = parseFloat(button.innerText.replace('$', ''));
+            const vnd = usd * usdToVndRate;
+
+            // Gán vào input
+            amountInput.value = vnd;
+        });
+    });
 });
