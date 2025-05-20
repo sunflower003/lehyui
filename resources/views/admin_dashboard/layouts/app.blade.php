@@ -133,7 +133,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="content-area" id="content-area">
+        <div class="content-area w-full" id="content-area">
             <!-- Header -->
             <div class="header flex items-center justify-between px-4">
                 <div class="flex items-center">
