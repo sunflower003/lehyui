@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
@@ -76,4 +76,18 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.categories.index')->with('success', 'Xoá danh mục thành công.');
     }
+    public function showAllCategories()
+    {
+        $categories = Category::withCount('posts')
+                      ->orderBy('created_at', 'asc') // sắp xếp theo thứ tự cũ -> mới
+                      ->get();
+
+        $user = auth()->check() ? auth()->user() : null;
+
+        return view('pages.allcategories', [
+            'categories' => $categories,
+            'user' => $user,
+        ]);
+    }
+
 }

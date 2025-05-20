@@ -3,7 +3,7 @@
 @section('page-title', 'Chỉnh sửa người dùng')
 
 @section('wrapper')
-<div class="flex justify-center items-center min-h-[70vh]">
+<div class="flex justify-center items-center min-h-[60vh]">
     <div class="bg-white rounded-xl shadow-lg px-8 py-8 w-full max-w-md">
         <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Sửa thông tin người dùng</h2>
         @if ($errors->any())
@@ -15,13 +15,13 @@
         @endif
         <form method="POST" action="{{ route('admin.users.update', $user) }}">
             @csrf @method('PUT')
-            <div class="mb-5">
+            <div class="mb-3">
                 <label class="block text-gray-700 font-medium mb-2">Username</label>
                 <input type="text" name="username"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                     value="{{ $user->username }}" required>
             </div>
-            <div class="mb-5">
+            <div class="mb-3">
                 <label class="block text-gray-700 font-medium mb-2">Giới tính</label>
                 <select name="sex"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
@@ -30,7 +30,7 @@
                     <option value="female" {{ $user->sex === 'female' ? 'selected' : '' }}>Nữ</option>
                 </select>
             </div>
-            <div class="mb-8">
+            <div class="mb-5">
                 <label class="block text-gray-700 font-medium mb-2">Quyền</label>
                 <select name="role"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"

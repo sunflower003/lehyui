@@ -49,7 +49,7 @@
                 </div>
                 
                 <div class="mb-4">
-                    <label for="thumbnail" class="block text-sm font-medium text-gray-700 mb-1">Ảnh đại diện</label>
+                    <label for="thumbnail" class="block text-sm font-medium text-gray-700 mb-1">Thumbnail</label>
                     <div class="flex flex-col space-y-2">
                         <div class="flex items-center">
                             <input type="file" id="thumbnail" name="thumbnail" 

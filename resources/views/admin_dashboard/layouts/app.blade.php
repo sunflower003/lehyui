@@ -39,6 +39,9 @@
             margin-left: var(--sidebar-width);
             transition: all 0.3s;
             min-height: 100vh;
+            background: #f3f4f6;
+            display: flex;
+            flex-direction: column;
         }
         .content-expanded {
             margin-left: 60px;
@@ -143,22 +146,20 @@
             </div>
 
             <!-- Main Content -->
-            <main class="p-4 w-full">
-                <div class="">
-                    @if(Session::has('success'))
-                        <div class="alert alert-success bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
-                            {{ Session::get('success') }}
-                        </div>
-                    @endif
+            <main class="flex-1 px-8 py-6" style="width:100%;">
+                @if(Session::has('success'))
+                    <div class="alert alert-success bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
 
-                    @if(Session::has('error'))
-                        <div class="alert alert-danger bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
-                            {{ Session::get('error') }}
-                        </div>
-                    @endif
+                @if(Session::has('error'))
+                    <div class="alert alert-danger bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+                        {{ Session::get('error') }}
+                    </div>
+                @endif
 
-                    @yield("wrapper")
-                </div>
+                @yield("wrapper")
             </main>
 
             <!-- Footer -->

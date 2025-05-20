@@ -28,6 +28,10 @@ class User extends Authenticatable
             : asset('img/avatar_default.jpg');
     }
 
+    public function comments() {
+        return $this->hasMany(Comment::class);
+    }
+
 }
 
 

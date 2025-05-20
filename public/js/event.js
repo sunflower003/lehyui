@@ -89,4 +89,58 @@ document.addEventListener("DOMContentLoaded", function () {
       if (tab) tab.style.display = "block";
     });
   });
+
+
+
+  //choose donate amount
+  const buttons = document.querySelectorAll('.amount-options button');
+    const amountInput = document.querySelector('input[name="amount"]');
+    const usdToVndRate = 26500;
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Bỏ class active khỏi tất cả nút
+            buttons.forEach(btn => btn.classList.remove('active'));
+            // Gán class active cho nút được bấm
+            button.classList.add('active');
+
+            // Lấy số tiền USD từ nội dung nút, ví dụ "$5" → 5
+            const usd = parseFloat(button.innerText.replace('$', ''));
+            const vnd = usd * usdToVndRate;
+
+            // Gán vào input
+            amountInput.value = vnd;
+        });
+    });
+
+
+
+
+
+   
+    const toggles = document.querySelectorAll('.comment_menu_toggle');
+
+    toggles.forEach(toggle => {
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const menuId = this.getAttribute('data-id');
+            const menu = document.getElementById(menuId);
+
+            // Ẩn tất cả menu khác
+            document.querySelectorAll('.comment_menu').forEach(m => {
+                if (m.id !== menuId) m.classList.add('hidden');
+            });
+
+            // Toggle menu hiện tại
+            if (menu) menu.classList.toggle('hidden');
+        });
+    });
+
+    // Ẩn khi click ngoài
+    document.addEventListener('click', function () {
+        document.querySelectorAll('.comment_menu').forEach(m => m.classList.add('hidden'));
+    });
+
+
+
 });

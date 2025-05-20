@@ -39,11 +39,18 @@ Route::delete('/profile/delete', [UserController::class, 'deleteAccount'])->name
 
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
-
+Route::get('/categories', [CategoryController::class, 'showAllCategories'])->name('categories.all');
 
 
 
 Route::get('/post/{id}', [PostController::class, 'show'])->name('post.show');
+
+Route::middleware('auth')->post('/comments', [CommentController::class, 'store'])->name('comments.store');
+
+
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+
 
 
 Route::prefix('admin')

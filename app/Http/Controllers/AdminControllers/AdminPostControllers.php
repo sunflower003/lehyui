@@ -33,17 +33,17 @@ class AdminPostControllers extends Controller
             $query->orderBy('title', 'asc');
         }
 
-        $posts = $query->paginate(10);
+        $posts = $query->paginate(5)->appends($request->query());
         $categories = Category::all();
         //$posts = Post::latest()->get();
         return view('admin_dashboard.posts.index', compact('posts', 'categories'));
     }
 
     public function create()
-{
-    $categories = Category::all();
-    return view('admin_dashboard.posts.create', compact('categories'));
-}
+    {
+        $categories = Category::all();
+        return view('admin_dashboard.posts.create', compact('categories'));
+    }
 
     public function store(Request $request)
     {

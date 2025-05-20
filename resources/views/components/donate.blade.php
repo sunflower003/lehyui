@@ -3,21 +3,40 @@
 
 <!-- Form Donate -->
 <div class="donate-form" id="donateForm">
-    <div class="donate-header">
-        <span>Ủng hộ chúng tôi</span>
-        <button id="closeDonate">&times;</button>
-    </div>
-
-    <p style="margin-bottom: 1rem;">
-        Nếu bạn yêu thích chúng tôi, hãy đóng góp để website ngày càng phát triển với nhiều tính năng mới và cập nhật tin tức nóng hổi liên tục!
-    </p>
-
-    <form method="POST" action="{{ route('donate.redirect') }}">
-        @csrf
-        <div class="profile_form-group">
-            <label class="profile_label">Số tiền ủng hộ (VNĐ)</label>
-            <input type="number" name="amount" min="1000" placeholder="Nhập số tiền (VND)" required class="donate-input">
+        <div class="donate-header">
+            <div class=""></div>
+            <button id="closeDonate">&times;</button>
         </div>
-        <button type="submit" class="profile_button profile_save" style="margin-top: 1rem;">Donate</button>
-    </form>
-</div>
+        <h1 class="donate-title">Thank you for your support!</h1>
+        <p class="donate-description donate-text">
+            If you'd like to help create similar memories for others in our community, please consider donating so we can continue to fulfill our mission.
+        </p>
+
+            <h2>Select amount</h2>
+            <div class="amount-options">
+                <button type="button" class="active">$0.5</button>
+                <button type="button">$1</button>
+                <button type="button">$5</button>
+                <button type="button">$10</button>
+                <button type="button">$20</button>
+            </div>
+
+
+            <form method="POST" action="{{ route('donate.redirect') }}" class="donate-form_main">
+                @csrf
+                <label class="label_donate">Your Donation Amount</label>
+              
+                <input type="number" placeholder="Donation amount" name="amount" required readonly>
+                <span class="currency">VND</span>
+
+                <a href="#" class="honor-link">Give in honor to another person</a>
+
+                <button type="submit" class="donate-btn">Donate now</button>
+            </form>
+
+
+            <p class="terms-text terms">
+            By donating, you agree to our <a href="#">terms of service</a> and <a href="#">privacy policy</a>.
+            </p>
+        
+    </div>

@@ -13,7 +13,7 @@
             @endforeach
 
 
-            <li><a href="{{ url('/categories') }}" class="link">All Categories</a></li>
+            <li><a href="{{ route('categories.all') }}" class="link">All Categories</a></li>
         </ul>
 
 
@@ -33,8 +33,9 @@
                     </div>
                     @if(Auth::check() && Auth::user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}" class="dropdown_link">Admin Dashboard</a>
+                        <hr />
                     @endif
-                    <hr />
+                    
                     <a href="{{ route('profile.settings') }}" class="dropdown_link">Settings</a>
                     <hr />
                     <form method="POST" action="{{ route('logout') }}">
