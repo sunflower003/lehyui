@@ -143,8 +143,12 @@
                     </tbody>
                 </table>
             </div>
+            <div class="p-4">
+                {{ $posts->onEachSide(1)->links('pagination::tailwind') }}
+            </div>
+
             
-            <!-- Pagination -->
+            <!-- Pagination 
             <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
                 <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                     <div>
@@ -177,7 +181,7 @@
                         </nav>
                     </div>
                 </div>
-            </div>
+            </div> -->
         @else
             <div class="p-8 text-center">
                 <div class="inline-flex rounded-full bg-yellow-100 p-4 mb-4">
