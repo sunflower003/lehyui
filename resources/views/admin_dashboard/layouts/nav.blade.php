@@ -47,5 +47,10 @@
                 <span>Cài đặt</span>
             </a>
         </li>
+        <li>
+            <a href="{{ route('home') }}" class="nav-link">
+                <span>LehyUI - Blog</span>
+            </a>
+        </li>
     </ul>
 </nav>
