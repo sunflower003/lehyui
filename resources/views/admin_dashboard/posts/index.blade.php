@@ -33,33 +33,51 @@
     @endif
 
     <!-- Search and Filter -->
-    <div class="bg-white p-4 rounded-lg shadow mb-6">
-        <div class="flex flex-col md:flex-row gap-4">
-            <div class="flex-grow">
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <i class="fas fa-search text-gray-400"></i>
-                    </div>
-                    <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-2.5" placeholder="Tìm kiếm bài viết...">
+    <form method="GET" action="{{ route('admin.posts.index') }}" class="bg-white p-4 rounded-lg shadow mb-6">
+    <div class="flex flex-col md:flex-row gap-4 items-start md:items-end">
+        {{-- Tìm kiếm --}}
+        <div class="flex-grow w-full">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
                 </div>
-            </div>
-            <div class="flex gap-4">
-                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5">
-                    <option selected>Tất cả danh mục</option>
-                    <option value="1">Lập trình</option>
-                    <option value="2">Web</option>
-                    <option value="3">Mobile</option>
-                </select>
-                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5">
-                    <option selected>Sắp xếp theo</option>
-                    <option value="newest">Mới nhất</option>
-                    <option value="oldest">Cũ nhất</option>
-                    <option value="title">Tiêu đề (A-Z)</option>
-                </select>
+                <input type="text" name="search" value="{{ request('search') }}" 
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-2.5" 
+                    placeholder="Tìm kiếm bài viết...">
             </div>
         </div>
-    </div>
 
+        {{-- Bộ lọc --}}
+        <div class="flex gap-3 w-full md:w-auto">
+            {{-- Lọc theo danh mục --}}
+            <select name="category_id" 
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5">
+                <option value="">Tất cả danh mục</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+
+            {{-- Sắp xếp --}}
+            <select name="sort" 
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5">
+                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
+                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
+                <option value="title" {{ request('sort') == 'title' ? 'selected' : '' }}>Tiêu đề (A-Z)</option>
+            </select>
+
+            {{-- Nút lọc --}}
+            <button type="submit" 
+                class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg">
+                Lọc
+            </button>
+        </div>
+    </div>
+</form>
+
+    
     <!-- Posts Table -->
     <div class="bg-white rounded-lg shadow overflow-hidden">
         @if($posts->count() > 0)
@@ -167,11 +185,19 @@
                         <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
                     </div>
                 </div>
-                <h3 class="text-lg font-medium text-gray-900 mb-2">Chưa có bài viết nào</h3>
-                <p class="text-gray-500 mb-6">Bạn chưa có bài viết nào. Hãy tạo bài viết đầu tiên của bạn.</p>
-                <a href="{{ route('admin.posts.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md transition-colors">
-                    <i class="fas fa-plus mr-2"></i> Thêm bài viết
-                </a>
+                @if(request()->hasAny(['search', 'category_id', 'sort']))
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Không tìm thấy kết quả</h3>
+                    <p class="text-gray-500 mb-6">Không có bài viết nào khớp với tiêu chí tìm kiếm hoặc bộ lọc của bạn.</p>
+                    <a href="{{ route('admin.posts.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-md transition-colors">
+                        <i class="fas fa-undo mr-2"></i> Đặt lại bộ lọc
+                    </a>
+                @else
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Chưa có bài viết nào</h3>
+                    <p class="text-gray-500 mb-6">Bạn chưa có bài viết nào. Hãy tạo bài viết đầu tiên của bạn.</p>
+                    <a href="{{ route('admin.posts.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md transition-colors">
+                        <i class="fas fa-plus mr-2"></i> Thêm bài viết
+                    </a>
+                @endif
             </div>
         @endif
     </div>

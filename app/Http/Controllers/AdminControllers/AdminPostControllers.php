@@ -9,10 +9,34 @@ use App\Models\Category;
 
 class AdminPostControllers extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::latest()->get();
-        return view('admin_dashboard.posts.index', compact('posts'));
+        $query = Post::query()->with('category', 'user');
+
+        // Tìm kiếm theo tiêu đề
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Lọc theo danh mục
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Sắp xếp theo thời gian
+        if ($request->sort == 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+        if ($request->sort == 'title') {
+            $query->orderBy('title', 'asc');
+        }
+
+        $posts = $query->paginate(10);
+        $categories = Category::all();
+        //$posts = Post::latest()->get();
+        return view('admin_dashboard.posts.index', compact('posts', 'categories'));
     }
 
     public function create()
