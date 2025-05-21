@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminControllers\AdminPostControllers;
 use App\Http\Controllers\AdminControllers\DashboardControllers;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use Illuminate\Support\Facades\Log;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -23,8 +24,17 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::post('/donate/pay', [DonateController::class, 'redirectToNode'])->name('donate.redirect');
 Route::get('/donate/return', [DonateController::class, 'handleReturn'])->name('donate.callback');
+Route::post('/donate/webhook', [DonateController::class, 'webhookPayOS'])->name('donate.webhook');
+Route::post('/testwebhook', function(\Illuminate\Http\Request $req) {
+    Log::info('Test webhook ok', $req->all());
+    return response()->json(['ok' => true]);
+});
+
+
 
 Route::get('/category/{id}', [PostController::class, 'byCategory'])->name('category.posts');
+
+Route::middleware(['auth'])->get('/profile/settings', [UserController::class, 'settings'])->name('profile.settings');
 
 // Trang settings
 Route::get('/profile/settings', [UserController::class, 'settings'])->name('profile.settings');
@@ -44,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
+ 
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/categories', [CategoryController::class, 'showAllCategories'])->name('categories.all');
@@ -58,7 +69,10 @@ Route::middleware('auth')->post('/comments', [CommentController::class, 'store']
 
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
-
+Route::post('/testlog', function (\Illuminate\Http\Request $request) {
+    Log::info('TestLog:', $request->all());
+    return ['ok' => true];
+});
 
 
 
@@ -71,6 +85,8 @@ Route::prefix('admin')
     Route::get('/', [DashboardControllers::class, 'index'])->name('dashboard');
     Route::get('/chart/comments', [\App\Http\Controllers\AdminControllers\DashboardControllers::class, 'getCommentChartData']);
 
+
+    Route::get('/donations', [DonateController::class, 'adminIndex'])->name('donations.index');
 
     // Bài viết
     Route::prefix('posts')->name('posts.')->group(function () {
@@ -98,6 +114,7 @@ Route::prefix('admin')
         Route::post('/update/{id}', [CategoryController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('destroy');
     });
+
     // Các nhóm route khác như categories, users,... bạn khai báo tương tự
     Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
     Route::delete('/comments/delete/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');

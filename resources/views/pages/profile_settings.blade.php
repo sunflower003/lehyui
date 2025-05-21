@@ -8,20 +8,14 @@
 @include('components.header')
 
 <main>
-  <section class="container profile_wrapper" data-active-tab="{{ session('active_tab', 'profile_general') }}">
+  <section class="container profile_wrapper" data-active-tab="{{ $active_tab ?? session('active_tab', 'profile_general') }}">
     <div class="profile_sidebar">
       <ul class="profile_menu">
         <li class="profile_menu-item active">General</li>
         <li class="profile_menu-item">Edit Profile</li>
         <li class="profile_menu-item">Password</li>
-        <li class="profile_menu-item">Social Profiles</li>
-        <li class="profile_menu-item">Company</li>
         <li class="profile_menu-item">Payouts</li>
         <li class="profile_menu-item">Email Notifications</li>
-        <li class="profile_menu-item">Billing</li>
-        <li class="profile_menu-item">Sessions</li>
-        <li class="profile_menu-item">Applications</li>
-        <li class="profile_menu-item">Data Export</li>
       </ul>
     </div>
 
@@ -38,6 +32,10 @@
         <div class="profile_form-group">
           <label class="profile_label">Username</label>
           <input type="text" class="profile_input" value="{{$user->username}}" readonly />
+
+          <label class="profile_label">Email</label>
+          <input type="text" class="profile_input" value="{{$user->email}}" readonly />
+
           <label class="profile_label">Sex</label>
           <p class="profile_note">{{$user->sex}}</p>
         </div>
@@ -118,6 +116,9 @@
         <div class="profile_form-group">
           <label class="profile_label">Username</label>
           <input type="text" name="username" class="profile_input" value="{{ $user->username }}" />
+        
+          <label class="profile_label">Email</label>
+          <input type="email" name="email" class="profile_input" value="{{ $user->email }}" />
         </div>
 
         <button type="submit" class="profile_button profile_save">Save Profile</button>
@@ -164,8 +165,104 @@
             <button type="submit" class="profile_button profile_save">Change Password</button>
         </form>
     </div>
-    </section>
 
+    <!-- Payouts Tab -->
+    <div class="profile_tab-content" id="profile_payouts" style="display: none;">
+      <h2 class="profile_title">{{ $user->username }} / <span>Payouts</span></h2>
+      <p class="profile_description">Lịch sử giao dịch donate của bạn</p>
+      <table class="table-donate-history">
+          <thead>
+          <tr>
+            <th>Số tiền</th>
+            <th>Thời gian</th>
+            <th>Mô tả</th>
+            <th>Số tài khoản</th>
+            <th>Ngân hàng</th>
+            <th>Mã giao dịch</th>
+            <th>Trạng thái</th>
+          </tr>
+          </thead>
+          <tbody>
+              @forelse($donations as $d)
+                <tr>
+                  <td data-label="Số tiền">{{ number_format($d->amount) }} {{ $d->currency }}</td>
+                  <td data-label="Thời gian">{{ $d->created_at->format('d-m-Y H:i:s') }}</td>
+                  <td data-label="Mô tả">{{ $d->description }}</td>
+                  <td data-label="Số tài khoản">0929561600</td>
+                  <td data-label="Ngân hàng">
+                      <span style="display: inline-flex; align-items: center;">
+                        <img src="{{ asset('img/mbbank-logo-5.png') }}" alt="MB" style="width:24px;height:24px;vertical-align:middle;margin-right:8px;border-radius:6px;box-shadow:0 2px 8px #eee;">
+                        <span style="font-weight: 600; color: #1e2262; margin-left: 2px;">MB</span>
+                      </span>
+                  </td>
+                  <td data-label="Mã giao dịch">{{ $d->order_code }}</td>
+                  <td data-label="Trạng thái">
+                      @if($d->status === 'success')
+                          <span class="donate-status-success">Đã thanh toán</span>
+                      @elseif($d->status === 'pending')
+                          <span class="donate-status-pending">Chờ thanh toán</span>
+                      @elseif($d->status === 'cancelled')
+                          <span class="donate-status-cancelled">Đã hủy</span>
+                      @else
+                          <span class="badge bg-secondary">{{ ucfirst($d->status) }}</span>
+                      @endif
+                  </td>
+                </tr>
+              @empty
+                <tr>
+                  <td colspan="7">Bạn chưa có giao dịch nào.</td>
+                </tr>
+              @endforelse
+        </tbody>
+      </table>
+      @if ($donations->hasPages())
+      <div class="pagination-wrapper" style="margin-top: 16px; display: flex; justify-content: center;">
+        {{ $donations->appends(['active_tab' => 'profile_payouts'])->links() }}
+      </div>
+      @endif
+    </div>
+
+<!-- Email Notifications Tab -->
+<div class="profile_tab-content" id="profile_email_notifications" style="display: none;">
+    <h2 class="profile_title">{{ $user->username }} / <span>Email Notifications</span></h2>
+    <p class="profile_description">Những thông báo mới nhất gửi tới email của bạn</p>
+    <ul class="email-notification-list">
+        @forelse($email_notifications as $noti)
+            <li class="email-notification-item {{ $noti->is_read ? '' : 'unread' }}">
+                <div class="noti-icon">
+                    @if($noti->type == 'new_post')
+                        <i class="fas fa-newspaper"></i>
+                    @elseif($noti->type == 'donate_thank')
+                        <i class="fas fa-gift"></i>
+                    @else
+                        <i class="fas fa-info-circle"></i>
+                    @endif
+                </div>
+                <div class="noti-content">
+                    @if($noti->type == 'new_post' && $noti->post_id)
+                        <a href="{{ route('posts.show', ['id' => $noti->post_id]) }}" class="noti-title" style="text-decoration: none; color: #252653;">
+                            {{ $noti->title }}
+                        </a>
+                    @else
+                        <div class="noti-title">{{ $noti->title }}</div>
+                    @endif
+                    <div class="noti-desc">{{ $noti->body }}</div>
+                    <div class="noti-time">{{ \Carbon\Carbon::parse($noti->created_at)->diffForHumans() }}</div>
+                </div>
+            </li>
+        @empty
+            <li class="email-notification-empty">Bạn chưa có thông báo nào!</li>
+        @endforelse
+    </ul>
+    @if ($email_notifications->hasPages())
+        <div class="pagination-wrapper" style="margin-top: 12px; display: flex; justify-content: center;">
+            {{ $email_notifications->appends(['active_tab' => 'profile_email_notifications'])->links() }}
+        </div>
+    @endif
+</div>
+
+
+  </section>
 </main>
 @include('components.footer')
 @endsection

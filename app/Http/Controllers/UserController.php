@@ -14,7 +14,7 @@ class UserController extends Controller
     /**
      * Hiển thị trang profile settings.
      */
-   public function settings()
+public function settings(Request $request)
 {
     $user = Auth::user();
     $user->avatar_path = ($user->avatar === 'avatar_default.jpg' || $user->avatar === null)
@@ -23,9 +23,29 @@ class UserController extends Controller
 
     $headerCategories = \App\Models\Category::orderBy('created_at')->limit(5)->get();
 
-    return view('pages.profile_settings', compact('user', 'headerCategories'));
-}
+    $donations = \App\Models\Donation::where('user_id', $user->id)
+        ->orWhere('email', $user->email)
+        ->orderByDesc('created_at')
+        ->paginate(10);
 
+    // Email notifications có phân trang (8/cột)
+    $email_notifications = \App\Models\EmailNotification::where('user_id', $user->id)
+        ->orderByDesc('created_at')
+        ->paginate(5);
+
+    $unreadMailCount = \App\Models\EmailNotification::where('user_id', $user->id)
+        ->where('is_read', 0)
+        ->count();
+
+    return view('pages.profile_settings', [
+        'user' => $user,
+        'headerCategories' => $headerCategories,
+        'donations' => $donations,
+        'email_notifications' => $email_notifications,
+        'unreadMailCount' => $unreadMailCount,
+        'active_tab' => request('active_tab', session('active_tab', 'profile_general')),
+    ]);
+}
 
     /**
      * Cập nhật username (nếu đang dùng tab General).
@@ -58,9 +78,11 @@ class UserController extends Controller
         $request->validate([
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
         ]);
 
         $user->username = $request->username;
+        $user->email = $request->email;
 
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
@@ -159,7 +181,8 @@ class UserController extends Controller
             $query->where('sex', $request->sex);
         }
 
-        $users = $query->orderBy('created_at', 'desc')->paginate(5)->appends($request->query());
+        $users = $query->orderBy('created_at', 'desc')->paginate(10);
+
         return view('admin_dashboard.users.index', compact('users'));
     }
 
@@ -172,16 +195,19 @@ class UserController extends Controller
     {
         $request->validate([
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
-            'sex' => 'required|in:male,female',
-            'role' => 'required|in:admin,user',
+            'email'    => 'required|email|max:255|unique:users,email,' . $user->id, // thêm dòng này!
+            'sex'      => 'required|in:male,female',
+            'role'     => 'required|in:admin,user',
         ]);
         $user->username = $request->username;
-        $user->sex = $request->sex;
-        $user->role = $request->role;
+        $user->email    = $request->email; // thêm dòng này!
+        $user->sex      = $request->sex;
+        $user->role     = $request->role;
         $user->save();
 
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
+
 
     public function adminDestroy(User $user)
     {

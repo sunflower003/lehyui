@@ -1731,12 +1731,12 @@ donate-form h2 {
     margin-bottom: 20px;
 }
 
-
+/* Thong bao goc man hinh */ 
 .custom-toast {
   position: fixed;
   top: 30px;
-  left: 30px;      /* đổi từ left sang right */
-  right: unset;      /* bỏ left nếu có */
+  right: 30px;
+  left: unset;
   min-width: 260px;
   max-width: 340px;
   padding: 18px 24px;
@@ -1747,7 +1747,7 @@ donate-form h2 {
   font-weight: 500;
   box-shadow: 0 6px 28px rgba(0,0,0,0.18);
   opacity: 0;
-  transform: translateX(60px); /* đổi dấu để slide từ phải vào */
+  transform: translateX(60px);
   pointer-events: none;
   z-index: 2000;
   transition: opacity 0.4s cubic-bezier(.68,-0.55,.27,1.55), transform 0.4s cubic-bezier(.68,-0.55,.27,1.55);
@@ -1756,7 +1756,21 @@ donate-form h2 {
   opacity: 1;
   transform: translateX(0);
 }
-
+.custom-toast a {
+    color: #ffe670;
+    font-weight: 600;
+    text-decoration: underline;
+    margin-left: 6px;
+    transition: color .2s;
+}
+.custom-toast a:hover {
+    color: #fff56a;
+}
+.custom-toast i {
+    margin-right: 9px;
+    font-size: 1.2em;
+    vertical-align: -2px;
+}
 .custom-toast.error {
   background: #ff5252;
   color: #fff;
@@ -1765,16 +1779,6 @@ donate-form h2 {
   background: rgba(51, 51, 51, 0.97);
   color: #fff;
 }
-
-.number_page_pagination {
-    transition: .3s;
-    color: var(--black);
-}
-
-.number_page_pagination:hover {
-    color: var(--grey);
-}
-
 
 /* All Categories Page */
 
@@ -1913,48 +1917,259 @@ donate-form h2 {
         display: none;
 }
 
-
-.edit-comment-form textarea {
-    height: 80px;
+/* Donate History Table - LehyUI */
+.table-donate-history {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px 0 rgba(60,72,88,.08);
+    margin-top: 20px;
 }
-
-.btn_comment_submit, .btn_comment_cancel {
-    border: none;
-    outline: none;
-    padding: 5px 15px;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
+.table-donate-history thead tr {
+    background: #f6f7fb;
 }
-
-
-.btn_comment_cancel {
+.table-donate-history th, .table-donate-history td {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 15px;
+}
+.table-donate-history th {
     font-weight: 600;
-    background-color: var(--grey2);
+    color: #313144;
+    border-bottom: 2px solid #ececec;
+}
+.table-donate-history td {
+    color: #44485e;
+    border-bottom: 1px solid #ececec;
+}
+.table-donate-history tr:last-child td {
+    border-bottom: none;
+}
+.donate-status-success {
+    background: #23c68618;
+    color: #2cc07b;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 3px 12px;
+    display: inline-block;
+}
+.donate-status-pending {
+    background: #247bdb14;
+    color: #247bdb;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 3px 12px;
+    display: inline-block;
+}
+.donate-status-cancelled {
+    background: #ef4d5214;
+    color: #ef4d52;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 3px 12px;
+    display: inline-block;
+}
+/* Responsive - Mobile friendly */
+@media (max-width: 700px) {
+    .table-donate-history, .table-donate-history thead, .table-donate-history tbody, .table-donate-history th, .table-donate-history td, .table-donate-history tr {
+        display: block;
+    }
+    .table-donate-history thead {
+        display: none;
+    }
+    .table-donate-history tr {
+        margin-bottom: 18px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px 0 rgba(60,72,88,.08);
+        background: #fff;
+        overflow: hidden;
+        padding: 10px 0;
+    }
+    .table-donate-history td {
+        border: none;
+        padding: 10px 15px;
+        position: relative;
+    }
+    .table-donate-history td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        top: 10px;
+        font-weight: 600;
+        color: #888;
+        font-size: 13px;
+    }
 }
 
-.save_cancel {
+/* ===== Phân trang Donate Profile - Đẹp hơn ===== */
+.pagination-wrapper {
     display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination {
+    display: flex;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+.pagination li {
+    list-style: none;
+}
+
+.pagination .page-link,
+.pagination span[aria-current] {
+    display: block;
+    padding: 12px 30px;
+    border-radius: 8px;
+    border: none;
+    color: #212936;
+    background: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.17rem;
+    box-shadow: 0 2px 8px rgba(30,34,98,0.07);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.pagination .page-link:hover,
+.pagination li.active .page-link,
+.pagination .page-item.active span[aria-current] {
+    background: linear-gradient(90deg,#5b68df,#d04ecb,#fab960);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(80,50,200,0.12);
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #bbb;
+    cursor: not-allowed;
+    background: #f7f7f7;
+    box-shadow: none;
+}
+
+.pagination .page-link:focus {
+    outline: 2px solid #818cf8;
+}
+/* Ghi đè Tailwind cho pagination */
+.pagination .page-link,
+.pagination a[rel="next"],
+.pagination a[rel="prev"],
+.pagination span[aria-current] {
+    font-size: 1.25rem !important;    /* Cỡ chữ lớn hơn */
+    font-weight: 700 !important;      /* Đậm hơn */
+    padding: 12px 28px !important;    /* Padding rộng hơn */
+    border-radius: 8px !important;
+    color: #4f46e5 !important;
+    background: #fff !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(30,34,98,0.07);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.pagination a:hover,
+.pagination a:focus,
+.pagination span[aria-current] {
+    background: linear-gradient(90deg,#5b68df,#d04ecb,#fab960) !important;
+    color: #fff !important;
+}
+
+.pagination li {
+    margin: 0 6px !important;
 }
 
 
-.scroll-up {
-    position: fixed;
-    padding: 12px;
-    background-color: var(--grey2);
-    color: var(--black);
-    border: 2px solid var(--black);
-    z-index: 100;
-    bottom: -5rem;
-    right: 2rem;
-    font-size: 20px;
-    cursor: pointer;
-    transition: .4s;
+.profile_tab-content { display: none; }
+
+.email-notification-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12px;
 }
 
-.active {
-    bottom: 10rem;
+.email-notification-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 13px;
+    box-shadow: 0 2px 16px 0 #e9e9ff44;
+    padding: 15px 18px 14px 15px;
+    margin-bottom: 9px;
+    border: 1px solid #eaeaff;
+    position: relative;
+    transition: box-shadow 0.2s, background 0.2s;
 }
 
+.email-notification-item.unread {
+    background: linear-gradient(90deg, #f3f7ff 85%, #fff 100%);
+    border: 1.5px solid #7e8be6;
+    box-shadow: 0 4px 20px 0 #afbcfa22;
+}
+
+.noti-icon {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(140deg, #5b68df 50%, #b56aff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.45rem;
+    color: #fff;
+    box-shadow: 0 2px 10px #b7aaff36;
+    margin-top: 5px;
+}
+
+.noti-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.noti-title {
+    font-weight: 700;
+    font-size: 1.08rem;
+    color: #252653;
+    margin-bottom: 3px;
+    line-height: 1.35;
+}
+
+.noti-desc {
+    font-size: 1rem;
+    color: #5f6473;
+    margin-bottom: 4px;
+}
+
+.noti-time {
+    font-size: 0.96rem;
+    color: #a3a8be;
+    margin-top: 2px;
+}
+
+.email-notification-empty {
+    padding: 36px 0 18px 0;
+    text-align: center;
+    color: #bbb;
+    font-size: 1.08rem;
+}
+
+@media (max-width: 700px) {
+    .email-notification-list {
+        max-width: 100%;
+        padding: 0 8px;
+    }
+    .email-notification-item {
+        padding: 16px 10px 16px 10px;
+        font-size: 0.98rem;
+    }
+}
