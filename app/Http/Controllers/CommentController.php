@@ -85,5 +85,23 @@ class CommentController extends Controller
         return redirect()->to(url()->previous() . '#comments')->with('success', 'Delete comment successfully.');
 
     }
+    public function update(Request $request, $id)
+{
+    $comment = Comment::findOrFail($id);
+
+    if (Auth::id() !== $comment->user_id) {
+        abort(403); // Không cho sửa nếu không phải chủ comment
+    }
+
+    $request->validate([
+        'content' => 'required|string|max:1000',
+    ]);
+
+    $comment->content = $request->input('content');
+    $comment->save();
+
+    return redirect()->back()->with('success', 'Comment updated successfully.');
+}
+
 
 }

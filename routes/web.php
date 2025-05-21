@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminControllers\AdminPostControllers;
 use App\Http\Controllers\AdminControllers\DashboardControllers;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -36,6 +37,12 @@ Route::post('/profile/update-password', [UserController::class, 'updatePassword'
 
 // Xoá tài khoản
 Route::delete('/profile/delete', [UserController::class, 'deleteAccount'])->name('profile.delete.account');
+// Route bình luận – CHO NGƯỜI DÙNG (KHÔNG PHẢI ADMIN)
+Route::middleware('auth')->group(function () {
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::put('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+});
 
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 

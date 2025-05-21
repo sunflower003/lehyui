@@ -122,7 +122,19 @@
                                         @endif
                                     </div>
                                 </div>
-                                <p class="comment_text">{{ $comment->content }}</p>
+                                <p class="comment_text" id="comment-text-{{ $comment->id }}">{{ $comment->content }}</p>
+
+<!-- Form chỉnh sửa bình luận (ẩn mặc định) -->
+<form action="{{ route('comments.update', $comment->id) }}" method="POST" class="edit-comment-form hidden" id="edit-form-{{ $comment->id }}">
+    @csrf
+    @method('PUT')
+    <textarea name="content" rows="3" required>{{ $comment->content }}</textarea>
+    <div style="margin-top: 8px;">
+        <button type="submit" class="btn_comment_submit">Save</button>
+        <button type="button" class="btn_comment_cancel" data-id="{{ $comment->id }}">Cancel</button>
+    </div>
+</form>
+
                                 
                             </div>
                         @endforeach
@@ -162,7 +174,34 @@
 
 </main>
 @include('components.footer')
+
+<!-- Thêm đoạn này -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Bắt sự kiện nút Edit
+    document.querySelectorAll('.btn_comment_edit').forEach(button => {
+        button.addEventListener('click', function () {
+            const commentId = this.closest('.comment_actions')
+                                    .querySelector('.comment_menu_toggle')
+                                    .dataset.id.split('-')[1];
+            document.getElementById('edit-form-' + commentId).classList.remove('hidden');
+            document.getElementById('comment-text-' + commentId).style.display = 'none';
+        });
+    });
+
+    // Bắt sự kiện nút Cancel
+    document.querySelectorAll('.btn_comment_cancel').forEach(button => {
+        button.addEventListener('click', function () {
+            const id = this.dataset.id;
+            document.getElementById('edit-form-' + id).classList.add('hidden');
+            document.getElementById('comment-text-' + id).style.display = '';
+        });
+    });
+});
+</script>
+
 @endsection
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
