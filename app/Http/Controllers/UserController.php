@@ -43,7 +43,7 @@ class UserController extends Controller
         $user->save();
 
         return back()
-            ->with('success', 'Cập nhật username thành công.')
+            ->with('success', 'Update username successfully.')
             ->with('active_tab', 'profile_general');
     }
 
@@ -77,7 +77,7 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('profile.settings')
-            ->with('success', 'Cập nhật ảnh đại diện thành công!')
+            ->with('success', 'Update Profile Avatar successfully.')
             ->with('active_tab', 'profile_edit');
     }
 
@@ -93,8 +93,8 @@ class UserController extends Controller
             'old_password' => 'required',
             'new_password' => 'required|min:6|confirmed',
         ], [
-            'new_password.confirmed' => 'Xác nhận mật khẩu không khớp.',
-            'new_password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.'
+            'new_password.confirmed' => 'Confirm password does not match.',
+            'new_password.min' => 'Password must be at least 6 characters.',
         ]);
 
         if ($validator->fails()) {
@@ -106,7 +106,7 @@ class UserController extends Controller
 
         if (!Hash::check($request->old_password, $user->password)) {
             return back()
-                ->with('error', 'Mật khẩu cũ không đúng.')
+                ->with('error', 'Old password is incorrect.')
                 ->with('active_tab', 'profile_password');
         }
 
@@ -114,7 +114,7 @@ class UserController extends Controller
         $user->save();
 
         return back()
-            ->with('success', 'Đổi mật khẩu thành công.')
+            ->with('success', 'Change password successfully.')
             ->with('active_tab', 'profile_password');
     }
 
@@ -132,7 +132,7 @@ class UserController extends Controller
         ]);
 
         if (!Hash::check($request->password, $user->password)) {
-            return back()->with('error', 'Mật khẩu không đúng.');
+            return back()->with('error', 'Password is incorrect.');
         }
 
         if ($user->avatar && $user->avatar !== 'avatar_default.jpg') {
@@ -142,7 +142,7 @@ class UserController extends Controller
         Auth::logout();
         $user->delete();
 
-        return redirect()->route('home')->with('success', 'Tài khoản của bạn đã bị xoá.');
+        return redirect()->route('home')->with('success', 'Your account has been deleted successfully.');
     }
 
     public function adminIndex(Request $request)
@@ -180,16 +180,16 @@ class UserController extends Controller
         $user->role = $request->role;
         $user->save();
 
-        return redirect()->route('admin.users.index')->with('success', 'Cập nhật người dùng thành công!');
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
     public function adminDestroy(User $user)
     {
         if (auth()->id() == $user->id) {
-            return back()->with('error', 'Bạn không thể xóa chính mình!');
+            return back()->with('error', 'You cannot delete your own account.');
         }
         $user->delete();
-        return back()->with('success', 'Đã xóa người dùng!');
+        return back()->with('success', 'Deleted user successfully.');
     }
 
 }

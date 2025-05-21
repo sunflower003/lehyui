@@ -25,7 +25,8 @@ class CommentController extends Controller
             'user_id'  => Auth::id(),
         ]);
 
-        return back()->with('success', 'Đã thêm bình luận.');
+        return redirect()->to(url()->previous() . '#comments')->with('success', 'Add comment successfully.');
+
     }
 
     /**
@@ -64,25 +65,25 @@ class CommentController extends Controller
     /**
      * Xóa bình luận vĩnh viễn (admin) hoặc của chính user.
      */
-    public function destroy(Comment $comment)
+        public function destroy(Comment $comment)
     {
         $user = Auth::user();
 
-        // Phân quyền: admin xoá mọi comment, user chỉ xoá comment của mình
         if ($user->role !== 'admin' && $user->id !== $comment->user_id) {
             abort(403, 'Bạn không có quyền xoá bình luận này.');
         }
 
-        // Xóa cứng
         $comment->forceDelete();
 
-        // Redirect hợp lý
-        if ($user->role === 'admin') {
-            return redirect()
-                ->route('admin.comments.index')
-                ->with('success', 'Đã xoá bình luận.');
+        // Redirect tùy theo route đang gọi
+        $routeName = request()->route()->getName();
+
+        if (str_starts_with($routeName, 'admin.')) {
+            return redirect()->route('admin.comments.index')->with('success', 'Delete comment successfully.');
         }
 
-        return back()->with('success', 'Đã xoá bình luận.');
+        return redirect()->to(url()->previous() . '#comments')->with('success', 'Delete comment successfully.');
+
     }
+
 }

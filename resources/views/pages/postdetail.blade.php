@@ -68,7 +68,7 @@
 
 
                 <!-- Comment Section -->
-                <div class="comment_section">
+                <div class="comment_section" id="comments">
                    <h2>Comments <span class="comment_count">{{ $post->comments->count() }}</span></h2>
 
                     @if(Auth::check())
@@ -78,13 +78,6 @@
                             <div class="comment_input">
                                 <textarea name="content" placeholder="Add comment..." rows="3" required></textarea>
                                 <div class="comment_toolbar">
-                                    <button type="button"><b>B</b></button>
-                                    <button type="button"><i>I</i></button>
-                                    <button type="button"><u>U</u></button>
-                                    <button type="button"><i class="ri-image-line"></i></button>
-                                    <button type="button"><i class="ri-link"></i></button>
-                                    <button type="button"><i class="ri-emotion-line"></i></button>
-                                    <button type="button"><i class="ri-at-line"></i></button>
                                     <button class="submit_btn" type="submit">Submit</button>
                                 </div>
                             </div>
@@ -115,11 +108,16 @@
                                                 <i class="ri-more-2-line"></i>
                                             </span>
                                             <div class="comment_menu hidden" id="menu-{{ $comment->id }}">
-                                                <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="delete-comment">
+                                                <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="delete-comment">  
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit">Delete</button>
+                                                    <button type="submit" class="btn_comment_delete">Delete</button>
                                                 </form>
+                                                <button type="button" class="btn_comment_edit">Edit</button>
+                                                
+
+                                                <!-- Mũi tên nhỏ -->
+                                                <div class="comment_menu_arrow"></div>
                                             </div>
                                         @endif
                                     </div>
@@ -194,28 +192,3 @@
     });
 </script>
 
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const comments = document.querySelectorAll('.comments_display .comment');
-        const showMoreBtn = document.getElementById('showMoreBtn');
-        let visibleCount = 3;
-
-        if (showMoreBtn) {
-            showMoreBtn.addEventListener('click', function () {
-                const total = comments.length;
-                const nextVisible = Math.min(visibleCount + 3, total);
-
-                for (let i = visibleCount; i < nextVisible; i++) {
-                    comments[i].classList.remove('hidden-comment');
-                }
-
-                visibleCount = nextVisible;
-
-                if (visibleCount >= total) {
-                    showMoreBtn.style.display = 'none';
-                }
-            });
-        }
-    });
-</script>

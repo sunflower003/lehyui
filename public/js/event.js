@@ -141,6 +141,28 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll('.comment_menu').forEach(m => m.classList.add('hidden'));
     });
 
+    //showmore comments
+    document.addEventListener('DOMContentLoaded', function () {
+        const comments = document.querySelectorAll('.comments_display .comment');
+        const showMoreBtn = document.getElementById('showMoreBtn');
+        let visibleCount = 3;
 
+        if (showMoreBtn) {
+            showMoreBtn.addEventListener('click', function () {
+                const total = comments.length;
+                const nextVisible = Math.min(visibleCount + 3, total);
+
+                for (let i = visibleCount; i < nextVisible; i++) {
+                    comments[i].classList.remove('hidden-comment');
+                }
+
+                visibleCount = nextVisible;
+
+                if (visibleCount >= total) {
+                    showMoreBtn.style.display = 'none';
+                }
+            });
+        }
+    });
 
 });

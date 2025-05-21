@@ -48,7 +48,9 @@ Route::get('/post/{id}', [PostController::class, 'show'])->name('post.show');
 Route::middleware('auth')->post('/comments', [CommentController::class, 'store'])->name('comments.store');
 
 
+
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
 
 
 
@@ -89,7 +91,7 @@ Route::prefix('admin')
     });
     // Các nhóm route khác như categories, users,... bạn khai báo tương tự
     Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
-    Route::delete('/comments/delete/{id}', [CommentController::class, 'adminDestroy'])->name('comments.destroy');
+    Route::delete('/comments/delete/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
 
 });

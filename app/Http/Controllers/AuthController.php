@@ -21,12 +21,12 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             // Gửi session cho toast
-            return redirect()->route('home')->with('login_success', 'Đăng nhập thành công!');
+            return redirect()->route('home')->with('login_success', 'Login Successfully!');
         }
 
         // Gửi error cho toast
         return back()->withErrors([
-            'invalid' => 'Thông tin không chính xác',
+            'invalid' => 'Invalid Information. Please try again.',
         ]);
     }
 
@@ -52,7 +52,7 @@ class AuthController extends Controller
         ]);
 
         // Gửi session cho toast
-        return redirect('/login')->with('success', 'Đăng ký thành công! Hãy đăng nhập nhé.');
+        return redirect('/login')->with('success', 'Register Successfully!');
     }
 
     public function logout(Request $request)
