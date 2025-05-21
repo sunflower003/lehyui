@@ -3,8 +3,8 @@
 @section('page-title', 'Dashboard')
 
 @section("wrapper")
-<div class="container-fluid">
-    <div class="w-full">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl">
+    <div class="w-full max-w-6xl mx-auto">
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div class="bg-white p-6 rounded-lg shadow-sm">
@@ -117,8 +117,8 @@
                 </a>
             </div>
             
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
+            <div class="overflow-x-auto max-w-full">
+                <table class="w-full divide-y divide-gray-200">
                     <thead>
                         <tr>
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tiêu đề</th>
@@ -129,19 +129,19 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <!-- Sample data - replace with actual data -->
+                    @foreach($recentPosts as $post)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">Hướng dẫn sử dụng Laravel 10</div>
+                                <div class="text-sm font-medium text-gray-900">{{ $post->title }}</div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">Lập trình</div>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $post->category->name ?? 'Không rõ' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">Admin</div>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $post->user->username ?? 'Không rõ' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">22/03/2024</div>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $post->created_at->format('d/m/Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
@@ -149,26 +149,9 @@
                                 </span>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">Tối ưu hiệu suất website</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">Web</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">Admin</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">21/03/2024</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Đã xuất bản
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
+                    @endforeach
+                </tbody>
+
                 </table>
             </div>
         </div>
@@ -178,6 +161,11 @@
 
 @section("script")
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const categoryLabels = @json($chartLabels);
+    const categoryData = @json($chartData);
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Chart 1 - Bar Chart
@@ -227,15 +215,11 @@
         const chart2 = new Chart(ctx2, {
             type: 'doughnut',
             data: {
-                labels: ['Lập trình', 'Web', 'Mobile', 'Design', 'Khác'],
+                labels: categoryLabels,
                 datasets: [{
-                    data: [35, 25, 15, 15, 10],
+                    data: categoryData,
                     backgroundColor: [
-                        '#6366f1', // indigo
-                        '#3b82f6', // blue
-                        '#10b981', // emerald
-                        '#f59e0b', // amber
-                        '#6b7280', // gray
+                        '#6366f1', '#3b82f6', '#10b981', '#f59e0b', '#6b7280'
                     ],
                     borderWidth: 0,
                     borderRadius: 4,
