@@ -100,7 +100,9 @@ class CommentController extends Controller
     $comment->content = $request->input('content');
     $comment->save();
 
-    return redirect()->back()->with('success', 'Comment updated successfully.');
+    return redirect()->to(url()->previous() . '#comments')->with('success', 'Comment updated successfully.');
+
+
 }
 
 

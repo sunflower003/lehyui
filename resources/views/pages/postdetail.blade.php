@@ -129,7 +129,7 @@
                                     @csrf
                                     @method('PUT')
                                     <textarea name="content" rows="3" required>{{ $comment->content }}</textarea>
-                                    <div style="margin-top: 8px;">
+                                    <div style="margin-top: 8px;" class="save_cancel">
                                         <button type="submit" class="btn_comment_submit">Save</button>
                                         <button type="button" class="btn_comment_cancel" data-id="{{ $comment->id }}">Cancel</button>
                                     </div>
