@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="mt-4 text-sm text-gray-600">
-                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> 12%</span> so với tháng trước
+                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> {{ $growthPost }}%</span> so với tháng trước
                 </div>
             </div>
             
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="mt-4 text-sm text-gray-600">
-                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> 5%</span> so với tháng trước
+                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> {{ $growthCategory }}%</span> so với tháng trước
                 </div>
             </div>
             
@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div class="mt-4 text-sm text-gray-600">
-                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> 18%</span> so với tháng trước
+                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> {{ $growthUser }}%</span> so với tháng trước
                 </div>
             </div>
         </div>
@@ -72,25 +72,17 @@
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
             <div class="bg-white p-6 rounded-lg shadow-sm">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold">📊 Biểu đồ lượt xem & bình luận</h3>
+                    <h3 class="text-lg font-semibold">📊 Biểu đồ bài viết với bình luận</h3>
                     <div class="flex gap-2">
-                        <button class="px-3 py-1 text-xs bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200">7 ngày</button>
-                        <button class="px-3 py-1 text-xs bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200">30 ngày</button>
+                        <button class="comment-range px-3 py-1 text-xs bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200" data-days="7">7 ngày</button>
+                        <button class="comment-range px-3 py-1 text-xs bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200" data-days="30">30 ngày</button>
                     </div>
                 </div>
                 <div class="h-[300px]">
                     <canvas id="chart1"></canvas>
                 </div>
-                <div class="flex gap-4 mt-4 justify-center">
-                    <div class="flex items-center">
-                        <span class="w-3 h-3 rounded-full bg-indigo-500 inline-block mr-2"></span>
-                        <span class="text-sm text-gray-600">Lượt xem</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="w-3 h-3 rounded-full bg-amber-400 inline-block mr-2"></span>
-                        <span class="text-sm text-gray-600">Bình luận</span>
-                    </div>
-                </div>
+
+
             </div>
             
             <div class="bg-white p-6 rounded-lg shadow-sm">
@@ -167,25 +159,30 @@
 </script>
 
 <script>
+    const commentLabels = @json($commentLabels);
+    const commentData = @json($commentData);
+    const postData = @json($postData);
+    let commentChart;
+
     document.addEventListener('DOMContentLoaded', function () {
-        // Chart 1 - Bar Chart
+        // Biểu đồ cột
         const ctx1 = document.getElementById("chart1").getContext('2d');
-        const chart1 = new Chart(ctx1, {
+        commentChart = new Chart(ctx1, {
             type: 'bar',
             data: {
-                labels: ['16/03', '17/03', '18/03', '19/03', '20/03', '21/03', '22/03'],
+                labels: commentLabels,
                 datasets: [
                     {
-                        label: 'Lượt xem',
-                        data: [10, 13, 9, 16, 10, 12, 15],
-                        backgroundColor: '#6366f1',
+                        label: 'Bình luận',
+                        data: commentData,
+                        backgroundColor: '#fbbf24',
                         borderRadius: 6,
                         barThickness: 12,
                     },
                     {
-                        label: 'Bình luận',
-                        data: [8, 14, 19, 12, 7, 18, 8],
-                        backgroundColor: '#fbbf24',
+                        label: 'Bài viết',
+                        data: postData,
+                        backgroundColor: '#6366f1',
                         borderRadius: 6,
                         barThickness: 12,
                     }
@@ -195,7 +192,16 @@
                 responsive: true,
                 maintainAspectRatio: true,
                 plugins: {
-                    legend: { display: false }
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#374151',
+                            padding: 16,
+                            boxWidth: 12,
+                            usePointStyle: true,
+                            pointStyle: 'rectRounded'
+                        }
+                    }
                 },
                 scales: {
                     x: {
@@ -209,8 +215,14 @@
                 }
             }
         });
-        
-        // Chart 2 - Doughnut Chart
+        // sự kiện đổi số ngày
+        document.querySelectorAll('.comment-range').forEach(button => {
+            button.addEventListener('click', function () {
+                const days = this.getAttribute('data-days');
+                updateCommentChart(days);
+            });
+        });
+        // Biểu đồ tròn
         const ctx2 = document.getElementById("chart2").getContext('2d');
         const chart2 = new Chart(ctx2, {
             type: 'doughnut',
@@ -243,5 +255,15 @@
             }
         });
     });
+    function updateCommentChart(days) {
+        fetch(`/admin/chart/comments?days=${days}`)
+            .then(res => res.json())
+            .then(data => {
+                commentChart.data.labels = data.labels;
+                commentChart.data.datasets[0].data = data.comments;
+                commentChart.data.datasets[1].data = data.posts;
+                commentChart.update();
+            });
+    }
 </script>
 @endsection

@@ -69,6 +69,8 @@ Route::prefix('admin')
 
     // Dashboard
     Route::get('/', [DashboardControllers::class, 'index'])->name('dashboard');
+    Route::get('/chart/comments', [\App\Http\Controllers\AdminControllers\DashboardControllers::class, 'getCommentChartData']);
+
 
     // Bài viết
     Route::prefix('posts')->name('posts.')->group(function () {
