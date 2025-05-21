@@ -1,4 +1,4 @@
-<div class="container all_container">
+<div class="container all_container" id="allposts">
     <h2 class="title_head">All blog posts</h2>
     <div class="grid_posts">
         @foreach($posts as $post)

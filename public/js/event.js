@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     //showmore comments
-    document.addEventListener('DOMContentLoaded', function () {
+    
         const comments = document.querySelectorAll('.comments_display .comment');
         const showMoreBtn = document.getElementById('showMoreBtn');
         let visibleCount = 3;
@@ -163,6 +163,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         }
-    });
+  
 
 });
