@@ -168,7 +168,7 @@ body {
   top: 50%;
   transform: translateY(-200%) rotate(-90deg);
   transform-origin: right center;
-  background-color: #e0e0e0;
+  background-color: var(--grey2);
   padding: 10px 20px;
   font-size: 15px;
   font-weight: 600;
@@ -1938,3 +1938,23 @@ donate-form h2 {
     gap: 10px;
     justify-content: flex-end;
 }
+
+
+.scroll-up {
+    position: fixed;
+    padding: 12px;
+    background-color: var(--grey2);
+    color: var(--black);
+    border: 2px solid var(--black);
+    z-index: 100;
+    bottom: -5rem;
+    right: 2rem;
+    font-size: 20px;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.active {
+    bottom: 10rem;
+}
+

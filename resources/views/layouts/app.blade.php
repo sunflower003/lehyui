@@ -11,6 +11,7 @@
 </head>
 <body>
     @yield('content')
+    <a href="#"><i class="ri-arrow-up-line scroll-up"></i></a>
 
     <!-- JS -->
     <script src="{{ asset('js/event.js') }}"></script>
@@ -37,6 +38,7 @@
     @if ($errors->any())
       showToast(@json($errors->first()));
     @endif
+    
     </script>
 </body>
 </html>

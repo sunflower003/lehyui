@@ -163,6 +163,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         }
+
+
+
+                  // active scroll up
+          let scrollBtn = document.querySelector('.scroll-up');
+
+          function scrollUp() {
+              let scrollY = window.scrollY;
+              if(scrollY > 800) {
+                  scrollBtn.classList.add('active');
+              } else {
+                  scrollBtn.classList.remove('active');
+              }
+          }
+
+          window.addEventListener('scroll', scrollUp);
+
   
 
 });
