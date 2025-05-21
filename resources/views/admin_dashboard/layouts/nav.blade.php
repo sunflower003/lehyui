@@ -44,6 +44,12 @@
             </a>
         </li>
         <li>
+            <a href="{{ route('admin.donations.index') }}" class="nav-link">
+                <i class="fas fa-donate"></i>
+                <span>Donate</span>
+            </a>
+        </li>
+        <li>
             <a href="#" class="nav-link">
                 <i class="fas fa-cog"></i>
                 <span>Cài đặt</span>

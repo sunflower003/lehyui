@@ -21,6 +21,9 @@
         <label class="register_label">Username</label>
         <input class="register_input" type="text" name="username" value="{{ old('username') }}" required />
 
+        <label class="register_label">Email</label>
+        <input class="register_input" type="email" name="email" value="{{ old('email') }}" required />
+
         <label class="register_label">Password</label>
         <input class="register_input" type="password" name="password" required />
 

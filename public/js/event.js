@@ -47,7 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "General": "profile_general",
     "Edit Profile": "profile_edit",
     "Password": "profile_password",
-    // thêm tab khác nếu cần
+    "Payouts": "profile_payouts",
+    "Email Notifications": "profile_email_notifications"
   };
 
   const profileWrapper = document.querySelector(".profile_wrapper");
@@ -63,7 +64,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const indexMap = {
     'profile_general': 0,
     'profile_edit': 1,
-    'profile_password': 2
+    'profile_password': 2,
+    'profile_payouts': 3,
+    'profile_email_notifications': 4 
   };
   const tabIndex = indexMap[activeTabFromSession];
   if (typeof tabIndex !== 'undefined') {

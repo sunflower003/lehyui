@@ -10,6 +10,7 @@ class User extends Authenticatable
 {
     protected $fillable = [
         'username',
+        'email',
         'password',
         'avatar',
         'role',
@@ -30,6 +31,10 @@ class User extends Authenticatable
 
     public function comments() {
         return $this->hasMany(Comment::class);
+    }
+
+    public function donations() {
+        return $this->hasMany(Donation::class);
     }
 
 }

@@ -3,7 +3,7 @@
 @section('page-title', 'Quản lý người dùng')
 
 @section('wrapper')
-<div class="w-full max-w-4xl mx-auto mt-10 px-2">
+<div class="container-fluid">
     <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
         <div>
             <h1 class="text-2xl font-bold flex items-center">
@@ -20,16 +20,12 @@
                 <div>
                     <p>{{ session('success') }}</p>
                 </div>
-                <button type="button" class="ml-auto -mx-1.5 -my-1.5" data-dismiss-target="#alert-3" aria-label="Close">
-                    <span class="sr-only">Đóng</span>
-                    <i class="fas fa-times text-green-500"></i>
-                </button>
             </div>
         </div>
     @endif
 
     <!-- Search and Filter -->
-    <form method="GET" action="{{ route('admin.users.index') }}" class="bg-white p-4 rounded-lg shadow mb-6">
+    <form method="GET" action="{{ route('admin.users.index') }}" class="mb-6">
         <div class="flex flex-col md:flex-row gap-4 items-start md:items-end">
             <!-- Search -->
             <div class="flex-grow w-full">
@@ -44,100 +40,104 @@
             </div>
 
             <!-- Lọc giới tính -->
-            <select name="sex"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5 w-full md:w-auto">
-                <option value="">Tất cả giới tính</option>
-                <option value="male" {{ request('sex') == 'male' ? 'selected' : '' }}>Nam</option>
-                <option value="female" {{ request('sex') == 'female' ? 'selected' : '' }}>Nữ</option>
-            </select>
+            <div class="w-full md:w-auto">
+                <select name="sex"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5">
+                    <option value="">Tất cả giới tính</option>
+                    <option value="male" {{ request('sex') == 'male' ? 'selected' : '' }}>Nam</option>
+                    <option value="female" {{ request('sex') == 'female' ? 'selected' : '' }}>Nữ</option>
+                </select>
+            </div>
 
             <!-- Sort -->
-            <select name="sort"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5 w-full md:w-auto">
-                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
-                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
-                <option value="username" {{ request('sort') == 'username' ? 'selected' : '' }}>Tên (A-Z)</option>
-            </select>
+            <div class="w-full md:w-auto">
+                <select name="sort"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5">
+                    <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
+                    <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
+                    <option value="username" {{ request('sort') == 'username' ? 'selected' : '' }}>Tên (A-Z)</option>
+                </select>
+            </div>
 
             <button type="submit"
                 class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg">
                 Lọc
             </button>
+            @if(request('search') || request('sex') || request('sort'))
+                <a href="{{ route('admin.users.index') }}" class="text-sm text-gray-600 hover:underline">Đặt lại</a>
+            @endif
         </div>
     </form>
 
     <!-- Users Table -->
     <div class="bg-white rounded-lg shadow overflow-x-auto">
         @if($users->count() > 0)
-            <table class="min-w-full divide-y divide-gray-200 table-auto">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">#</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Avatar</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tên đăng nhập</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Giới tính</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ngày tạo</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Hành động</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($users as $index => $user)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-4 text-sm text-gray-500">{{ $users->firstItem() + $index }}</td>
-                        <td class="px-4 py-4 whitespace-nowrap">
-                            <img src="{{ $user->avatar && $user->avatar != 'avatar_default.jpg' ? asset('storage/avatars/'.$user->avatar) : asset('img/avatar_default.jpg') }}"
-                                alt="{{ $user->username }}" class="h-10 w-10 object-cover rounded-full border">
-                        </td>
-                        <td class="px-4 py-4">
-                            <div class="text-sm font-medium text-gray-900">{{ $user->username }}</div>
-                            <div class="text-xs text-gray-500">ID: {{ $user->id }}</div>
-                        </td>
-                        <td class="px-4 py-4 text-sm">
-                            @if($user->sex === 'male')
-                                <span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded">Nam</span>
-                            @else
-                                <span class="inline-block px-2 py-1 bg-pink-100 text-pink-800 rounded">Nữ</span>
-                            @endif
-                        </td>
-                        <td class="px-4 py-4 text-sm">
-                            @if($user->role === 'admin')
-                                <span class="inline-block px-2 py-1 bg-red-100 text-red-800 rounded">Admin</span>
-                            @else
-                                <span class="inline-block px-2 py-1 bg-gray-100 text-gray-800 rounded">User</span>
-                            @endif
-                        </td>
-                        <td class="px-4 py-4 text-sm text-gray-500">
-                            {{ $user->created_at ? $user->created_at->format('d/m/Y') : '' }}
-                        </td>
-                        <td class="px-4 py-4 text-sm font-medium">
-                            <div class="flex space-x-2">
-                                <a href="{{ route('admin.users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 hover:bg-indigo-200 p-2 rounded-md transition-colors" title="Sửa">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xoá user này?')" class="text-red-600 hover:text-red-900 bg-red-100 hover:bg-red-200 p-2 rounded-md transition-colors" title="Xoá">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            <!-- Pagination -->
-            <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-                <div>
-                    <p class="text-sm text-gray-700">
-                        Hiển thị <span class="font-medium">{{ $users->firstItem() }}</span> đến <span class="font-medium">{{ $users->lastItem() }}</span> của <span class="font-medium">{{ $users->total() }}</span> người dùng
-                    </p>
-                </div>
-                <div>
-                    {{ $users->appends(request()->all())->links() }}
-                </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 table-auto">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avatar</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên đăng nhập</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Giới tính</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày tạo</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($users as $index => $user)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 text-sm text-gray-500">{{ $users->firstItem() + $index }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <img src="{{ $user->avatar && $user->avatar != 'avatar_default.jpg' ? asset('storage/avatars/'.$user->avatar) : asset('img/avatar_default.jpg') }}"
+                                    alt="{{ $user->username }}" class="h-10 w-10 object-cover rounded-full border">
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm font-medium text-gray-900">{{ $user->username }}</div>
+                                <div class="text-xs text-gray-500">ID: {{ $user->id }}</div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900"> 
+                                {{ $user->email }}
+                            </td>
+                            <td class="px-6 py-4 text-sm">
+                                @if($user->sex === 'male')
+                                    <span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded">Nam</span>
+                                @else
+                                    <span class="inline-block px-2 py-1 bg-pink-100 text-pink-800 rounded">Nữ</span>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 text-sm">
+                                @if($user->role === 'admin')
+                                    <span class="inline-block px-2 py-1 bg-red-100 text-red-800 rounded">Admin</span>
+                                @else
+                                    <span class="inline-block px-2 py-1 bg-gray-100 text-gray-800 rounded">User</span>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                {{ $user->created_at ? $user->created_at->format('d/m/Y') : '' }}
+                            </td>
+                            <td class="px-6 py-4 text-sm font-medium">
+                                <div class="flex space-x-2">
+                                    <a href="{{ route('admin.users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 hover:bg-indigo-200 p-2 rounded-md transition-colors" title="Sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xoá user này?')" class="text-red-600 hover:text-red-900 bg-red-100 hover:bg-red-200 p-2 rounded-md transition-colors" title="Xoá">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-6 py-4 border-t bg-gray-50">
+                {{ $users->appends(request()->query())->links() }}
             </div>
         @else
             <div class="p-8 text-center">

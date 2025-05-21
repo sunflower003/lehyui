@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
+use Illuminate\Support\Facades\Mail;
+use App\Models\User;
+use App\Models\EmailNotification;
 
 class AdminPostControllers extends Controller
 {
@@ -13,17 +16,14 @@ class AdminPostControllers extends Controller
     {
         $query = Post::query()->with('category', 'user');
 
-        // Tìm kiếm theo tiêu đề
         if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        // Lọc theo danh mục
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
 
-        // Sắp xếp theo thời gian
         if ($request->sort == 'oldest') {
             $query->orderBy('created_at', 'asc');
         } else {
@@ -35,7 +35,6 @@ class AdminPostControllers extends Controller
 
         $posts = $query->paginate(5)->appends($request->query());
         $categories = Category::all();
-        //$posts = Post::latest()->get();
         return view('admin_dashboard.posts.index', compact('posts', 'categories'));
     }
 
@@ -55,19 +54,44 @@ class AdminPostControllers extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $validated['user_id'] = auth()->id(); // không lấy từ form
+        $validated['user_id'] = auth()->id();
         if ($request->hasFile('thumbnail')) {
             $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
-        Post::create($validated);
+        $post = Post::create($validated);
+        
+        // GỬI EMAIL & TẠO NOTIFICATION CHO NGƯỜI DÙNG ĐÃ DONATE
+        $emails = \App\Models\Donation::whereNotNull('email')->distinct()->pluck('email')->toArray();
+        $users = User::whereIn('email', $emails)->get();
+
+        foreach ($users as $user) {
+            // Gửi mail
+            Mail::raw(
+                "LehyUI vừa đăng bài viết mới: {$request->title}\nXem ngay trên website nhé!",
+                function($message) use ($user) {
+                    $message->to($user->email)
+                        ->subject('LehyUI có bài viết mới!');
+                }
+            );
+            // Tạo notification
+            EmailNotification::create([
+                'user_id' => $user->id,
+                'type' => 'new_post',
+                'title' => 'Bài viết mới: ' . $request->title,
+                'body' => 'Bài viết "' . $request->title . '" vừa được đăng. Đọc ngay!',
+                'post_id' => $post->id,
+                'is_read' => 0
+            ]);
+        }
+
         return redirect()->route('admin.posts.index')->with('success', 'Đăng bài viết thành công!');
     }
 
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        $categories = Category::all(); // ← Bắt buộc phải có dòng này
+        $categories = Category::all();
 
         return view('admin_dashboard.posts.edit', compact('post', 'categories'));
     }
