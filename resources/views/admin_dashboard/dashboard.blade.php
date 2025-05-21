@@ -18,7 +18,10 @@
                     </div>
                 </div>
                 <div class="mt-4 text-sm text-gray-600">
-                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> {{ $growthPost }}%</span> so với tháng trước
+                    <span class="{{ $growthPost >= 0 ? 'text-green-500' : 'text-red-500' }}">
+                    <i class="fas {{ $growthPost >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+                    {{ abs($growthPost) }}%
+                </span> so với tháng trước
                 </div>
             </div>
             
@@ -33,7 +36,11 @@
                     </div>
                 </div>
                 <div class="mt-4 text-sm text-gray-600">
-                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> {{ $growthCategory }}%</span> so với tháng trước
+                    <span class="{{ $growthCategory >= 0 ? 'text-green-500' : 'text-red-500' }}">
+                        <i class="fas {{ $growthCategory >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+                        {{ abs($growthCategory) }}%
+                    </span> so với tháng trước
+
                 </div>
             </div>
             
@@ -63,7 +70,10 @@
                     </div>
                 </div>
                 <div class="mt-4 text-sm text-gray-600">
-                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> {{ $growthUser }}%</span> so với tháng trước
+                    <span class="{{ $growthUser >= 0 ? 'text-green-500' : 'text-red-500' }}">
+                        <i class="fas {{ $growthUser >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+                        {{ abs($growthUser) }}%
+                    </span> so với tháng trước
                 </div>
             </div>
         </div>
