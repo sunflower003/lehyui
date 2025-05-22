@@ -138,7 +138,27 @@
                                     </div>
                                 </div>
                                 <p class="comment_text" id="comment-text-{{ $comment->id }}">{{ $comment->content }}</p>
-
+                                <!--  NÚT LIKE/DISLIKE -->
+        <div class="comment_like_actions" style="margin: 8px 0 0 0;">
+            <form action="{{ route('comments.like', $comment->id) }}" method="POST" style="display:inline;">
+                @csrf
+                <button type="submit"
+                    @if(Auth::check() && $comment->likes->where('user_id', Auth::id())->count())
+                        style="color: #2196F3; font-weight: bold;"
+                    @endif
+                    title="Like"
+                >👍 {{ $comment->likes->count() }}</button>
+            </form>
+            <form action="{{ route('comments.dislike', $comment->id) }}" method="POST" style="display:inline;">
+                @csrf
+                <button type="submit"
+                    @if(Auth::check() && $comment->dislikes->where('user_id', Auth::id())->count())
+                        style="color: #e74c3c; font-weight: bold;"
+                    @endif
+                    title="Dislike"
+                >👎 {{ $comment->dislikes->count() }}</button>
+            </form>
+        </div>
                                 <!-- Form chỉnh sửa bình luận (ẩn mặc định) -->
                                 <form action="{{ route('comments.update', $comment->id) }}" method="POST" class="edit-comment-form hidden" id="edit-form-{{ $comment->id }}">
                                     @csrf

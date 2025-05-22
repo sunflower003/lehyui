@@ -18,4 +18,22 @@ class Comment extends Model
     public function post() {
         return $this->belongsTo(Post::class);
     }
+
+    // Thêm các quan hệ like/dislike:
+    public function likes()
+    {
+        return $this->hasMany(CommentLike::class)->where('is_like', 1);
+    }
+
+    public function dislikes()
+    {
+        return $this->hasMany(CommentLike::class)->where('is_like', 0);
+    }
+
+    // Lấy like/dislike của user hiện tại (nếu cần)
+    public function myLike()
+    {
+        return $this->hasOne(CommentLike::class)->where('user_id', auth()->id());
+    }
 }
+

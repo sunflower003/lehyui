@@ -60,6 +60,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::put('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+    // Route Like/Dislike cho bình luận
+    Route::post('/comments/{id}/like', [App\Http\Controllers\CommentLikeController::class, 'like'])->name('comments.like');
+    Route::post('/comments/{id}/dislike', [App\Http\Controllers\CommentLikeController::class, 'dislike'])->name('comments.dislike');
 });
 
  

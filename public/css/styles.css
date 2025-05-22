@@ -2454,3 +2454,36 @@ donate-form h2 {
     font-size: 20px;
     border: none;
 }
+
+.comment_like_actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.comment_like_actions button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.7rem;
+    padding: 2px 8px;
+    border-radius: 5px;
+    transition: background 0.15s, color 0.15s;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.comment_like_actions button[style*="color: #2196F3"], 
+.comment_like_actions button[style*="color: #e74c3c"] {
+    background: #f3f4f6;
+    font-weight: 700;
+}
+
+.comment_like_actions button:hover {
+    background: #f1f1f1;
+    color: #ff6600 !important;
+}
