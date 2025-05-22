@@ -17,6 +17,8 @@
         </ul>
 
 
+
+
         @if (!Auth::check())
             <a href="{{ route('login') }}" class="btn">
                 <div class="btn_text">Get Started</div>
@@ -24,6 +26,59 @@
             </a>
         @endif
         @if(Auth::check())
+
+            <div class="notif_lehy" id="notificationBell">
+    <i class="ri-notification-3-line"></i>
+    
+    <div class="notif_dropdown hidden_notif" id="notificationDropdown">
+        <div class="notif_header">
+            <span>Notifications</span>
+        </div>
+
+        <div class="notif_list">
+            @forelse ($headerNotifications as $noti)
+                <div class="notif_item {{ $noti->is_read ? '' : 'notif_highlighted' }}">
+                    <div class="notif_icon">
+                        @if($noti->type === 'new_post')
+                            <i class="fas fa-newspaper"></i>
+                        @elseif($noti->type === 'donate_thank')
+                            <i class="fas fa-gift"></i>
+                        @else
+                            <i class="fas fa-info-circle"></i>
+                        @endif
+                    </div>
+                    <div class="notif_text">
+                        <p class="notif_title">
+                            @if($noti->type === 'new_post' && $noti->post_id)
+                                <a href="{{ route('posts.show', ['id' => $noti->post_id]) }}" style="text-decoration: none; color: #252653;">
+                                    {{ $noti->title }}
+                                </a>
+                            @else
+                                {{ $noti->title }}
+                            @endif
+                        </p>
+                        <p class="notif_body">{{ $noti->body }}</p>
+                        <span class="notif_time">{{ $noti->created_at->diffForHumans() }}</span>
+                    </div>
+                </div>
+            @empty
+                <div class="notif_item">
+                    <div class="notif_icon"><i class="fas fa-bell-slash"></i></div>
+                    <div class="notif_text"><strong>No notifications</strong></div>
+                </div>
+            @endforelse
+        </div>
+
+        <div class="notif_footer">
+            <a href="{{ route('profile.settings', ['active_tab' => 'profile_email_notifications']) }}">
+                View all notifications
+            </a>
+        </div>
+    </div>
+</div>
+
+
+            
             <div class="avatar_header_container">
                 <img src="{{ $user->avatar_path }}" class="profile_avatar" />
                 <div class="dropdown">

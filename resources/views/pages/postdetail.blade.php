@@ -64,7 +64,7 @@
                     <p>LehyUI<i class="ri-arrow-right-s-line"></i></p>
                     <p>Blog<i class="ri-arrow-right-s-line"></i></p>
                     <p>{{$post->category->name}}<i class="ri-arrow-right-s-line"></i></p>
-                    <p class="current_blog">{{$post->title}}...</p>
+                    <p class="current_blog">{{$post->title}}</p>
                 </div>
 
 

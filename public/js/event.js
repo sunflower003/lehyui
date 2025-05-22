@@ -183,6 +183,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
           window.addEventListener('scroll', scrollUp);
 
+
+
+
+
+          //notification_dropdown
+    const bell = document.getElementById('notificationBell');
+    const dropdownNotif = document.getElementById('notificationDropdown');
+
+    bell.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dropdownNotif.classList.toggle('hidden_notif');
+    });
+
+    document.addEventListener('click', function () {
+        dropdownNotif.classList.add('hidden_notif');
+    });
+
   
 
 });
