@@ -24,7 +24,7 @@ class PostController extends Controller
         }
 
 
-        public function show($id)
+        public function show($id, Request $request)
         {
             $post = Post::with(['user', 'category'])->findOrFail($id);
 
@@ -40,12 +40,22 @@ class PostController extends Controller
                                 ->inRandomOrder()
                                 ->take(3)
                                 ->get();
+            
+            // ===== xử lý lọc bình luận =====
+            $order = $request->query('order', 'newest');
+            if ($order === 'oldest') {
+                $comments = $post->comments()->with('user')->oldest()->get();
+            } else {
+            $comments = $post->comments()->with('user')->latest()->get();
+            }                    
 
             return view('pages.postdetail', [
                 'post' => $post,
                 'relatedPosts' => $relatedPosts,
                 'readingTime' => $readingTime,
                 'user' => $this->getProcessedUser(),
+                'comments' => $comments, // Truyền xuống view
+                'order' => $order,
             ]);
         }
 }

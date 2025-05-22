@@ -75,9 +75,18 @@
 
                 <!-- Comment Section -->
                 <div class="comment_section" id="comments">
-                   <h2>Comments <span class="comment_count">{{ $post->comments->count() }}</span></h2>
-
-                    @if(Auth::check())
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <h2>Comments <span class="comment_count">{{ $comments->count() }}</span></h2>
+                        <form method="GET" action="#comments" style="margin: 0; display: flex; align-items: center; gap: 12px;">
+                            <label for="order" style="font-size: 14px;">Sort by:</label>
+                            <select name="order" id="order" onchange="this.form.submit()" style="font-size: 15px; padding: 2px 8px; border-radius: 6px;">
+                                <option value="newest" {{ $order === 'newest' ? 'selected' : '' }}>Newest</option>
+                                <option value="oldest" {{ $order === 'oldest' ? 'selected' : '' }}>Oldest</option>
+                            </select>
+                        </form>
+                    </div>
+                    
+                        @if(Auth::check())
                         <form method="POST" action="{{ route('comments.store') }}">
                             @csrf
                             <input type="hidden" name="post_id" value="{{ $post->id }}">
@@ -93,7 +102,7 @@
                     @endif
                 
                     <div class="comments_display">
-                        @foreach($post->comments->sortByDesc('created_at')->values() as $index => $comment)
+                        @foreach($comments->values() as $index => $comment)
                             <div class="comment {{ $index >= 3 ? 'hidden-comment' : '' }}">
                                 <div class="comment_header">
                                     @php
@@ -146,7 +155,7 @@
                         @endforeach
                     </div>
 
-                    @if($post->comments->count() > 3)
+                    @if($comments->count() > 3)
                         <div class="show_more" id="showMoreBtn" style="cursor: pointer; margin-top: 20px; font-weight: bold;">
                             Show more <i class="ri-arrow-down-line"></i>
                         </div>
