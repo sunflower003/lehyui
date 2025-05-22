@@ -17,6 +17,14 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
+// Quên mật khẩu
+Route::get('/forgot-password', [AuthController::class, 'showForgotForm'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'sendResetCode'])->name('password.email');
+Route::get('/reset-password/code', [AuthController::class, 'showCodeForm'])->name('password.code');
+Route::post('/reset-password/verify', [AuthController::class, 'verifyCode'])->name('password.verify');
+Route::get('/reset-password', [AuthController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'updatePassword'])->name('password.update');
+
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
@@ -83,8 +91,7 @@ Route::prefix('admin')
 
     // Dashboard
     Route::get('/', [DashboardControllers::class, 'index'])->name('dashboard');
-    Route::get('/chart/comments', [\App\Http\Controllers\AdminControllers\DashboardControllers::class, 'getCommentChartData']);
-
+    Route::get('/chart/comments', [DashboardControllers::class, 'getCommentChartData']);
 
     Route::get('/donations', [DonateController::class, 'adminIndex'])->name('donations.index');
 

@@ -3,9 +3,7 @@
 @section('page-title', 'Danh sách bình luận')
 
 @section('wrapper')
-<div class="w-full max-w-4xl mx-auto mt-10 px-2">
-
-    {{-- Header --}}
+<div class="container-fluid">
     <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
         <div>
             <h1 class="text-2xl font-bold flex items-center">

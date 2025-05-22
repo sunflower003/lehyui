@@ -2,7 +2,7 @@ const axios = require('axios');
 
 const clientId = 'e2e81d35-6c7c-43fe-9322-52a852192b9e'; 
 const apiKey = '316a560b-629e-4d71-a197-74a60510de7c';     
-const webhookUrl = 'https://016c-2402-800-61c5-cbd-cdd6-d404-8840-2c78.ngrok-free.app/donate/webhook';
+const webhookUrl = 'https://5975-2001-ee0-8203-f7a9-748c-9cff-adfd-b8db.ngrok-free.app/donate/webhook';
 
 axios.post(
     'https://api-merchant.payos.vn/confirm-webhook',

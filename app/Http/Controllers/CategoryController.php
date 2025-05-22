@@ -30,7 +30,7 @@ class CategoryController extends Controller
         $query->orderBy('created_at', 'desc');
     }
 
-    $categories = $query->paginate(5)->appends($request->query());
+    $categories = $query->paginate(8)->appends($request->query());
     
     return view('admin_dashboard.categories.index', compact('categories'));
 }
