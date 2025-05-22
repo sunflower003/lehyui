@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "General": "profile_general",
     "Edit Profile": "profile_edit",
     "Password": "profile_password",
-    "Payouts": "profile_payouts",
+    "Donate": "profile_payouts",
     "Email Notifications": "profile_email_notifications"
   };
 

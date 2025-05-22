@@ -32,7 +32,7 @@
                         <p class="username">{{ $user->username }}</p>
                     </div>
                     @if(Auth::check() && Auth::user()->role === 'admin')
-                        <a href="{{ route('admin.dashboard') }}" class="dropdown_link">Admin Dashboard</a>
+                        <a href="{{ route('admin.dashboard') }}" class="dropdown_link" target="_blank">Admin Dashboard</a>
                         <hr />
                     @endif
                     

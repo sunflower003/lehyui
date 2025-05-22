@@ -8,7 +8,11 @@
                     <p class="author_time">
                         {{ $post->user->username ?? 'Unknown' }} 
                         <i class="ri-checkbox-blank-circle-fill"></i> 
-                        {{ $post->created_at->format('d M Y') }}
+                        @if ($post->created_at->diffInHours(now()) < 24)
+    {{ $post->created_at->diffForHumans() }}
+@else
+    {{ $post->created_at->format('d M Y') }}
+@endif
                     </p>
                     <h2 class="title_card">{{ $post->title }} <i class="ri-arrow-right-up-line"></i></h2>
                     <p class="subtitle">{{ $post->sub_title }}</p>
@@ -22,6 +26,6 @@
 </div>
 
 {{-- PHÂN TRANG --}}
-<div class="container pagination">
+<div class="container pagination_vip">
     {{ $posts->onEachSide(1)->links('vendor.pagination.custom') }}
 </div>

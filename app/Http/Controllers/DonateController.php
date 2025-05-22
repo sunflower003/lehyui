@@ -53,7 +53,7 @@ class DonateController extends Controller
 
     public function handleReturn(Request $request)
     {
-        return redirect()->route('home')->with('success', 'Cảm ơn bạn đã ủng hộ!');
+        return redirect()->route('home')->with('success', 'Thanks for your donation!');
     }
 
     //admin

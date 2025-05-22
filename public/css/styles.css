@@ -856,6 +856,7 @@ video {
   border-radius: 10px;
   border: 1px solid var(--grey2);
   font-size: 14px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .login_label, .profile_label {
@@ -2159,8 +2160,8 @@ donate-form h2 {
 .email-notification-empty {
     padding: 36px 0 18px 0;
     text-align: center;
-    color: #bbb;
-    font-size: 1.08rem;
+    color: var(--grey);
+    font-size: 18px;
 }
 
 @media (max-width: 700px) {
@@ -2172,4 +2173,87 @@ donate-form h2 {
         padding: 16px 10px 16px 10px;
         font-size: 0.98rem;
     }
+}
+
+
+.pagination_vip {
+    border-top: 1px solid var(--silver);
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pagination_vip span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 1rem 2rem;
+    border: 1px solid var(--silver);
+    border-radius: 10px;
+}
+
+.pagination_vip ul {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    gap: 3.5rem;
+}
+
+.pagination_vip ul li {
+    font-size: 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.pagination_vip ul li:hover:not(.current, .dot) {
+    color: var(--grey);
+}
+
+.pagination_vip ul .current {
+    border: none;
+    outline: none;
+    color: white;
+    padding: 1rem 2rem;
+    background-color: #000000;
+    border-radius: 10px;
+}
+
+.number_page_pagination {
+    color: var(--black);
+    transition: .3s;
+}
+
+.number_page_pagination:hover {
+    color: var(--grey);
+}
+
+
+
+.scroll-up {
+    position: fixed;
+    padding: 12px;
+    background-color: var(--grey2);
+    color: var(--black);
+    border: 2px solid var(--black);
+    z-index: 100;
+    bottom: -5rem;
+    right: 2rem;
+    font-size: 20px;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.active {
+    bottom: 10rem;
+}
+
+
+.no-caret {
+  pointer-events: none;        
+  user-select: none;
+  color: var(--grey);             
 }

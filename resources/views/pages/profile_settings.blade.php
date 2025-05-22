@@ -14,7 +14,7 @@
         <li class="profile_menu-item active">General</li>
         <li class="profile_menu-item">Edit Profile</li>
         <li class="profile_menu-item">Password</li>
-        <li class="profile_menu-item">Payouts</li>
+        <li class="profile_menu-item">Donate</li>
         <li class="profile_menu-item">Email Notifications</li>
       </ul>
     </div>
@@ -31,10 +31,10 @@
       <form class="profile_form">
         <div class="profile_form-group">
           <label class="profile_label">Username</label>
-          <input type="text" class="profile_input" value="{{$user->username}}" readonly />
+          <input type="text" class="profile_input no-caret" value="{{$user->username}}" readonly />
 
           <label class="profile_label">Email</label>
-          <input type="text" class="profile_input" value="{{$user->email}}" readonly />
+          <input type="text" class="profile_input no-caret" value="{{$user->email}}" readonly />
 
           <label class="profile_label">Sex</label>
           <p class="profile_note">{{$user->sex}}</p>
@@ -168,41 +168,41 @@
 
     <!-- Payouts Tab -->
     <div class="profile_tab-content" id="profile_payouts" style="display: none;">
-      <h2 class="profile_title">{{ $user->username }} / <span>Payouts</span></h2>
-      <p class="profile_description">Lịch sử giao dịch donate của bạn</p>
+      <h2 class="profile_title">{{ $user->username }} / <span>Donate</span></h2>
+      <p class="profile_description">Your donation history</p>
       <table class="table-donate-history">
           <thead>
           <tr>
-            <th>Số tiền</th>
-            <th>Thời gian</th>
-            <th>Mô tả</th>
-            <th>Số tài khoản</th>
-            <th>Ngân hàng</th>
-            <th>Mã giao dịch</th>
-            <th>Trạng thái</th>
+            <th>Amount</th>
+            <th>Time</th>
+            <th>Content</th>
+            <th>Bank Account Number</th>
+            <th>Bank</th>
+            <th>ID Transaction</th>
+            <th>Status</th>
           </tr>
           </thead>
           <tbody>
               @forelse($donations as $d)
                 <tr>
-                  <td data-label="Số tiền">{{ number_format($d->amount) }} {{ $d->currency }}</td>
-                  <td data-label="Thời gian">{{ $d->created_at->format('d-m-Y H:i:s') }}</td>
-                  <td data-label="Mô tả">{{ $d->description }}</td>
-                  <td data-label="Số tài khoản">0929561600</td>
-                  <td data-label="Ngân hàng">
+                  <td data-label="Amount">{{ number_format($d->amount) }} {{ $d->currency }}</td>
+                  <td data-label="Time">{{ $d->created_at->format('d-m-Y H:i:s') }}</td>
+                  <td data-label="Content">{{ $d->description }}</td>
+                  <td data-label="Bank Account Number">0929561600</td>
+                  <td data-label="Bank">
                       <span style="display: inline-flex; align-items: center;">
                         <img src="{{ asset('img/mbbank-logo-5.png') }}" alt="MB" style="width:24px;height:24px;vertical-align:middle;margin-right:8px;border-radius:6px;box-shadow:0 2px 8px #eee;">
                         <span style="font-weight: 600; color: #1e2262; margin-left: 2px;">MB</span>
                       </span>
                   </td>
-                  <td data-label="Mã giao dịch">{{ $d->order_code }}</td>
-                  <td data-label="Trạng thái">
+                  <td data-label="ID Transaction">{{ $d->order_code }}</td>
+                  <td data-label="Status">
                       @if($d->status === 'success')
-                          <span class="donate-status-success">Đã thanh toán</span>
+                          <span class="donate-status-success">Success</span>
                       @elseif($d->status === 'pending')
-                          <span class="donate-status-pending">Chờ thanh toán</span>
+                          <span class="donate-status-pending">Pending</span>
                       @elseif($d->status === 'cancelled')
-                          <span class="donate-status-cancelled">Đã hủy</span>
+                          <span class="donate-status-cancelled">Cancelled</span>
                       @else
                           <span class="badge bg-secondary">{{ ucfirst($d->status) }}</span>
                       @endif
@@ -210,7 +210,7 @@
                 </tr>
               @empty
                 <tr>
-                  <td colspan="7">Bạn chưa có giao dịch nào.</td>
+                  <td colspan="7">No donation history</td>
                 </tr>
               @endforelse
         </tbody>
@@ -225,7 +225,7 @@
 <!-- Email Notifications Tab -->
 <div class="profile_tab-content" id="profile_email_notifications" style="display: none;">
     <h2 class="profile_title">{{ $user->username }} / <span>Email Notifications</span></h2>
-    <p class="profile_description">Những thông báo mới nhất gửi tới email của bạn</p>
+    <p class="profile_description">Email notifications</p>
     <ul class="email-notification-list">
         @forelse($email_notifications as $noti)
             <li class="email-notification-item {{ $noti->is_read ? '' : 'unread' }}">
@@ -251,7 +251,7 @@
                 </div>
             </li>
         @empty
-            <li class="email-notification-empty">Bạn chưa có thông báo nào!</li>
+            <li class="email-notification-empty">No email notifications</li>
         @endforelse
     </ul>
     @if ($email_notifications->hasPages())

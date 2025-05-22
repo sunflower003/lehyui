@@ -14,6 +14,7 @@
     @yield('content')
     <a href="#"><i class="ri-arrow-up-line scroll-up"></i></a>
 
+
     <!-- Toast Notification -->
     <div id="toast" class="custom-toast"></div>
     <script>

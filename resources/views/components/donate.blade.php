@@ -14,7 +14,7 @@
 
             <h2>Select amount</h2>
             <div class="amount-options">
-                <button type="button" class="active">$0.5</button>
+                <button type="button" class="active">$0.1</button>
                 <button type="button">$1</button>
                 <button type="button">$5</button>
                 <button type="button">$10</button>

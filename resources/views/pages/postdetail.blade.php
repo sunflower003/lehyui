@@ -26,7 +26,7 @@
         </div>
         <div class="container image_header">
             <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}">
-            <p class="cr"><i class="ri-copyright-line"></i>20TH CENTURY FOX</p>
+            <p class="cr"><i class="ri-copyright-line"></i>20TH CENTURY LEHYUI</p>
             <div class="header_content">
                 <h1>{{$post->title}}</h1>
                 <p>- {{$post->user->username}}</p>
@@ -44,7 +44,13 @@
                        <img src="{{ $authorAvatar }}" alt="" class="profile_avatar">
                        <div class="name">
                             <p>{{$post->user->username}}</p>
-                            <span>{{ $post->created_at->format('d F Y') }}</span>
+                            <span>
+                                @if ($post->created_at->diffInHours(now()) < 24)
+                                    {{ $post->created_at->diffForHumans() }}
+                                @else
+                                    {{ $post->created_at->format('d M Y') }}
+                                @endif
+                            </span>
                        </div>
                     </div>
                     <div class="info">
@@ -217,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     text: "You won't be able to revert this!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#d33',
+                    confirmButtonColor: '#000',
                     cancelButtonColor: '#aaa',
                     confirmButtonText: 'Delete',
                     cancelButtonText: 'Cancel'

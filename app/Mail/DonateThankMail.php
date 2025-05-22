@@ -19,7 +19,7 @@ class DonateThankMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Cảm ơn bạn đã donate!')
+        return $this->subject('Chân thành Cảm ơn bạn đã donate!')
             ->view('emails.donate_thank');
     }
 }
