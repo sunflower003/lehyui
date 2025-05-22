@@ -2444,3 +2444,13 @@ donate-form h2 {
 .ri-notification-3-line:hover {
     color: var(--grey);
 }
+
+
+.no_notif {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 20px;
+    border: none;
+}

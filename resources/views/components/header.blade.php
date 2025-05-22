@@ -62,9 +62,9 @@
                     </div>
                 </div>
             @empty
-                <div class="notif_item">
+                <div class="notif_item no_notif">
                     <div class="notif_icon"><i class="fas fa-bell-slash"></i></div>
-                    <div class="notif_text"><strong>No notifications</strong></div>
+                    <div class="notif_title">No notifications</div>
                 </div>
             @endforelse
         </div>

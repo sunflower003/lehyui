@@ -39,19 +39,19 @@ public function login(Request $request)
 
         if ($unreadMailCount > 0) {
             return redirect()->route('home')
-                ->with('login_success', 'Đăng nhập thành công!')
+                ->with('login_success', 'Successfully logged in!')
                 ->with('mail_notification',
-                    "<i class='fas fa-envelope-open-text'></i>Bạn có <strong>{$unreadMailCount}</strong> thông báo email mới!
-                     <a href='" . route('profile.settings', ['active_tab' => 'profile_email_notifications']) . "'>Xem ngay</a>"
+                    "<i class='fas fa-envelope-open-text'></i>You have <strong>{$unreadMailCount}</strong> new notifications.
+                     <a href='" . route('profile.settings', ['active_tab' => 'profile_email_notifications']) . "'>View</a>"
                 );
         } else {
             return redirect()->route('home')
-                ->with('login_success', 'Đăng nhập thành công!');
+                ->with('login_success', 'Successfully logged in!');
         }
     }
 
     return back()->withErrors([
-        'invalid' => 'Thông tin đăng nhập không chính xác.',
+        'invalid' => 'Invalid credentials. Please try again.',
     ]);
 }
 
@@ -79,7 +79,7 @@ public function login(Request $request)
             'avatar' => 'img/avatar_default.jpg',
         ]);
 
-        return redirect('/login')->with('success', 'Đăng ký thành công! Hãy đăng nhập nhé.');
+        return redirect('/login')->with('success', 'Registration successful! Please log in.');
     }
 
     public function logout(Request $request)
