@@ -26,7 +26,9 @@
                 @csrf
                 <label class="label_donate">Your Donation Amount</label>
               
-                <input type="number" placeholder="Donation amount" name="amount" required readonly>
+                <input type="number" step="0.01" name="usd_amount" id="usdAmount" placeholder="Enter USD" required>
+                <p id="vndHint" class="usd-hint">= 0 VND</p>
+                <input type="hidden" name="amount" id="vndAmount">
                 <span class="currency">VND</span>
 
                 <a href="#" class="honor-link">Give in honor to another person</a>

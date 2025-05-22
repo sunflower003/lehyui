@@ -96,25 +96,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   //choose donate amount
-  const buttons = document.querySelectorAll('.amount-options button');
-    const amountInput = document.querySelector('input[name="amount"]');
-    const usdToVndRate = 26500;
+  // Quy đổi USD -> VND khi chọn preset hoặc nhập
+      const usdInput = document.getElementById('usdAmount');
+      const vndInput = document.getElementById('vndAmount');
+      const vndHint = document.getElementById('vndHint');
+      const presetButtons = document.querySelectorAll('.amount-options button');
+      const usdToVndRate = 26500;
 
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Bỏ class active khỏi tất cả nút
-            buttons.forEach(btn => btn.classList.remove('active'));
-            // Gán class active cho nút được bấm
-            button.classList.add('active');
+      // Khi click nút preset USD
+      presetButtons.forEach(button => {
+          button.addEventListener('click', () => {
+              presetButtons.forEach(btn => btn.classList.remove('active'));
+              button.classList.add('active');
 
-            // Lấy số tiền USD từ nội dung nút, ví dụ "$5" → 5
-            const usd = parseFloat(button.innerText.replace('$', ''));
-            const vnd = usd * usdToVndRate;
+              const usd = parseFloat(button.innerText.replace('$', ''));
+              usdInput.value = usd;
+              updateVND(usd);
+          });
+      });
 
-            // Gán vào input
-            amountInput.value = vnd;
-        });
-    });
+      // Khi nhập USD bằng tay
+      usdInput.addEventListener('input', () => {
+          presetButtons.forEach(btn => btn.classList.remove('active'));
+          const usd = parseFloat(usdInput.value);
+          updateVND(usd);
+      });
+
+      // Cập nhật hiển thị & giá trị VND
+      function updateVND(usd) {
+          if (!usd || isNaN(usd) || usd <= 0) {
+              vndHint.innerText = "= 0 VND";
+              vndInput.value = '';
+              return;
+          }
+
+          const vnd = Math.round(usd * usdToVndRate);
+          vndHint.innerText = "= " + vnd.toLocaleString('vi-VN') + " VND";
+          vndInput.value = vnd;
+      }
+
 
 
 
