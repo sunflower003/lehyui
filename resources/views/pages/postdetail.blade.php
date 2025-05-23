@@ -185,24 +185,32 @@
 
         <!-- HIỂN THỊ REPLY (BÌNH LUẬN CON) -->
         @if($comment->replies && $comment->replies->count())
-            @foreach($comment->replies as $reply)
-                <div class="reply" style="margin-left: 40px; background: #f8f8ff; border-left: 3px solid #eee;">
-                    <div class="comment_header">
-                        @php
-                            $avatar = $reply->user->avatar && $reply->user->avatar !== 'avatar_default.jpg'
-                                ? asset('storage/avatars/' . $reply->user->avatar)
-                                : asset('img/avatar_default.jpg');
-                        @endphp
-                        <img src="{{ $avatar }}" class="avatar" alt="user">
-                        <div>
-                            <p class="username">{{ $reply->user->username }}</p>
-                            <span class="time">{{ $reply->created_at->diffForHumans() }}</span>
-                        </div>
-                    </div>
-                    <p class="comment_text">{{ $reply->content }}</p>
+    @foreach($comment->replies as $rIndex => $reply)
+        <div class="reply {{ $rIndex >= 2 ? 'hidden-reply-' . $comment->id : '' }}"
+            style="margin-left: 40px; background: #f8f8ff; border-left: 3px solid #eee; {{ $rIndex >= 2 ? 'display: none;' : '' }}">
+            <div class="comment_header">
+                @php
+                    $avatar = $reply->user->avatar && $reply->user->avatar !== 'avatar_default.jpg'
+                        ? asset('storage/avatars/' . $reply->user->avatar)
+                        : asset('img/avatar_default.jpg');
+                @endphp
+                <img src="{{ $avatar }}" class="avatar" alt="user">
+                <div>
+                    <p class="username">{{ $reply->user->username }}</p>
+                    <span class="time">{{ $reply->created_at->diffForHumans() }}</span>
                 </div>
-            @endforeach
-        @endif
+            </div>
+            <p class="comment_text">{{ $reply->content }}</p>
+        </div>
+    @endforeach
+    @if($comment->replies->count() > 2)
+        <button class="show-more-reply-btn"
+                data-id="{{ $comment->id }}"
+                style="background:none; border:none; color:#007bff; font-size:13px; cursor:pointer; margin-left:45px; margin-top:3px;">
+            Xem thêm {{ $comment->replies->count() - 2 }} trả lời...
+        </button>
+    @endif
+@endif
                                 
                             </div>
                         @endforeach
@@ -278,6 +286,15 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.addEventListener('click', function () {
             const id = this.dataset.id;
             document.getElementById('reply-form-' + id).classList.add('hidden');
+        });
+    });
+    document.querySelectorAll('.show-more-reply-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            var id = this.getAttribute('data-id');
+            document.querySelectorAll('.hidden-reply-' + id).forEach(function(div) {
+                div.style.display = 'block';
+            });
+            this.style.display = 'none';
         });
     });
 });
