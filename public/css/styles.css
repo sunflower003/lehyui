@@ -2715,3 +2715,10 @@ donate-form h2 {
   align-items: center;
   margin: 8px 0 0 0;
 }
+
+.reply {
+    position: relative;
+    margin-left: 40px;
+    border-left: 3px solid #eee;
+    
+}

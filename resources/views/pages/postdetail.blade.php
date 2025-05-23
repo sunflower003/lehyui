@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app') 
 
 @section('title', 'All ' . $post->title . ' - LehyUI')
 
@@ -103,8 +103,8 @@
                 
                     <div class="comments_display">
                         @foreach($comments->values() as $index => $comment)
-                            <div class="comment {{ $index >= 3 ? 'hidden-comment' : '' }}">
-                                <div class="comment_header">
+    <div class="comment {{ $index >= 3 ? 'hidden-comment' : '' }}">
+        <div class="comment_header">
                                     @php
                                         $avatar = $comment->user->avatar && $comment->user->avatar !== 'avatar_default.jpg'
                                             ? asset('storage/avatars/' . $comment->user->avatar)
@@ -169,7 +169,40 @@
                                         <button type="button" class="btn_comment_cancel" data-id="{{ $comment->id }}">Cancel</button>
                                     </div>
                                 </form>
+                                <!-- NÚT TRẢ LỜI & FORM TRẢ LỜI -->
+        @auth
+        <button class="reply-btn" data-id="{{ $comment->id }}" style="font-size: 13px; margin-left: 10px; color: #0066ff; background: none; border: none; cursor: pointer;">Trả lời</button>
+        <form class="reply-form hidden" id="reply-form-{{ $comment->id }}" method="POST" action="{{ route('comments.store') }}">
+            @csrf
+            <input type="hidden" name="post_id" value="{{ $post->id }}">
+            <input type="hidden" name="parent_id" value="{{ $comment->id }}">
+            <textarea name="content" rows="2" placeholder="Viết trả lời..." required style="width: 90%;"></textarea>
+            <button type="submit" class="submit_btn" style="padding: 3px 12px; margin-top: 2px;">Gửi</button>
+            <button type="button" class="cancel-reply-btn" data-id="{{ $comment->id }}" style="padding: 3px 10px; background: #eee; border: none;">Huỷ</button>
+        </form>
 
+        @endauth
+
+        <!-- HIỂN THỊ REPLY (BÌNH LUẬN CON) -->
+        @if($comment->replies && $comment->replies->count())
+            @foreach($comment->replies as $reply)
+                <div class="reply" style="margin-left: 40px; background: #f8f8ff; border-left: 3px solid #eee;">
+                    <div class="comment_header">
+                        @php
+                            $avatar = $reply->user->avatar && $reply->user->avatar !== 'avatar_default.jpg'
+                                ? asset('storage/avatars/' . $reply->user->avatar)
+                                : asset('img/avatar_default.jpg');
+                        @endphp
+                        <img src="{{ $avatar }}" class="avatar" alt="user">
+                        <div>
+                            <p class="username">{{ $reply->user->username }}</p>
+                            <span class="time">{{ $reply->created_at->diffForHumans() }}</span>
+                        </div>
+                    </div>
+                    <p class="comment_text">{{ $reply->content }}</p>
+                </div>
+            @endforeach
+        @endif
                                 
                             </div>
                         @endforeach
@@ -183,6 +216,7 @@
 
 
                 </div>
+                
 
                 <!-- End Comment Section -->
 
@@ -210,7 +244,7 @@
 </main>
 @include('components.footer')
 
-<!-- Thêm đoạn này -->
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     // Bắt sự kiện nút Edit
@@ -230,6 +264,20 @@ document.addEventListener('DOMContentLoaded', function () {
             const id = this.dataset.id;
             document.getElementById('edit-form-' + id).classList.add('hidden');
             document.getElementById('comment-text-' + id).style.display = '';
+        });
+    });
+
+    // Script hiện/ẩn form trả lời
+    document.querySelectorAll('.reply-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const id = this.dataset.id;
+            document.getElementById('reply-form-' + id).classList.remove('hidden');
+        });
+    });
+    document.querySelectorAll('.cancel-reply-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const id = this.dataset.id;
+            document.getElementById('reply-form-' + id).classList.add('hidden');
         });
     });
 });
@@ -265,4 +313,3 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 </script>
-
