@@ -140,7 +140,7 @@
                                 <p class="comment_text" id="comment-text-{{ $comment->id }}">{{ $comment->content }}</p>
                                 <!--  NÚT LIKE/DISLIKE -->
         <div class="comment_like_actions" style="margin: 8px 0 0 0;">
-            <form action="{{ route('comments.like', $comment->id) }}" method="POST" style="display:inline;">
+            <form action="{{ route('comments.like', $comment->id) }}#comments" method="POST" style="display:inline;">
                 @csrf
                 <button type="submit"
                     @if(Auth::check() && $comment->likes->where('user_id', Auth::id())->count())
@@ -149,7 +149,7 @@
                     title="Like"
                 >👍 {{ $comment->likes->count() }}</button>
             </form>
-            <form action="{{ route('comments.dislike', $comment->id) }}" method="POST" style="display:inline;">
+            <form action="{{ route('comments.dislike', $comment->id) }}#comments" method="POST" style="display:inline;">
                 @csrf
                 <button type="submit"
                     @if(Auth::check() && $comment->dislikes->where('user_id', Auth::id())->count())
