@@ -102,9 +102,11 @@
                     @endif
                 
                     <div class="comments_display">
-                        @foreach($comments->values() as $index => $comment)
-    <div class="comment {{ $index >= 3 ? 'hidden-comment' : '' }}">
-        <div class="comment_header">
+                        @foreach($comments as $comment)
+                                @include('components.comment_item', ['comment' => $comment, 'level' => 0, 'post' => $post])
+
+                        
+                        <div class="comment_header">
                                     @php
                                         $avatar = $comment->user->avatar && $comment->user->avatar !== 'avatar_default.jpg'
                                             ? asset('storage/avatars/' . $comment->user->avatar)

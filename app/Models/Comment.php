@@ -42,7 +42,13 @@ class Comment extends Model
     public function replies() 
     {
         return $this->hasMany(Comment::class, 'parent_id');
-    }   
+    }
+    
+    public function repliesRecursive() 
+    {
+        return $this->replies()->with('repliesRecursive', 'user', 'likes', 'dislikes'); // lấy replies lồng nhiều cấp và cả user của từng reply
+    }
+   
 
 }
 

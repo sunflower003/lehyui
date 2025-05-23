@@ -42,11 +42,11 @@ class PostController extends Controller
     $comments = $post->comments()
         ->with([
             'user',
-            'replies.user',
+            'repliesRecursive.user',
             'likes',
             'dislikes',
-            'replies.likes',
-            'replies.dislikes'
+            'repliesRecursive.likes',
+            'repliesRecursive.dislikes'
         ])
         ->whereNull('parent_id')
         ->orderBy('created_at', $order === 'oldest' ? 'asc' : 'desc')
