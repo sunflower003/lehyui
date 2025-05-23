@@ -47,16 +47,20 @@
             <div class="bg-white p-6 rounded-lg shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-gray-500 text-sm">Tổng người quản trị</p>
-                        <h3 class="text-3xl font-bold mt-1">{{ $countAdmin }}</h3>
+                        <p class="text-gray-500 text-sm">Tổng tiền đã donate</p>
+                        <h3 class="text-2xl font-bold mt-1">{{ number_format($totalDonationSuccess) }} VND</h3>
                     </div>
                     <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
                         <i class="fas fa-user-shield text-purple-600 text-xl"></i>
                     </div>
                 </div>
                 <div class="mt-4 text-sm text-gray-600">
-                    <span class="text-gray-500"><i class="fas fa-minus"></i> 0%</span> không thay đổi
+                    <span class="{{ $growthDonation >= 0 ? 'text-green-500' : 'text-red-500' }}">
+                        <i class="fas {{ $growthDonation >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+                        {{ abs($growthDonation) }}%
+                    </span> so với tháng trước
                 </div>
+
             </div>
             
             <div class="bg-white p-6 rounded-lg shadow-sm">

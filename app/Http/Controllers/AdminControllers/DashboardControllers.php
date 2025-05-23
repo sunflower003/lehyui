@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\Donation; 
 
 class DashboardControllers extends Controller
 {
@@ -26,17 +27,22 @@ class DashboardControllers extends Controller
     $countPost = Post::count();
     $countCategories = Category::count();
     $countAdmin = User::where('role', 'admin')->count();
+    $totalDonationSuccess = Donation::where('status', 'success')->sum('amount');
     $countUser = User::where('role', 'user')->count();
     
     // Tổng tháng này
     $postThisMonth = Post::whereBetween('created_at', [$startOfThisMonth, $endOfThisMonth])->count();
     $userThisMonth = User::where('role', 'user')->whereBetween('created_at', [$startOfThisMonth, $endOfThisMonth])->count();
     $categoryThisMonth = Category::whereBetween('created_at', [$startOfThisMonth, $endOfThisMonth])->count();
+    $donationThisMonth = Donation::where('status', 'success')->whereBetween('created_at', [$startOfThisMonth, $endOfThisMonth])
+    ->sum('amount');
 
     // Tổng tháng trước
     $postLastMonth = Post::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->count();
     $userLastMonth = User::where('role', 'user')->whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->count();
     $categoryLastMonth = Category::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->count();
+    $donationLastMonth = Donation::where('status', 'success')->whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])
+    ->sum('amount');
 
     // Tính phần trăm tăng giảm với điều kiện đầy đủ
     $growthPost = $postLastMonth > 0
@@ -50,6 +56,10 @@ class DashboardControllers extends Controller
     $growthCategory = $categoryLastMonth > 0
         ? round((($categoryThisMonth - $categoryLastMonth) / $categoryLastMonth) * 100)
         : ($categoryThisMonth > 0 ? 100 : 0);
+
+    $growthDonation = $donationLastMonth > 0
+    ? round((($donationThisMonth - $donationLastMonth) / $donationLastMonth) * 100)
+    : ($donationThisMonth > 0 ? 100 : 0);
 
     // Bài viết gần đây
     $recentPosts = Post::with('category', 'user')
@@ -100,6 +110,8 @@ class DashboardControllers extends Controller
         'postThisMonth' => $postThisMonth,
         'userThisMonth' => $userThisMonth,
         'categoryThisMonth' => $categoryThisMonth,
+        'totalDonationSuccess' => $totalDonationSuccess,
+        'growthDonation' => $growthDonation,
         ]);
 }
 
