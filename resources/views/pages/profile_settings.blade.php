@@ -234,13 +234,15 @@
                         <i class="fas fa-newspaper"></i>
                     @elseif($noti->type == 'donate_thank')
                         <i class="fas fa-gift"></i>
+                    @elseif($noti->type == 'reply_comment')
+                        <i class="fas fa-reply"></i>
                     @else
                         <i class="fas fa-info-circle"></i>
                     @endif
                 </div>
                 <div class="noti-content">
-                    @if($noti->type == 'new_post' && $noti->post_id)
-                        <a href="{{ route('posts.show', ['id' => $noti->post_id]) }}" class="noti-title" style="text-decoration: none; color: #252653;">
+                    @if(($noti->type == 'new_post' || $noti->type == 'reply_comment') && $noti->post_id)
+                        <a href="{{ route('posts.show', ['id' => $noti->post_id]) }}#comments" class="noti-title" style="text-decoration: none; color: #252653;">
                             {{ $noti->title }}
                         </a>
                     @else
@@ -260,7 +262,6 @@
         </div>
     @endif
 </div>
-
 
   </section>
 </main>
