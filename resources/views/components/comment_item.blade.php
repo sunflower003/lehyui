@@ -61,14 +61,14 @@
 
     {{-- Nút trả lời + form trả lời --}}
     @auth
-    <button class="reply-btn" data-id="{{ $comment->id }}" style="font-size: 13px; margin-left: 10px; color: #0066ff; background: none; border: none; cursor: pointer;">Trả lời</button>
+    <button class="reply-btn" data-id="{{ $comment->id }}" style="font-size: 13px; margin-left: 10px; color: #0066ff; background: none; border: none; cursor: pointer;">Reply</button>
     <form class="reply-form hidden" id="reply-form-{{ $comment->id }}" method="POST" action="{{ route('comments.store') }}">
         @csrf
         <input type="hidden" name="post_id" value="{{ $post->id }}">
         <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-        <textarea name="content" rows="2" placeholder="Viết trả lời..." required style="width: 90%;"></textarea>
-        <button type="submit" class="submit_btn" style="padding: 3px 12px; margin-top: 2px;">Gửi</button>
-        <button type="button" class="cancel-reply-btn" data-id="{{ $comment->id }}" style="padding: 3px 10px; background: #eee; border: none;">Huỷ</button>
+        <textarea name="content" rows="2" placeholder="Write something..." required style="width: 90%;"></textarea>
+        <button type="submit" class="submit_btn" style="padding: 3px 12px; margin-top: 2px;">Send</button>
+        <button type="button" class="cancel-reply-btn" data-id="{{ $comment->id }}" style="padding: 3px 10px; background: #eee; border: none;">cancel</button>
     </form>
     @endauth
 

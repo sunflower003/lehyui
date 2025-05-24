@@ -2721,4 +2721,113 @@ donate-form h2 {
     margin-left: 40px;
     border-left: 3px solid #eee;
     
+}/* Comment chính */
+.comment {
+    margin-bottom: 18px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(80,100,120,0.05);
+    padding: 14px 18px;
+    transition: box-shadow 0.2s;
+}
+
+/* Nếu là reply thì sẽ có margin left (đã dùng inline style margin-left: 40px ở blade) */
+.reply {
+    background: #f6f8fa;
+    border-left: 3px solid #96a7c0;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    padding: 10px 16px 10px 18px;
+    position: relative;
+}
+
+/* Avatar trong reply nhỏ hơn */
+.reply .avatar {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50%;
+    margin-right: 9px;
+}
+
+/* Username nổi bật hơn */
+.reply .username {
+    font-weight: 600;
+    color: #1c3569;
+    font-size: 15px;
+}
+
+/* Thời gian */
+.reply .time {
+    font-size: 12px;
+    color: #8a8a8a;
+    margin-left: 8px;
+}
+
+/* Rep reply sâu thì border nhạt dần */
+.reply .reply {
+    border-left: 2px solid #d2e3f5;
+    background: #fafdff;
+}
+
+/* Nút Trả lời đẹp hơn */
+.reply-btn {
+    color: #0056cc !important;
+    font-weight: 500;
+    padding: 0 8px;
+    border-radius: 4px;
+    margin-left: 2px;
+    transition: background 0.15s;
+}
+.reply-btn:hover {
+    background: #e9eefb;
+}
+
+/* Form reply nổi bật và nhỏ gọn */
+.reply-form {
+    background: #f3f6fa;
+    border-radius: 8px;
+    padding: 8px 12px 8px 10px;
+    margin: 7px 0 2px 0;
+    box-shadow: 0 1px 2px rgba(150,180,240,0.05);
+}
+.reply-form textarea {
+    border-radius: 6px;
+    border: 1px solid #dae4ec;
+    font-size: 14px;
+    padding: 5px 8px;
+    margin-bottom: 7px;
+    width: 95%;
+    resize: vertical;
+}
+.reply-form .submit_btn {
+    background: #0066ff;
+    color: #fff;
+    border: none;
+    padding: 4px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-right: 7px;
+    cursor: pointer;
+}
+.reply-form .submit_btn:hover {
+    background: #0046be;
+}
+.reply-form .cancel-reply-btn {
+    background: #eee;
+    color: #444;
+    border: none;
+    border-radius: 4px;
+    padding: 3px 12px;
+    font-size: 13px;
+    cursor: pointer;
+}
+.reply-form .cancel-reply-btn:hover {
+    background: #ddd;
+}
+
+/* Ẩn border ngoài nếu là cấp lồng sâu */
+.reply .reply .reply {
+    border-left: 1px dashed #e5e7eb;
+    background: #fcfcfc;
 }
