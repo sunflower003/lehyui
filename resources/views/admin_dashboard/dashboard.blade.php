@@ -3,8 +3,8 @@
 @section('page-title', 'Dashboard')
 
 @section("wrapper")
-<div class="container-fluid">
-    <div class="w-full">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl">
+    <div class="w-full max-w-6xl mx-auto">
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div class="bg-white p-6 rounded-lg shadow-sm">
@@ -18,7 +18,10 @@
                     </div>
                 </div>
                 <div class="mt-4 text-sm text-gray-600">
-                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> 12%</span> so với tháng trước
+                    <span class="{{ $growthPost >= 0 ? 'text-green-500' : 'text-red-500' }}">
+                    <i class="fas {{ $growthPost >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+                    {{ abs($growthPost) }}%
+                </span> so với tháng trước
                 </div>
             </div>
             
@@ -33,23 +36,31 @@
                     </div>
                 </div>
                 <div class="mt-4 text-sm text-gray-600">
-                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> 5%</span> so với tháng trước
+                    <span class="{{ $growthCategory >= 0 ? 'text-green-500' : 'text-red-500' }}">
+                        <i class="fas {{ $growthCategory >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+                        {{ abs($growthCategory) }}%
+                    </span> so với tháng trước
+
                 </div>
             </div>
             
             <div class="bg-white p-6 rounded-lg shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-gray-500 text-sm">Tổng người quản trị</p>
-                        <h3 class="text-3xl font-bold mt-1">{{ $countAdmin }}</h3>
+                        <p class="text-gray-500 text-sm">Tổng tiền đã donate</p>
+                        <h3 class="text-2xl font-bold mt-1">{{ number_format($totalDonationSuccess) }} VND</h3>
                     </div>
                     <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
                         <i class="fas fa-user-shield text-purple-600 text-xl"></i>
                     </div>
                 </div>
                 <div class="mt-4 text-sm text-gray-600">
-                    <span class="text-gray-500"><i class="fas fa-minus"></i> 0%</span> không thay đổi
+                    <span class="{{ $growthDonation >= 0 ? 'text-green-500' : 'text-red-500' }}">
+                        <i class="fas {{ $growthDonation >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+                        {{ abs($growthDonation) }}%
+                    </span> so với tháng trước
                 </div>
+
             </div>
             
             <div class="bg-white p-6 rounded-lg shadow-sm">
@@ -63,7 +74,10 @@
                     </div>
                 </div>
                 <div class="mt-4 text-sm text-gray-600">
-                    <span class="text-green-500"><i class="fas fa-arrow-up"></i> 18%</span> so với tháng trước
+                    <span class="{{ $growthUser >= 0 ? 'text-green-500' : 'text-red-500' }}">
+                        <i class="fas {{ $growthUser >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+                        {{ abs($growthUser) }}%
+                    </span> so với tháng trước
                 </div>
             </div>
         </div>
@@ -72,25 +86,17 @@
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
             <div class="bg-white p-6 rounded-lg shadow-sm">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold">📊 Biểu đồ lượt xem & bình luận</h3>
+                    <h3 class="text-lg font-semibold">📊 Biểu đồ bài viết với bình luận</h3>
                     <div class="flex gap-2">
-                        <button class="px-3 py-1 text-xs bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200">7 ngày</button>
-                        <button class="px-3 py-1 text-xs bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200">30 ngày</button>
+                        <button class="comment-range px-3 py-1 text-xs bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200" data-days="7">7 ngày</button>
+                        <button class="comment-range px-3 py-1 text-xs bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200" data-days="30">30 ngày</button>
                     </div>
                 </div>
                 <div class="h-[300px]">
                     <canvas id="chart1"></canvas>
                 </div>
-                <div class="flex gap-4 mt-4 justify-center">
-                    <div class="flex items-center">
-                        <span class="w-3 h-3 rounded-full bg-indigo-500 inline-block mr-2"></span>
-                        <span class="text-sm text-gray-600">Lượt xem</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="w-3 h-3 rounded-full bg-amber-400 inline-block mr-2"></span>
-                        <span class="text-sm text-gray-600">Bình luận</span>
-                    </div>
-                </div>
+
+
             </div>
             
             <div class="bg-white p-6 rounded-lg shadow-sm">
@@ -117,8 +123,8 @@
                 </a>
             </div>
             
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
+            <div class="overflow-x-auto max-w-full">
+                <table class="w-full divide-y divide-gray-200">
                     <thead>
                         <tr>
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tiêu đề</th>
@@ -129,19 +135,19 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <!-- Sample data - replace with actual data -->
+                    @foreach($recentPosts as $post)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">Hướng dẫn sử dụng Laravel 10</div>
+                                <div class="text-sm font-medium text-gray-900">{{ $post->title }}</div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">Lập trình</div>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $post->category->name ?? 'Không rõ' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">Admin</div>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $post->user->username ?? 'Không rõ' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">22/03/2024</div>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $post->created_at->format('d/m/Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
@@ -149,26 +155,9 @@
                                 </span>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">Tối ưu hiệu suất website</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">Web</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">Admin</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-500">21/03/2024</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Đã xuất bản
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
+                    @endforeach
+                </tbody>
+
                 </table>
             </div>
         </div>
@@ -179,25 +168,35 @@
 @section("script")
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    const categoryLabels = @json($chartLabels);
+    const categoryData = @json($chartData);
+</script>
+
+<script>
+    const commentLabels = @json($commentLabels);
+    const commentData = @json($commentData);
+    const postData = @json($postData);
+    let commentChart;
+
     document.addEventListener('DOMContentLoaded', function () {
-        // Chart 1 - Bar Chart
+        // Biểu đồ cột
         const ctx1 = document.getElementById("chart1").getContext('2d');
-        const chart1 = new Chart(ctx1, {
+        commentChart = new Chart(ctx1, {
             type: 'bar',
             data: {
-                labels: ['16/03', '17/03', '18/03', '19/03', '20/03', '21/03', '22/03'],
+                labels: commentLabels,
                 datasets: [
                     {
-                        label: 'Lượt xem',
-                        data: [10, 13, 9, 16, 10, 12, 15],
-                        backgroundColor: '#6366f1',
+                        label: 'Bình luận',
+                        data: commentData,
+                        backgroundColor: '#fbbf24',
                         borderRadius: 6,
                         barThickness: 12,
                     },
                     {
-                        label: 'Bình luận',
-                        data: [8, 14, 19, 12, 7, 18, 8],
-                        backgroundColor: '#fbbf24',
+                        label: 'Bài viết',
+                        data: postData,
+                        backgroundColor: '#6366f1',
                         borderRadius: 6,
                         barThickness: 12,
                     }
@@ -207,7 +206,16 @@
                 responsive: true,
                 maintainAspectRatio: true,
                 plugins: {
-                    legend: { display: false }
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#374151',
+                            padding: 16,
+                            boxWidth: 12,
+                            usePointStyle: true,
+                            pointStyle: 'rectRounded'
+                        }
+                    }
                 },
                 scales: {
                     x: {
@@ -221,21 +229,23 @@
                 }
             }
         });
-        
-        // Chart 2 - Doughnut Chart
+        // sự kiện đổi số ngày
+        document.querySelectorAll('.comment-range').forEach(button => {
+            button.addEventListener('click', function () {
+                const days = this.getAttribute('data-days');
+                updateCommentChart(days);
+            });
+        });
+        // Biểu đồ tròn
         const ctx2 = document.getElementById("chart2").getContext('2d');
         const chart2 = new Chart(ctx2, {
             type: 'doughnut',
             data: {
-                labels: ['Lập trình', 'Web', 'Mobile', 'Design', 'Khác'],
+                labels: categoryLabels,
                 datasets: [{
-                    data: [35, 25, 15, 15, 10],
+                    data: categoryData,
                     backgroundColor: [
-                        '#6366f1', // indigo
-                        '#3b82f6', // blue
-                        '#10b981', // emerald
-                        '#f59e0b', // amber
-                        '#6b7280', // gray
+                        '#6366f1', '#3b82f6', '#10b981', '#f59e0b', '#6b7280'
                     ],
                     borderWidth: 0,
                     borderRadius: 4,
@@ -259,5 +269,15 @@
             }
         });
     });
+    function updateCommentChart(days) {
+        fetch(`/admin/chart/comments?days=${days}`)
+            .then(res => res.json())
+            .then(data => {
+                commentChart.data.labels = data.labels;
+                commentChart.data.datasets[0].data = data.comments;
+                commentChart.data.datasets[1].data = data.posts;
+                commentChart.update();
+            });
+    }
 </script>
 @endsection

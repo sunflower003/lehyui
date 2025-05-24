@@ -19,6 +19,7 @@
             background-color: #f3f4f6;
             margin: 0;
             padding: 0;
+            
         }
         .sidebar {
             width: var(--sidebar-width);

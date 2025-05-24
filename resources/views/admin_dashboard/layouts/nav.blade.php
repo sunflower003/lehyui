@@ -31,7 +31,8 @@
 
         </li>
         <li>
-            <a href="{{ route('admin.comments.index') }}" class="nav-link">
+           <a href="{{ route('admin.comments.index') }}" class="nav-link">
+
                 <i class="fas fa-comments"></i>
                 <span>Bình luận</span>
             </a>
@@ -40,6 +41,12 @@
             <a href="{{ route('admin.users.index') }}" class="nav-link">
                 <i class="fas fa-users"></i>
                 <span>Người dùng</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('admin.donations.index') }}" class="nav-link">
+                <i class="fas fa-donate"></i>
+                <span>Donate</span>
             </a>
         </li>
         <li>

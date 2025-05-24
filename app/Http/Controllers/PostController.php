@@ -24,28 +24,42 @@ class PostController extends Controller
         }
 
 
-        public function show($id)
-        {
-            $post = Post::with(['user', 'category'])->findOrFail($id);
+        public function show($id, Request $request)
+{
+    $post = Post::with(['user', 'category'])->findOrFail($id);
 
-            // Tính số lượng từ và thời gian đọc với tiếng Anh
-            $wordCount = str_word_count(strip_tags($post->body));
+    $wordCount = str_word_count(strip_tags($post->body));
+    $readingTime = max(1, ceil($wordCount / 200));
 
+    $relatedPosts = Post::where('category_id', $post->category_id)
+        ->where('id', '!=', $post->id)
+        ->inRandomOrder()
+        ->take(3)
+        ->get();
 
-            $readingTime = max(1, ceil($wordCount / 200)); // trung bình 200 từ/phút
+    // Lọc bình luận cha, lấy replies, giữ logic sort
+    $order = $request->query('order', 'newest');
+    $comments = $post->comments()
+        ->with([
+            'user',
+            'repliesRecursive.user',
+            'likes',
+            'dislikes',
+            'repliesRecursive.likes',
+            'repliesRecursive.dislikes'
+        ])
+        ->whereNull('parent_id')
+        ->orderBy('created_at', $order === 'oldest' ? 'asc' : 'desc')
+        ->get();
 
-            // Lấy 3 bài viết liên quan cùng danh mục, trừ bài hiện tại
-            $relatedPosts = Post::where('category_id', $post->category_id)
-                                ->where('id', '!=', $post->id)
-                                ->inRandomOrder()
-                                ->take(3)
-                                ->get();
+    return view('pages.postdetail', [
+        'post' => $post,
+        'relatedPosts' => $relatedPosts,
+        'readingTime' => $readingTime,
+        'user' => $this->getProcessedUser(),
+        'comments' => $comments,
+        'order' => $order,
+    ]);
+}
 
-            return view('pages.postdetail', [
-                'post' => $post,
-                'relatedPosts' => $relatedPosts,
-                'readingTime' => $readingTime,
-                'user' => $this->getProcessedUser(),
-            ]);
-        }
 }

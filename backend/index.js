@@ -10,4 +10,4 @@ const payosRoutes = require("./routes/payos");
 app.use("/payos", payosRoutes);
 
 const PORT = 4000;
-app.listen(PORT, () => console.log(`PayOS Server running on http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`PayOS Server running on http://0.0.0.0:${PORT}`));

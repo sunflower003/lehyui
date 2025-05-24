@@ -97,7 +97,7 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach($posts as $index => $post)
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $index + 1 }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ ($posts->currentPage() - 1) * $posts->perPage() + $loop->iteration }}</td>
                             <td class="px-6 py-4">
                                 <div class="text-sm font-medium text-gray-900">{{ $post->title }}</div>
                                 @if($post->sub_title)
@@ -143,8 +143,8 @@
                     </tbody>
                 </table>
             </div>
-            <div class="p-4">
-                {{ $posts->onEachSide(1)->links('pagination::tailwind') }}
+            <div class="px-6 py-4 border-t bg-gray-50">
+                {{ $posts->appends(request()->query())->links() }}
             </div>
 
             

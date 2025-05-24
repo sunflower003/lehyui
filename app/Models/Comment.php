@@ -7,23 +7,48 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    use HasFactory;
+ use HasFactory;
 
-    protected $fillable = [
-        'content',
-        'post_id',
-        'user_id',
-        'created_at',
-        'updated_at',
-    ];
+    protected $fillable = ['content', 'post_id', 'user_id', 'parent_id']; // <--- sửa tại đây
 
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class);
     }
 
-    public function post()
-    {
+    public function post() {
         return $this->belongsTo(Post::class);
     }
+
+    public function likes()
+    {
+        return $this->hasMany(CommentLike::class)->where('is_like', 1);
+    }
+
+    public function dislikes()
+    {
+        return $this->hasMany(CommentLike::class)->where('is_like', 0);
+    }
+
+    public function myLike()
+    {
+        return $this->hasOne(CommentLike::class)->where('user_id', auth()->id());
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
+    }
+
+    public function replies() 
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
+    }
+    
+    public function repliesRecursive() 
+    {
+        return $this->replies()->with('repliesRecursive', 'user', 'likes', 'dislikes'); // lấy replies lồng nhiều cấp và cả user của từng reply
+    }
+   
+
 }
+

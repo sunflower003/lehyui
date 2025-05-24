@@ -25,7 +25,9 @@
         <input class="login_input" type="password" name="password" required />
 
         <div class="login_forgot">
-          <a href="#" style="text-decoration: underline;">Forgot?</a>
+          <a href="{{ route('password.request') }}" style="text-decoration: underline;">
+             <i class="fas fa-question-circle"></i> Forgot?
+          </a>
         </div>
 
         <button class="login_button" type="submit">Sign In</button>

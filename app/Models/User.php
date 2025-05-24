@@ -10,6 +10,7 @@ class User extends Authenticatable
 {
     protected $fillable = [
         'username',
+        'email',
         'password',
         'avatar',
         'role',
@@ -26,6 +27,14 @@ class User extends Authenticatable
         return $this->avatar
             ? asset('storage/avatars/' . $this->avatar)
             : asset('img/avatar_default.jpg');
+    }
+
+    public function comments() {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function donations() {
+        return $this->hasMany(Donation::class);
     }
 
 }
