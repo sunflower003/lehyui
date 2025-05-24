@@ -104,10 +104,15 @@ Route::prefix('admin')
         Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('destroy');
     });
 <<<<<<< HEAD
+<<<<<<< HEAD
     // Quản lý bình luận
     Route::get('comments', [\App\Http\Controllers\CommentController::class, 'adminIndex'])->name('comments.index');
     Route::delete('comments/{comment}', [\App\Http\Controllers\CommentController::class, 'adminDestroy'])->name('comments.destroy');
     // Các nhóm route khác như categories, users,... bạn khai báo tương tự
+=======
+
+    // Quản lý bình luận
+>>>>>>> 9f7c02cf87d7b2a178316eb0bbe6528ce540a7d3
 =======
 
     // Quản lý bình luận
